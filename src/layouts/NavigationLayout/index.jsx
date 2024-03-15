@@ -1,11 +1,11 @@
 import React from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import navigationConstants from "../../constants/navigation.constant";
-import settings from "../../assets/settings.svg";
-import help from "../../assets/help.svg";
-import navbarLogo from "../../assets/navbarLogo.svg";
-import notificationImage from "../../assets/notifications.svg";
-import plusIcon from "../../assets/plusIcon.svg";
+import settings from "../../assets/svg/settings.svg";
+import help from "../../assets/svg/help.svg";
+import navbarLogo from "../../assets/svg/navbarLogo.svg";
+import notificationImage from "../../assets/svg/notifications.svg";
+import plusIcon from "../../assets/svg/plusIcon.svg";
 
 const NavigationLayout = () => {
   const path = useLocation();

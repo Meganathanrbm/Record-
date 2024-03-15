@@ -1,16 +1,15 @@
 import React, { useRef, useEffect } from "react";
+import ChartComponent from "./chart";
+import { activePlatforms, acquiredSkills } from "./dashboard.constant";
 
-import suiteCase from "../../assets/dashboard/suitecase.svg";
-
-import timer from "../../assets/dashboard/timer.svg";
-import tick from "../../assets/dashboard/tick.svg";
-import achivement from "../../assets/dashboard/achivement.svg";
-import student from "../../assets/dashboard/student.svg";
+import suiteCase from "../../assets/svg/dashboard/suitecase.svg";
+import timer from "../../assets/svg/dashboard/timer.svg";
+import tick from "../../assets/svg/dashboard/tick.svg";
+import achivement from "../../assets/svg/dashboard/achivement.svg";
+import student from "../../assets/svg/dashboard/student.svg";
 import StatsCard from "./statsCard";
 import ActiveStudents from "./activeStudents";
 import ActivePlatforms from "./activePlatforms";
-import ChartComponent from "./chart";
-import { activePlatforms, acquiredSkills } from "./dashboard.constant";
 
 const DashBoard = () => {
   const array = [1, 2, 3, 4, 5, 6, 7, 8];

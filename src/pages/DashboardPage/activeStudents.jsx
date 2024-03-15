@@ -1,5 +1,5 @@
 import React from "react";
-import tag from "../../assets/dashboard/tag.svg";
+import tag from "../../assets/svg/dashboard/tag.svg";
 
 const ActiveStudents = () => {
   return (
