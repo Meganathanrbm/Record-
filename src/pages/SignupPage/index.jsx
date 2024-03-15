@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import welcome from "../../assets/registerPage/welcome.svg";
-import logo2 from "../../assets/registerPage/schoolLogo.svg";
-import logo from "../../assets/registerPage/logo.svg";
+import welcome from "../../assets/svg/registerPage/welcome.svg";
+import logo2 from "../../assets/svg/registerPage/schoolLogo.svg";
+import logo from "../../assets/svg/registerPage/logo.svg";
 import InputComponent from "./input";
 import ForgotPassword from "./forgotPassword";
-// import sigin from "../../assets/svg/sigin.svg";
-// import logo from "../../assets/svg/logo.svg";
-// import logo2 from "../../assets/svg/forgotpassword.svg";
-// import styles from "./register.module.css";
 
 const Signup = () => {
   const [forgetPassword, setForgetPassword] = useState(false);

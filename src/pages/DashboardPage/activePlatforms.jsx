@@ -1,5 +1,5 @@
 import React from "react";
-import timer from "../../assets/dashboard/timer.svg";
+import timer from "../../assets/svg/dashboard/timer.svg";
 
 const ActivePlatforms = ({ image, platform }) => {
   return (

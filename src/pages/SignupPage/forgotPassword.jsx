@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputComponent from "./input";
-import leftArrow from "../../assets/leftarrow.svg";
-import record from "../../assets/record.svg";
+import leftArrow from "../../assets/svg/leftarrow.svg";
+import record from "../../assets/svg/record.svg";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState(true);
