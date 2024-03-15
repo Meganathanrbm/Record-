@@ -1,9 +1,20 @@
 import React from "react";
 import tag from "../../assets/svg/dashboard/tag.svg";
+import { useNavigate } from "react-router";
 
 const ActiveStudents = () => {
+  const navigate = useNavigate();
+
+  function handleonClick() {
+    navigate("/profile");
+  }
+
   return (
-    <div className="d-flex gap-3 border p-3" style={{ position: "relative" }}>
+    <div
+      className="d-flex gap-3 border p-3"
+      style={{ position: "relative" }}
+      onClick={handleonClick}
+    >
       <img
         src={tag}
         alt=""
