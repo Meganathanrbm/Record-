@@ -41,15 +41,20 @@ const DashBoard = () => {
               icon={suiteCase}
               value={87}
               text={"Students Placed this year"}
+              paraSize={"16px"}
             />
-            <StatsCard icon={suiteCase} value={87} text={"Total Posted Jobs"} />
+            <StatsCard
+              icon={suiteCase}
+              value={87}
+              text={"Total Posted Jobs"}
+              paraSize={"16px"}
+            />
           </div>
-          {/*  */}
+
           <div style={{ flex: "2.3" }}>
             <ChartComponent />
           </div>
         </section>
-        {/*  */}
 
         <div className="d-flex justify-content-between mt-2">
           <div style={{ width: "55%" }}>
@@ -59,10 +64,11 @@ const DashBoard = () => {
             >
               Most Active Students
             </h3>
-
-            {users.map((item, index) => {
-              return <ActiveStudents key={index} index={index} item={item} />;
-            })}
+            <section className="border rounded-4">
+              {users.map((item, index) => {
+                return <ActiveStudents key={index} index={index} item={item} />;
+              })}
+            </section>
           </div>
           <div style={{ width: "40%" }}>
             <h3
@@ -71,16 +77,17 @@ const DashBoard = () => {
             >
               Most Active Platforms
             </h3>
-            {activePlatforms.map((item, index) => {
-              console.log(item);
-              return (
-                <ActivePlatforms
-                  key={index}
-                  image={item.image}
-                  platform={item.name}
-                />
-              );
-            })}
+            <section className="border rounded-4">
+              {activePlatforms.map((item, index) => {
+                return (
+                  <ActivePlatforms
+                    key={index}
+                    image={item.image}
+                    platform={item.name}
+                  />
+                );
+              })}
+            </section>
           </div>
         </div>
       </section>
@@ -97,7 +104,7 @@ const DashBoard = () => {
           Most Acquired Skills
         </h3>
         <div
-          className="border p-2 rounded-3 mb-3"
+          className="border p-3 rounded-3 mb-3"
           style={{ maxHeight: "50vh", overflow: "auto" }}
         >
           {/*  */}
@@ -121,6 +128,7 @@ const DashBoard = () => {
             fontSize={"x-large"}
             text={"Skills being learnt actively"}
             cardWidth={"60%"}
+            paraSize={"14px"}
           />
           <StatsCard
             icon={student}
@@ -129,6 +137,7 @@ const DashBoard = () => {
             fontSize={"x-large"}
             text={"Active Students"}
             cardWidth={"40%"}
+            paraSize={"14px"}
           />
         </div>
       </section>
@@ -140,9 +149,9 @@ function AcquiredSkills({ item }) {
   return (
     <div>
       <p>{item.name}</p>
-      <div className="d-flex align-items-baseline">
+      <div className="d-flex align-items-baseline " style={{ gap: "0.2rem" }}>
         <div
-          className="progress "
+          className="progress rounded-1"
           role="progressbar"
           aria-label="Basic example"
           aria-valuenow="75"
@@ -153,7 +162,7 @@ function AcquiredSkills({ item }) {
           <div className="progress-bar" style={{ width: item.progress }}></div>
         </div>
         <p>{item.progress}</p>
-        <img src={tick} alt="" srcset="" style={{ height: "3vh" }} />
+        <img src={tick} alt="" srcset="" style={{ height: "2vh" }} />
       </div>
     </div>
   );

@@ -1,6 +1,14 @@
 import React from "react";
 
-const StatsCard = ({ icon, value, fontSize, iconWidth, text, cardWidth }) => {
+const StatsCard = ({
+  icon,
+  value,
+  fontSize,
+  iconWidth,
+  text,
+  cardWidth,
+  paraSize,
+}) => {
   return (
     <div
       className="border rounded-3 mb-1"
@@ -21,7 +29,9 @@ const StatsCard = ({ icon, value, fontSize, iconWidth, text, cardWidth }) => {
           {value}
         </strong>
       </div>
-      <p>{text}</p>
+      <p style={{ fontWeight: "500", fontSize: paraSize ? paraSize : "16px" }}>
+        {text}
+      </p>
     </div>
   );
 };

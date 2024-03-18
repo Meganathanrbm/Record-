@@ -3,7 +3,7 @@ import timer from "../../assets/svg/dashboard/timer.svg";
 
 const ActivePlatforms = ({ image, platform }) => {
   return (
-    <div className="border p-3">
+    <div className=" border-bottom p-3">
       <div className="d-flex align-items-center gap-2">
         <img src={image} alt="" style={{ height: "3vh" }} />
         <h5>{platform}</h5>
