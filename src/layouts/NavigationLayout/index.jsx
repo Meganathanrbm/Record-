@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
+
+import styles from "./index.module.css";
 import navigationConstants from "../../constants/navigation.constant";
 import settings from "../../assets/svg/settings.svg";
 import help from "../../assets/svg/help.svg";
@@ -19,7 +21,7 @@ const NavigationLayout = () => {
           top: 0,
           height: "100vh",
           overflowY: "auto",
-          width: "15vw",
+          width: "20vw",
         }}
       >
         <section>
@@ -29,7 +31,12 @@ const NavigationLayout = () => {
           >
             <img src={navbarLogo} alt="logo" className="mb-3 mt-4" />
             {navigationConstants.map((item, index) => (
-              <li className={`d-flex  p-2 gap-3 rounded`} key={index}>
+              <li
+                className={`d-flex  p-2 gap-3 rounded ${
+                  path.pathname === item.path ? styles.activeLink : ""
+                }`}
+                key={index}
+              >
                 <img
                   src={
                     path.pathname === item.path ? item.activeIcon : item.icon

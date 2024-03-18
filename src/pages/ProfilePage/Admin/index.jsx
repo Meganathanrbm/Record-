@@ -1,7 +1,9 @@
 import React from "react";
 import usersData from "./UserData";
+import styles from "./index.module.css";
+import ModalComponent from "../../../components/Modal/ModalComponent";
 
-const Institution = () => {
+const AdminInstitution = () => {
   return (
     <div className="d-flex flex-column gap-3">
       <section className="d-flex justify-content-between">
@@ -17,7 +19,9 @@ const Institution = () => {
         >
           Add Instituion Users +
         </button>
-        <ModalComponent />
+        <ModalComponent>
+          <FormComponent />
+        </ModalComponent>
       </section>
 
       <section>
@@ -33,68 +37,37 @@ const Institution = () => {
   );
 };
 
-function ModalComponent() {
-  return (
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-              Modal title
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <FormComponent />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">
-              Save changes
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function FormComponent() {
   return (
-    <form class="row g-3">
+    <form class={`row g-3 ${styles.formWrapper}`}>
       <div class="col-md-6">
         <label for="inputEmail4" class="form-label">
-          Email
+          Name
         </label>
-        <input type="email" class="form-control" id="inputEmail4" />
+        <input type="text" class="form-control" id="inputEmail4" />
       </div>
       <div class="col-md-6">
         <label for="inputPassword4" class="form-label">
-          Password
+          Official Email
         </label>
-        <input type="password" class="form-control" id="inputPassword4" />
+        <input type="email" class="form-control" id="inputPassword4" />
       </div>
       <div class="col-md-6">
         <label for="inputEmail4" class="form-label">
-          Email
+          Representing Department
         </label>
-        <input type="email" class="form-control" id="inputEmail4" />
+        <input type="text" class="form-control" id="inputEmail4" />
       </div>
       <div class="col-md-6">
-        <label for="inputPassword4" class="form-label">
-          Password
+        <label for="inputEmail4" class="form-label">
+          Role
         </label>
-        <input type="password" class="form-control" id="inputPassword4" />
+        <select class="form-select" id="specificSizeSelect">
+          <option selected>Choose...</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
       </div>
     </form>
   );
@@ -115,10 +88,23 @@ function TableComponent() {
         {usersData.map((user, index) => {
           return (
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <td scope="row">
+                <div className="d-flex align-items-center gap-2">
+                  <img
+                    // src={user.img}
+                    src="/user.png"
+                    alt=""
+                    srcSet=""
+                    style={{ width: "50px", borderRadius: "50%" }}
+                  />
+                  <p>{user.name}</p>
+                </div>
+              </td>
+              <td>{user.email}</td>
+              <td>{user.role}</td>
+              <td>
+                <i class="bi bi-pencil-fill"></i>
+              </td>
             </tr>
           );
         })}
@@ -145,4 +131,4 @@ function SearchComponent() {
   );
 }
 
-export default Institution;
+export default AdminInstitution;

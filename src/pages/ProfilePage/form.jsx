@@ -5,7 +5,7 @@ import styles from "./profile.module.css";
 const FormComponent = () => {
   return (
     <form action="" className={styles.inputBox}>
-      <h3>Departments</h3>
+      <h3 style={{ fontSize: "18px", fontWeight: "700" }}>Departments</h3>
       <div className={styles.inputSection}>
         <div className={styles.inputWrapper}>
           <label htmlFor="">Full Name</label>

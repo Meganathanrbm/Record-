@@ -11,7 +11,7 @@ const ActiveStudents = () => {
 
   return (
     <div
-      className="d-flex gap-3 border p-3"
+      className="d-flex gap-3 border-bottom p-3"
       style={{ position: "relative" }}
       onClick={handleonClick}
     >
@@ -19,7 +19,7 @@ const ActiveStudents = () => {
         src={tag}
         alt=""
         srcset=""
-        style={{ position: "absolute", right: "0", top: "0" }}
+        style={{ position: "absolute", right: "20px", top: "0" }}
       />
       <img
         src="https://www.w3schools.com/howto/img_avatar.png"
@@ -28,8 +28,18 @@ const ActiveStudents = () => {
         style={{ width: "auto", height: "10vh" }}
       />
       <div>
-        <h4>John Doe</h4>
-        <p> 2018-2022</p>
+        <h4 style={{ fontSize: "18px", fontWeight: "500" }}>
+          John Doe &#x0028; ID40328 &#x0029;
+        </h4>
+        <p
+          style={{
+            color: "rgba(154, 154, 154, 1)",
+            fontSize: "18px",
+            fontWeight: "500",
+          }}
+        >
+          2018-2022
+        </p>
       </div>
     </div>
   );
