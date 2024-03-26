@@ -8,6 +8,7 @@ import ForgotPassword from "./forgotPassword";
 
 const Signup = () => {
   const [forgetPassword, setForgetPassword] = useState(false);
+
   return (
     <div
       className="container-fluid min-vh-100 d-flex text-light "
@@ -23,7 +24,7 @@ const Signup = () => {
       ></div>
 
       {forgetPassword ? (
-        <ForgotPassword />
+        <ForgotPassword setForgetPassword={setForgetPassword} />
       ) : (
         <div
           className={`container bg-white position-absolute  top-50 start-50 translate-middle d-flex p-2 rounded min-vh-80 border `}

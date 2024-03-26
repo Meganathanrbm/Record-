@@ -25,3 +25,8 @@ a {
   border-radius: 10px;
   background-color: rgba(196, 196, 196, 1);
 }
+
+textarea:focus,
+input:focus {
+  outline: none;
+}

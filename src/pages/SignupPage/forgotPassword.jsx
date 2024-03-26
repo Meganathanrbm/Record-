@@ -4,7 +4,7 @@ import InputComponent from "./input";
 import leftArrow from "../../assets/svg/leftarrow.svg";
 import record from "../../assets/svg/record.svg";
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ setForgetPassword }) => {
   const [email, setEmail] = useState(true);
   //   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const ForgotPassword = () => {
         <button
           className="btn fw-semibold p-2"
           style={{ backgroundColor: "rgba(237, 242, 246, 1)" }}
-          //   onClick={() => navigate("/register")}
+          onClick={() => setForgetPassword(false)}
         >
           <img src={leftArrow} alt="" srcset="" className="p-2" />
           Go Back

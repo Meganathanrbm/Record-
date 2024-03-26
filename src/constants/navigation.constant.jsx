@@ -1,5 +1,9 @@
 import dashboard from "../assets/svg/dashboard/dashboardLogo.svg";
 import activeDashboard from "../assets/svg/dashboard/activeDashboardLogo.svg";
+import students from "../assets/svg/students/studentsLogo.svg";
+import activeStudents from "../assets/svg/students/studentsActiveLogo.svg";
+import placement from "../assets/svg/placement/placementLogo.svg";
+import activePlacement from "../assets/svg/placement/placementActiveLogo.svg";
 import activeInstitution from "../assets/svg/institution/institutionActiveLogo.svg";
 import institutionLogo from "../assets/svg/institution/institutionLogo.svg";
 
@@ -9,6 +13,18 @@ const navigationConstants = [
     path: "/",
     icon: dashboard,
     activeIcon: activeDashboard,
+  },
+  {
+    name: "Students",
+    path: "/students",
+    icon: students,
+    activeIcon: activeStudents,
+  },
+  {
+    name: "Placement",
+    path: "/placement",
+    icon: placement,
+    activeIcon: activePlacement,
   },
   {
     name: "Institution",
