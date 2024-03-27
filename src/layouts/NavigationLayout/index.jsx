@@ -14,7 +14,7 @@ const NavigationLayout = () => {
   return (
     <div className="d-flex min-vh-100">
       <nav
-        className="d-flex flex-column justify-content-between align-items-baseline p-1 "
+        className="d-flex flex-column tw-border-lightGray tw-border-2 justify-content-between align-items-baseline p-1 "
         style={{
           background: "rgba(251, 251, 251, 1)",
           position: "sticky",
@@ -24,15 +24,20 @@ const NavigationLayout = () => {
           width: "20vw",
         }}
       >
-        <section>
+        <section className="tw-px-6 tw-w-full">
           <ul
             className="d-flex flex-column gap-1"
             style={{ color: "rgba(143, 143, 143, 1)" }}
           >
-            <img src={navbarLogo} alt="logo" className="mb-3 mt-4" />
+            <img
+              src={navbarLogo}
+              alt="logo"
+              className="mb-3 mt-4"
+              width={135}
+            />
             {navigationConstants.map((item, index) => (
               <li
-                className={`d-flex  p-2 gap-3 rounded ${
+                className={`d-flex fw-bold  p-2 gap-3 rounded ${
                   path.pathname === item.path ? styles.activeLink : ""
                 }`}
                 key={index}
@@ -49,7 +54,7 @@ const NavigationLayout = () => {
             ))}
           </ul>
         </section>
-        <section>
+        <section className="tw-px-6 tw-w-full">
           <ul className="d-flex flex-column gap-3 ">
             <li className="d-flex gap-3 fw-medium">
               <img src={help} alt="help" style={{ width: "1vw" }} />

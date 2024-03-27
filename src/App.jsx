@@ -14,14 +14,21 @@ function App() {
             <Route path="/" element={<NavigationLayout />}>
               {navigationRoutes.map((route, index) => {
                 return (
-                  <Route
-                    key={index}
-                    path={route.path}
-                    element={route.element}
-                  />
+                  <Route key={index} path={route.path} element={route.element}>
+                    {/* Children Routes */}
+                    {route.children &&
+                      route.children.map((childRoute, childInd) => (
+                        <Route
+                          key={childInd}
+                          path={childRoute.path}
+                          element={childRoute.element}
+                        />
+                      ))}
+                  </Route>
                 );
               })}
             </Route>
+            
             {nonAuthRoute.map((route, index) => {
               return (
                 <Route key={index} path={route.path} element={route.element} />

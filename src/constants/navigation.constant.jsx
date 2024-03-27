@@ -22,7 +22,7 @@ const navigationConstants = [
   },
   {
     name: "Placement",
-    path: "/placement",
+    path: "/placement/home",
     icon: placement,
     activeIcon: activePlacement,
   },
