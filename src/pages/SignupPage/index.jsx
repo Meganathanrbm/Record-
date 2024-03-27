@@ -28,7 +28,11 @@ const Signup = () => {
       ) : (
         <div
           className={`container bg-white position-absolute  top-50 start-50 translate-middle d-flex p-2 rounded min-vh-80 border `}
-          style={{ width: "max-content" }}
+          style={{
+            width: "max-content",
+            boxShadow:
+              " 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+          }}
         >
           <div className="container bg-primary w-50 d-flex flex-column justify-content-start align-items-start  p-5 gap-4 rounded">
             <img src={logo} alt="" srcset="" />
