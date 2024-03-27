@@ -13,7 +13,12 @@ const StatsCard = ({
   return (
     <div
       className="border rounded-3 mb-1"
-      style={{ paddingLeft: "1rem", width: cardWidth ? cardWidth : "" }}
+      style={{
+        paddingLeft: "1rem",
+        paddingTop: "0.5rem",
+        paddingBottom: "0.5rem",
+        width: cardWidth ? cardWidth : "",
+      }}
     >
       <div className="d-flex align-items-center gap-3">
         <img

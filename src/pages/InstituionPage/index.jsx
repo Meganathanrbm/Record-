@@ -36,7 +36,7 @@ const Instituion = () => {
         </h3>
         <div style={{ width: "-webkit-fill-available" }}>
           <ul
-            className="mt-5 d-flex flex-column gap-3"
+            className="mt-5 d-flex flex-column gap-3 align-items-center"
             style={{ fontSize: "17px", fontWeight: "700" }}
           >
             <li

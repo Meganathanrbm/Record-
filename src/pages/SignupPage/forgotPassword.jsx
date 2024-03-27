@@ -15,7 +15,7 @@ const ForgotPassword = ({ setForgetPassword }) => {
     >
       <div className="d-flex flex-column justify-content-between align-items-start p-4 gap-3 w-100">
         <button
-          className="btn fw-semibold p-2"
+          className="d-flex btn fw-semibold p-2"
           style={{ backgroundColor: "rgba(237, 242, 246, 1)" }}
           onClick={() => setForgetPassword(false)}
         >
@@ -24,10 +24,20 @@ const ForgotPassword = ({ setForgetPassword }) => {
         </button>
         <section className="d-flex flex-column justify-content-center align-items-center gap-3 mb-5 w-100 mt-2">
           <img src={record} alt="" />
-          <h1>Forget Password ?</h1>
+          <h1 style={{ fontSize: "22px", fontWeight: "500" }}>
+            Forget Password ?
+          </h1>
           {email ? (
             <>
-              <p className="text-center" style={{ width: "30vw" }}>
+              <p
+                className="text-center"
+                style={{
+                  width: "30vw",
+                  fontSize: "13px",
+                  fontWeight: "400",
+                  color: "rgba(97, 97, 97, 1)",
+                }}
+              >
                 Don't worry! Resetting your password is simple. Just type in the
                 email you registered to Record.
               </p>
@@ -38,20 +48,38 @@ const ForgotPassword = ({ setForgetPassword }) => {
                 <button
                   type="button"
                   className="btn btn-primary fw-semibold p-2"
+                  style={{
+                    backgroundColor: "rgba(43, 102, 246, 1)",
+                    color: "white",
+                  }}
                   onClick={(e) => setEmail(false)}
                 >
                   Send
                 </button>
               </section>
-              <p>Don’t have an account? Contact Administrator</p>
+              <p style={{ fontSize: "10px", fontWeight: "400" }}>
+                Don’t have an account? Contact Administrator
+              </p>
             </>
           ) : (
             <>
-              <p>Great, password reset link has been sent to your email.</p>
+              <p
+                style={{
+                  fontSize: "13px",
+                  fontWeight: "400",
+                  color: "rgba(97, 97, 97, 1)",
+                }}
+              >
+                Great, password reset link has been sent to your email.
+              </p>
               <section className="d-flex flex-column justify-content-center align-items-strech w-50">
                 <button
                   type="button"
                   className="btn btn-primary fw-semibold p-2"
+                  style={{
+                    backgroundColor: "rgba(43, 102, 246, 1)",
+                    color: "white",
+                  }}
                   //   onClick={() => navigate("/register")}
                 >
                   Sign In Now
@@ -61,7 +89,10 @@ const ForgotPassword = ({ setForgetPassword }) => {
           )}
         </section>
 
-        <section className="d-flex justify-content-between w-100 mt-2">
+        <section
+          className="d-flex justify-content-between w-100 mt-2"
+          style={{ fontWeight: "500", fontSize: "10px" }}
+        >
           <p>Privacy policy</p>
           <p>CopyRights 2022</p>
         </section>

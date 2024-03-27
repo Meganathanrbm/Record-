@@ -38,12 +38,14 @@ const DashBoard = () => {
               stats
             </p>
             <StatsCard
+              fontSize="34px"
               icon={suiteCase}
               value={87}
               text={"Students Placed this year"}
               paraSize={"16px"}
             />
             <StatsCard
+              fontSize="34px"
               icon={suiteCase}
               value={87}
               text={"Total Posted Jobs"}
@@ -99,6 +101,7 @@ const DashBoard = () => {
             width: "max-content",
             fontSize: "larger",
             fontWeight: "650",
+            marginBottom: "1rem",
           }}
         >
           Most Acquired Skills

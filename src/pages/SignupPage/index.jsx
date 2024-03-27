@@ -37,8 +37,12 @@ const Signup = () => {
           <div className="container bg-primary w-50 d-flex flex-column justify-content-start align-items-start  p-5 gap-4 rounded">
             <img src={logo} alt="" srcset="" />
             <div>
-              <h1>Welcome Back</h1>
-              <p>Sign in and see your students performance.</p>
+              <h1 style={{ fontWeight: "700", fontSize: "31px" }}>
+                Welcome Back
+              </h1>
+              <p style={{ fontWeight: "400", fontSize: "13px" }}>
+                Sign in and see your students performance.
+              </p>
             </div>
             <section className="w-100 d-flex flex-column justify-content-center align-items-center mb-2">
               <img
@@ -56,9 +60,24 @@ const Signup = () => {
             style={{ width: "40vw" }}
           >
             <section className="d-flex flex-column justify-content-center align-items-center">
-              <img src={logo2} alt="logo" srcset="" />
-              <h1>Sigin In</h1>
-              <p>Lets’ know your student’s performance.</p>
+              <img
+                src={logo2}
+                alt="logo"
+                srcset=""
+                style={{ width: "85px", height: "85px" }}
+              />
+              <h1
+                style={{
+                  fontWeight: "700",
+                  fontSize: "30px",
+                  marginTop: "1rem",
+                }}
+              >
+                Sigin In
+              </h1>
+              <p style={{ fontSize: "12px", color: "rgba(97, 97, 97, 1)" }}>
+                Lets’ know your student’s performance.
+              </p>
             </section>
 
             <section
@@ -71,13 +90,26 @@ const Signup = () => {
               <div className="mb-3">
                 <InputComponent icon={true} />
               </div>
-              <button type="button" className="btn btn-primary">
+              <button
+                type="button"
+                className="btn"
+                style={{
+                  backgroundColor: "rgba(43, 102, 246, 1)",
+                  color: "white",
+                }}
+              >
                 Sign In
               </button>
             </section>
 
-            <div className="d-flex justify-content-between gap-5 ">
-              <div className="form-check">
+            <div
+              className="d-flex justify-content-between gap-5 "
+              style={{ width: "60%" }}
+            >
+              <div
+                className="form-check"
+                style={{ fontSize: "10px", fontWeight: "400" }}
+              >
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -93,12 +125,19 @@ const Signup = () => {
                 className="form-check-label"
                 htmlFor="flexCheckChecked"
                 onClick={(e) => setForgetPassword(true)}
+                style={{
+                  fontSize: "10px",
+                  fontWeight: "400",
+                  cursor: "pointer",
+                }}
               >
                 Forgot Password ?
               </label>
             </div>
 
-            <h6>Don’t have an account? Contact Administrator</h6>
+            <h6 style={{ fontSize: "11px", fontWeight: "500" }}>
+              Don’t have an account? Contact Administrator
+            </h6>
           </div>
         </div>
       )}
