@@ -3,7 +3,7 @@ import React from "react";
 const PlacementHeader = () => {
   return (
     <header className="tw-w-full ">
-      <h3 className="tw-font-bold tw-text-3xl tw-text-center">
+      <h3 className="tw-font-bold tw-text-[25px] tw-text-center">
         Search Organisations
       </h3>
       {/* options  */}

@@ -14,7 +14,7 @@ const PlacementOrganisation = () => {
     <section className="tw-w-auto tw-overflow-hidden tw-min-h-full tw-flex ">
       {/* organisation */}
       <div className=" tw-flex-1 tw-flex-grow">
-        <h4 className="tw-font-bold tw-text-2xl tw-mt-2 tw-mb-3 tw-capitalize">
+        <h4 className="tw-font-bold tw-text-[18px] tw-mt-2 tw-mb-3 tw-capitalize">
           {organisation}
         </h4>
         <div className="tw-border-2  tw-p-4 tw-overflow-hidden tw-rounded-md tw-border-[rgba(0, 0, 0, 0.3)]">
@@ -22,10 +22,10 @@ const PlacementOrganisation = () => {
           <div className="tw-flex tw-justify-between tw-mb-6">
             {/* total students hired */}
             <div className="">
-              <h2 className="tw-text-5xl tw-text-orange tw-font-extrabold">
+              <h2 className="tw-text-[38px] tw-text-orange tw-font-extrabold">
                 433
               </h2>
-              <h3 className="tw-text-lg tw-font-semibold my-1 tw-capitalize ">
+              <h3 className="tw-text-[13px] tw-font-semibold my-1 tw-capitalize ">
                 total students hired
               </h3>
             </div>

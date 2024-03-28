@@ -14,7 +14,9 @@ const PlacementJobRole = () => {
     <div className="tw-w-auto tw-mt-10 tw-h-full tw-flex tw-flex-col tw-overflow-hidden">
       {/* organisation */}
       <div className="tw-flex tw-gap-6">
-        <h4 className="tw-font-bold tw-text-xl tw-capitalize">Tata Motors</h4>
+        <h4 className="tw-font-bold tw-text-[18px] tw-capitalize">
+          Tata Motors
+        </h4>
         <div className="tw-flex tw-flex-col">
           <h4 className="tw-font-bold tw-text-xl tw-text-orange tw-capitalize">
             Tata Motors

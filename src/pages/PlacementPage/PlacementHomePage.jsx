@@ -15,7 +15,7 @@ const PlacementHomePage = () => {
     <div className="tw-w-auto tw-mt-10 tw-h-auto tw-flex ">
       {/* Most hiring organisation */}
       <div className=" tw-flex-1">
-        <h4 className="tw-font-bold tw-text-xl tw-capitalize">
+        <h4 className="tw-font-bold tw-text-[18px] tw-capitalize">
           Most Hiring Organisation
         </h4>
         {/* list */}
@@ -34,7 +34,7 @@ const PlacementHomePage = () => {
                 onClick={() => handleClickOrganisation(li?.name)}
                 className="tw-cursor-pointer tw-flex tw-flex-col tw--mb-4 tw-items-start tw-justify-center"
               >
-                <h5 className="tw-font-bold tw-text-black tw-text-lg">
+                <h5 className="tw-font-bold tw-text-black tw-text-[18px]">
                   {li.name}
                 </h5>
                 <p className="tw-text-[#9A9A9A] tw-mb-3  tw-text-sm">
@@ -47,7 +47,7 @@ const PlacementHomePage = () => {
       </div>
       {/* Most hiring Roles */}
       <div className="tw-flex-1">
-        <h4 className="tw-font-bold tw-text-xl tw-capitalize">
+        <h4 className="tw-font-bold tw-text-[18px] tw-capitalize">
           Most Hiring Roles
         </h4>
         {/* list */}
@@ -58,7 +58,7 @@ const PlacementHomePage = () => {
               key={i}
               onClick={() => handleClickJobRole(li.title)}
             >
-              <h5 className="tw-font-bold tw-text-black tw-text-lg">
+              <h5 className="tw-font-bold tw-text-black tw-text-[18px]">
                 {li.title}{" "}
                 <span
                   // onClick={() => handleClickOrganisation(li.title)}
