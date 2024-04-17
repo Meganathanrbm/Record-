@@ -85,57 +85,108 @@ function FormComponent() {
         Institution Profile
       </h5>
       <div className="col-md-6">
-        <label for="inputEmail4" className="form-label">
+        <label for="inputEmail4" className="form-label  tw-p-0 tw-m-0">
           Institution Name
         </label>
         <input type="text" className="form-control" id="inputEmail4" />
       </div>
       <div className="col-md-6">
-        <label for="inputPassword4" className="form-label">
+        <label for="inputPassword4" className="form-label  tw-p-0 tw-m-0">
           Institution Type
         </label>
-        <input type="text" className="form-control" id="inputPassword4" />
+        <input
+          type="text"
+          value="Autonomous college"
+          style={{
+            color: "#858585",
+          }}
+          className="form-control tw-font-semibold "
+          id="inputPassword4"
+        />
       </div>
 
       <div className="col-md-3">
-        <label for="inputPassword4" className="form-label">
+        <label for="inputPassword4" className="form-label  tw-p-0 tw-m-0">
           Established Year
         </label>
-        <input type="text" className="form-control" id="inputPassword4" />
+        <input
+          type="text"
+          value="June"
+          style={{
+            color: "#858585",
+          }}
+          className="form-control tw-font-semibold"
+          id="inputPassword4"
+        />
       </div>
       <div className="col-md-3 d-flex align-items-end">
-        <input type="text" className="form-control" id="inputPassword4" />
+        <input
+          type="text"
+          value="1951"
+          style={{
+            color: "#858585",
+          }}
+          className="form-control tw-font-semibold"
+          id="inputPassword4"
+        />
       </div>
 
       <div className="col-md-6">
-        <label for="inputPassword4" className="form-label">
+        <label for="inputPassword4" className="form-label  tw-p-0 tw-m-0">
           Institution Address
         </label>
-        <input type="text" className="form-control" id="inputPassword4" />
+        <input
+          type="text"
+          className="form-control tw-font-semibold"
+          id="inputPassword4"
+        />
       </div>
 
       <div className="col-md-6">
-        <label for="inputEmail4" className="form-label">
+        <label for="inputEmail4" className="form-label  tw-p-0 tw-m-0">
           Mobile
         </label>
-        <input type="phone" className="form-control" id="inputEmail4" />
+        <input
+          type="phone"
+          className="form-control tw-font-semibold"
+          id="inputEmail4"
+        />
       </div>
       <div className="col-md-6">
-        <label for="inputPassword4" className="form-label">
+        <label for="inputPassword4" className="form-label  tw-p-0 tw-m-0">
           Institution Email
         </label>
-        <input type="email" className="form-control" id="inputPassword4" />
+        <input type="email" className="form-control " id="inputPassword4" />
       </div>
 
       <div className="col-12">
-        <label for="exampleFormControlTextarea1" class="form-label">
+        <label
+          for="exampleFormControlTextarea1"
+          class="form-label tw-p-0 tw-m-0"
+        >
           About the Institution
         </label>
         <textarea
-          class="form-control"
+          class="form-control tw-m-0 tw-p-0 "
           id="exampleFormControlTextarea1"
           rows="3"
         ></textarea>
+      </div>
+      <div className="">
+        <button
+          type="button"
+          className="col btn tw-float-right tw-px-6 "
+          style={{
+            color: "white",
+            background:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+            border: "none",
+            padding: "revert-layer",
+            maxWidth: "200px",
+          }}
+        >
+          Save
+        </button>
       </div>
     </form>
   );

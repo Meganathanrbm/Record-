@@ -18,7 +18,7 @@ const PlacementJobRole = () => {
           Tata Motors
         </h4>
         <div className="tw-flex tw-flex-col">
-          <h4 className="tw-font-bold tw-text-xl tw-text-orange tw-capitalize">
+          <h4 className="tw-font-bold tw-text-xl gradiant-color tw-capitalize">
             Tata Motors
           </h4>
           <p className="tw-text-sm">
@@ -57,15 +57,17 @@ const PlacementJobRole = () => {
       </div>
       <div className=" tw-flex tw-gap-6">
         <div className="tw-w-[70%]">
-          <div className="tw-border-2 tw-p-5 tw-mt-3 tw-h-auto tw-rounded-md tw-border-[rgba(0, 0, 0, 0.3)]">
+          <div className="tw-border-2 tw-p-5 tw-mt-3 tw-h-auto tw-rounded-xl tw-border-[rgba(0, 0, 0, 0.3)]">
             <h3 className="tw-font-bold tw-text-lg tw-mb-2 tw-text-left">
               {" "}
               Job Description
             </h3>
-            <p className="tw-font-medium tw-text-gray-700">Responsibilities:</p>
+            <p className=" tw-font-bold  tw-text-[#656565]">
+              Responsibilities:
+            </p>
             <ul
               style={{ listStyleType: "disc" }}
-              className="tw-list-disc tw-list-inside tw-pl-6 tw-py-4"
+              className="tw-list-disc tw-list-inside tw-pl-6 "
             >
               {liValues?.map((li, i) => (
                 <li key={i} className="tw-text-[#858585]">
@@ -74,8 +76,8 @@ const PlacementJobRole = () => {
                 </li>
               ))}
             </ul>
-            <p className="tw-font-medium tw-text-gray-700">Requirements:</p>
-            <p className="tw-pl-4 tw-mt-3 tw-text-justify tw-text-[#858585]">
+            <p className="tw-font-bold  tw-mt-4 tw-text-[#656565]">Requirements:</p>
+            <p className="tw-pl-4  tw-text-justify tw-text-[#858585]">
               Familiarity with content management systems (e.g., WordPress,
               Drupal) and e-commerce platforms (e.g., Shopify, WooCommerce).
               Good knowledge in User Interface & User Experience Designing Good
@@ -90,24 +92,24 @@ const PlacementJobRole = () => {
           </div>
         </div>
         <div className="tw-w-[30%]">
-          <div className="tw-border-2 tw-mt-3 tw-h-auto tw-p-4 tw-px-5 tw-overflow-hidden tw-rounded-md tw-border-[rgba(0, 0, 0, 0.3)]">
-            <h3 className="tw-text-black tw-text-base tw-font-medium tw-mt-2">
+          <div className="tw-border-2 tw-mt-3 tw-h-auto tw-p-4 tw-px-5 tw-overflow-hidden tw-rounded-xl tw-border-[rgba(0, 0, 0, 0.3)]">
+            <h3 className="tw-text-black tw-text-base tw-font-bold tw-mt-2">
               Job Type
             </h3>
             <p className="tw-text-[#858585] tw-text-base tw-font-medium">
               Full-Time
             </p>
-            <h3 className="tw-text-black tw-text-base tw-font-medium mt-2">
+            <h3 className="tw-text-black tw-text-base tw-font-bold mt-2">
               No. of Openings
             </h3>
             <p className="tw-text-[#858585] tw-text-base tw-font-medium">12</p>
-            <h3 className="tw-text-black tw-text-base tw-font-medium tw-mt-2">
+            <h3 className="tw-text-black tw-text-base tw-font-bold tw-mt-2">
               Skills Recommended
             </h3>
             <p className="tw-text-sm tw-gap-2 tw-my-1 tw-flex tw-flex-wrap">
               {skills.map((skill, i) => (
                 <span
-                  className="tw-text-[rgb(235,124,73)] tw-p-1 tw-text-sm tw-rounded-lg tw-border-2 tw-border-[rgb(235,124,73)]"
+                  className="tw-p-1 gradiant-color tw-font-medium tw-text-sm tw-rounded-xl tw-border-2 tw-border-[rgb(235,124,73)]"
                   key={i}
                 >
                   {skill}

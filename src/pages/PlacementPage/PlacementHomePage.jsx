@@ -12,14 +12,14 @@ const PlacementHomePage = () => {
     return navigation(`/placement/jobRoleView/${tag}`);
   };
   return (
-    <div className="tw-w-auto tw-mt-10 tw-h-auto tw-flex ">
+    <div className="tw-w-auto tw-mt-10 pb-2 tw-h-auto tw-flex ">
       {/* Most hiring organisation */}
       <div className=" tw-flex-1">
         <h4 className="tw-font-bold tw-text-[18px] tw-capitalize">
           Most Hiring Organisation
         </h4>
         {/* list */}
-        <div className="tw-w-[90%] tw-mt-3 tw-h-[390px] tw-overflow-y-scroll tw-overflow-hidden tw-divide-y-2 border_light">
+        <div className="tw-w-[90%] tw-mt-3 tw-h-auto tw-max-h-[550px] tw-overflow-y-scroll tw-overflow-hidden tw-divide-y-2 border_light">
           {organisation.map((li, i) => (
             <div
               className="tw-flex tw-gap-4 tw-p-4 tw-justify-start tw-items-center"
@@ -51,7 +51,7 @@ const PlacementHomePage = () => {
           Most Hiring Roles
         </h4>
         {/* list */}
-        <div className="tw-border-2 tw-w-[90%] tw-mt-3 tw-h-[390px] tw-overflow-y-scroll tw-overflow-hidden tw-divide-y-2 tw-rounded-md tw-border-[rgba(0, 0, 0, 0.3)]">
+        <div className="tw-border-2 tw-w-[90%] tw-mt-3 tw-h-auto tw-max-h-[550px] tw-overflow-y-scroll tw-overflow-hidden tw-divide-y-2 tw-rounded-xl tw-border-[rgba(0, 0, 0, 0.3)]">
           {roles.map((li, i) => (
             <div
               className="tw-flex tw-flex-col tw--mb-4 tw-cursor-pointer tw-p-4  tw-justify-center tw-items-start"
@@ -62,7 +62,7 @@ const PlacementHomePage = () => {
                 {li.title}{" "}
                 <span
                   // onClick={() => handleClickOrganisation(li.title)}
-                  className="tw-text-[rgb(235,124,73)]"
+                  className="gradiant-color"
                 >
                   {li.tag}
                 </span>

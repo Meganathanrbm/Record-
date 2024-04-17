@@ -25,11 +25,10 @@ const DashBoard = () => {
           >
             <h3
               style={{
-                color: "rgba(235, 124, 73, 1) rgba(240, 79, 82, 1)",
                 width: "max-content",
-                fontSize: "larger",
                 fontWeight: "700",
               }}
+              className="gradiant-color tw-text-xl"
             >
               Department of Information Technology
             </h3>

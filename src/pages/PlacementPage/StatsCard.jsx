@@ -22,9 +22,13 @@ const StatsCard = ({
         />
         <strong
           style={{
-            color: "rgba(235, 124, 73, 1) rgba(240, 79, 82, 1)",
             fontSize: fontSize ? fontSize : " xx-large",
+            color: "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+            borderColor:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+            color: " rgba(240, 79, 82, 1)",
           }}
+          className="gradiant-color"
         >
           {value}
         </strong>

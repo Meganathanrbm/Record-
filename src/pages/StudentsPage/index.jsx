@@ -5,7 +5,7 @@ import timer from "../../assets/svg/students/timer.svg";
 import achivement from "../../assets/svg/students/achivement.svg";
 
 import ActiveStudents from "../DashboardPage/activeStudents";
-import StatsCard from "./statsCard";
+import StatsCard from "../PlacementPage/StatsCard";
 
 const Students = () => {
   const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -42,7 +42,7 @@ const Students = () => {
           <StatsSection />
         </div>
         {/*  */}
-        <div className="border rounded-3" style={{ flex: "1" }}>
+        <div className="border tw-rounded-xl" style={{ flex: "1" }}>
           {array.map((item, index) => {
             return <ActiveStudents key={index} />;
           })}
@@ -67,21 +67,20 @@ function StatsSection() {
   ];
   return (
     <section
-      className="d-flex flex-column border gap-3 rounded-3"
+      className="d-flex flex-column border gap-3 tw-rounded-xl"
       style={{ padding: "1rem " }}
     >
       <div className="d-flex justify-content-between">
-        <div style={{ flex: "1" }}>
+        <div style={{ flex: "1" }} className="p-2 mt-2 ">
           <h3
             style={{
-              color: "rgba(235, 124, 73, 1) rgba(240, 79, 82, 1)",
-              fontSize: "38px",
-              fontWeight: "700",
+              fontFamily: "Arial, Helvetica, sans-serif",
             }}
+            className="gradiant-color tw-text-[40px] gradiant-color   tw-font-extrabold"
           >
             127
           </h3>
-          <p style={{ fontSize: "13px", fontWeight: "500" }}>
+          <p className="tw-text-base tw-font-semibold  tw-capitalize">
             Active Students in Record{" "}
           </p>
         </div>
@@ -89,12 +88,12 @@ function StatsSection() {
           <StatsCard
             value={235}
             text="Total monthly hours of Involvement"
-            paraSize="13px"
+            textStyle={"tw-text-base tw-font-semibold"}
             icon={timer}
           />
         </div>
       </div>
-      <h5 style={{ fontSize: "14px", fontWeight: "500" }}>
+      <h5 className="tw-capitalize tw-text-lg tw-font-semibold">
         Most Acquired Skills
       </h5>
       <div className="d-flex gap-3">
@@ -111,15 +110,13 @@ function StatsSection() {
             text="Total Interest Based Skills"
             value={83}
             icon={achivement}
-            paraSize="13px"
-            paraColor="rgba(113, 113, 113, 1)"
+            textStyle={"tw-text-base tw-text-gray-500 tw-font-semibold"}
           />
           <StatsCard
             text="Total Role Based Skills"
             value={54}
             icon={achivement}
-            paraSize="13px"
-            paraColor="rgba(113, 113, 113, 1)"
+            textStyle={"tw-text-base tw-text-gray-500 tw-font-semibold"}
           />
         </div>
       </div>

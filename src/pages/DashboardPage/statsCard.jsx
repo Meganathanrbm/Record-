@@ -27,8 +27,8 @@ const StatsCard = ({
           style={{ width: iconWidth ? iconWidth : "2vw" }}
         />
         <strong
+          className="gradiant-color"
           style={{
-            color: "rgba(235, 124, 73, 1) rgba(240, 79, 82, 1)",
             fontSize: fontSize ? fontSize : " xx-large",
           }}
         >
@@ -37,7 +37,7 @@ const StatsCard = ({
       </div>
       <p
         style={{
-          fontWeight: "500",
+          fontWeight: "600",
           fontSize: paraSize ? paraSize : "16px",
           color: paraColor ? paraColor : "",
         }}

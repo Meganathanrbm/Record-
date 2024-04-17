@@ -30,3 +30,14 @@ textarea:focus,
 input:focus {
   outline: none;
 }
+
+.gradiant-color {
+  color: linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%);
+  background-color: linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%);
+
+
+  background: linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%);
+
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}

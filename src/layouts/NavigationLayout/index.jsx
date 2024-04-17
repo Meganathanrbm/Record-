@@ -7,16 +7,16 @@ import settings from "../../assets/svg/settings.svg";
 import help from "../../assets/svg/help.svg";
 import navbarLogo from "../../assets/svg/navbarLogo.svg";
 import notificationImage from "../../assets/svg/notifications.svg";
+import notificationIcon from "../../assets/svg/notificationIcon.svg";
 import plusIcon from "../../assets/svg/plusIcon.svg";
+import feedIcon from "../../assets/svg/feedBtn.svg";
 
 const NavigationLayout = () => {
   const path = useLocation();
   return (
     <div className="d-flex min-vh-100">
       <nav
-
         className="d-flex flex-column justify-content-between align-items-baseline p-1 border-end"
-
         style={{
           background: "rgba(251, 251, 251, 1)",
           position: "sticky",
@@ -99,27 +99,28 @@ function TopNavbar() {
           aria-describedby="basic-addon1"
         />
       </div>
-      <div className="d-flex justify-content-center align-items-center gap-4">
+      <div className="d-flex justify-content-center align-items-center tw-gap-4 ">
         <div className="dropdown">
-          <button
-            className="btn d-flex justify-content-center align-items-center "
+          <img
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            style={{
-              backgroundColor: "rgba(235, 124, 73, 1)rgba(240, 79, 82, 1)",
-              color: "white",
-            }}
-          >
-            <i className="bi bi-plus"></i>
-          </button>
+            src={feedIcon}
+            className="tw-cursor-pointer tw-w-[25px] tw-h-[25px]  "
+            alt="feedIcon"
+          />
+
           <ul className="dropdown-menu ">
             {dropdown.map((item, index) => (
-              <li key={index}>
-                <a className="dropdown-item" href="#">
+              <li key={index} className="tw-w-[300px]">
+                <a
+                  className="dropdown-item tw-flex tw-gap-4 tw-flex-nowrap"
+                  href="#"
+                >
                   <img
                     src={plusIcon}
                     alt=""
-                    style={{ width: "1vw", marginRight: "0.5vw" }}
+                    className=""
+                    style={{ width: "15px" }}
                   />
                   {item.name}
                 </a>
@@ -128,11 +129,14 @@ function TopNavbar() {
           </ul>
         </div>
         <div className="dropdown">
-          <i
-            className="bi bi-bell-fill "
+          <img
+            className="tw-cursor-pointer tw-w-[25px] tw-h-[25px]  "
+            src={notificationIcon}
+            alt="notification icon"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          ></i>
+          />
+
           <ul
             className="dropdown-menu "
             style={{
@@ -162,7 +166,7 @@ function TopNavbar() {
         <img
           src="https://randomuser.me/api/portraits/thumb/men/75.jpg"
           alt=""
-          className="rounded-circle"
+          className="rounded-circle tw-h-[35px] tw-w-[35px]"
         />
       </div>
     </section>
