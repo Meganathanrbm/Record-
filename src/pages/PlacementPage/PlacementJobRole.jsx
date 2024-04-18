@@ -54,6 +54,9 @@ const PlacementJobRole = () => {
           </p>
           <p className="tw-text-sm tw-text-[#858585]">Posted on 12.03.2024</p>
         </div>
+        <button className="tw-ml-auto tw-mb-auto p-2 px-3 tw-font-semibold tw-text-base tw-border-[rgb(235,124,73)] tw-rounded-lg tw-border-2 gradiant-color ">
+          Close Application
+        </button>
       </div>
       <div className=" tw-flex tw-gap-6">
         <div className="tw-w-[70%]">
@@ -76,7 +79,9 @@ const PlacementJobRole = () => {
                 </li>
               ))}
             </ul>
-            <p className="tw-font-bold  tw-mt-4 tw-text-[#656565]">Requirements:</p>
+            <p className="tw-font-bold  tw-mt-4 tw-text-[#656565]">
+              Requirements:
+            </p>
             <p className="tw-pl-4  tw-text-justify tw-text-[#858585]">
               Familiarity with content management systems (e.g., WordPress,
               Drupal) and e-commerce platforms (e.g., Shopify, WooCommerce).

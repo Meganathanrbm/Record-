@@ -10,6 +10,33 @@ import notificationImage from "../../assets/svg/notifications.svg";
 import notificationIcon from "../../assets/svg/notificationIcon.svg";
 import plusIcon from "../../assets/svg/plusIcon.svg";
 import feedIcon from "../../assets/svg/feedBtn.svg";
+import mySettings from "../../assets/svg/settings/mySettings.svg";
+import myNotifications from "../../assets/svg/settings/myNotification.svg";
+import integrations from "../../assets/svg/settings/integrations.svg";
+import logout from "../../assets/svg/settings/logout.svg";
+
+const settingsPanelTitle = [
+  {
+    title: "My Settings",
+    status: true,
+    icon: mySettings,
+  },
+  {
+    title: "My Notifications",
+    status: false,
+    icon: myNotifications,
+  },
+  {
+    title: "Integrations",
+    status: false,
+    icon: integrations,
+  },
+  {
+    title: "Logout",
+    status: false,
+    icon: logout,
+  },
+];
 
 const NavigationLayout = () => {
   const path = useLocation();
@@ -62,10 +89,18 @@ const NavigationLayout = () => {
               <img src={help} alt="help" style={{ width: "1vw" }} />
               <a href="/register">Help</a>
             </li>
-            <li className="d-flex gap-3 fw-medium">
+            <button
+              data-bs-toggle="modal"
+              type="button"
+              class="btn btn-primary"
+              data-bs-target="#settings"
+              className="d-flex gap-3 tw-items-center fw-medium"
+            >
               <img src={settings} alt="settings" style={{ width: "1vw" }} />
-              <a href="/">Settings</a>
-            </li>
+              <span>Settings</span>
+            </button>
+            {/* Modal */}
+
             <div style={{ fontSize: "x-small" }}>
               <p>Privacy Policy | Terms</p>
               <p>@ 2023 Record Innovation and Enterprises Pvt. Ltd.</p>
@@ -73,6 +108,55 @@ const NavigationLayout = () => {
           </ul>
         </section>
       </nav>
+      {/* Settings Modal */}
+      <div
+        className="modal fade modal-xl"
+        id="settings"
+        tabindex="-1"
+        aria-labelledby="settings"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog tw-h-full modal-dialog-centered ">
+          <div
+            className="modal-content tw-rounded-xl tw-overflow-hidden tw-bg-white"
+            style={{
+              width: "100%",
+              height: "85%",
+              borderRadius: "15px",
+              padding: 0,
+            }}
+          >
+            <div
+              className="modal-body d-flex"
+              style={{ width: "100%", padding: 0, margin: 0 }}
+            >
+              <div className="left-part tw-p-6 tw-bg-[#FBFBFB] tw-border-r tw-h-full tw-w-1/4">
+                <h2
+                  className="modal-title fs-5"
+                  style={{ fontSize: "16px", fontWeight: "600" }}
+                >
+                  Settings
+                </h2>
+                <ul>
+                  {settingsPanelTitle.map((title, i) => (
+                    <li
+                      key={i}
+                      className={` ${
+                        title.status ? "tw-text-black" : "tw-text-[#8F8F8F]"
+                      }   tw-flex tw-gap-2 tw-my-4 tw-items-center tw-font-semibold`}
+                    >
+                      <img src={title.icon} className="tw-h-[17px]" alt="" />
+                      {title.title}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="right-part tw-w-full tw-h-full tw-p-6 tw-bg-white"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* --------------- */}
       <div className=" w-100 p-4">
         <TopNavbar />
         <Outlet />
@@ -83,7 +167,7 @@ const NavigationLayout = () => {
 
 function TopNavbar() {
   const notification = false;
-  const dropdown = [{ name: "Create Job Post" }];
+  const dropdown = [{ name: "Create Job Post" }, { name: "Add Department" }];
 
   return (
     <section className="d-flex justify-content-between align-items-center w-100 mb-4">
