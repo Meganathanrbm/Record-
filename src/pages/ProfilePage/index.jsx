@@ -21,13 +21,13 @@ const Profile = () => {
 
         <h3
           className="mt-2 mb-2"
-          style={{ fontWeight: "700", fontSize: "17px" }}
+          style={{ fontWeight: "700", fontSize: "19px" }}
         >
           Jhone Doe
         </h3>
         <div style={{ width: "-webkit-fill-available" }}>
           <ul
-            className="mt-5 d-flex flex-column gap-3"
+            className="mt-4 d-flex tw-pl-5 flex-column gap-3 align-items-start"
             style={{ fontSize: "17px", fontWeight: "700" }}
           >
             <li
@@ -38,11 +38,13 @@ const Profile = () => {
                     ? "rgba(235, 124, 73, 1) rgba(240, 79, 82, 1)"
                     : "rgba(143, 143, 143, 1)",
               }}
+              className="tw-cursor-pointer"
             >
               Profile
             </li>
-            {admin && (
+            {!admin && (
               <li
+                className="tw-cursor-pointer"
                 onClick={() => setActive("Users")}
                 style={{
                   color:
@@ -58,7 +60,7 @@ const Profile = () => {
         </div>
       </section>
 
-      <section style={{ width: "70%" }}>
+      <section className="tw-pr-5" style={{ width: "70%" }}>
         {active === "Profile" ? <FormComponent /> : <AdminInstitution />}
       </section>
     </div>

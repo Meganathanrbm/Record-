@@ -2,11 +2,11 @@ import React from "react";
 import tag from "../../assets/svg/dashboard/tag.svg";
 import { useNavigate } from "react-router";
 
-const ActiveStudents = () => {
+const ActiveStudents = ({ name, desc, desc2, icon, image, path }) => {
   const navigate = useNavigate();
 
   function handleonClick() {
-    navigate("/profile");
+    navigate(path);
   }
 
   return (
@@ -21,25 +21,45 @@ const ActiveStudents = () => {
         srcset=""
         style={{ position: "absolute", right: "20px", top: "0" }}
       />
+
       <img
-        src="https://www.w3schools.com/howto/img_avatar.png"
+        src={image}
         alt=""
         className="rounded-circle"
-        style={{ width: "auto", height: "10vh" }}
+        style={{ width: "auto", height: "60px" }}
       />
+
       <div>
-        <h4 style={{ fontSize: "18px", fontWeight: "500" }}>
-          John Doe &#x0028; ID40328 &#x0029;
-        </h4>
-        <p
-          style={{
-            color: "rgba(154, 154, 154, 1)",
-            fontSize: "18px",
-            fontWeight: "500",
-          }}
+        <h4
+          className="tw-cursor-pointer tw-mb-1"
+          style={{ fontSize: "18px", fontWeight: "500" }}
         >
-          2018-2022
-        </p>
+          {name}
+        </h4>
+        {icon ? (
+          <p
+            style={{
+              color: "rgba(154, 154, 154, 1)",
+              fontSize: "17px",
+              fontWeight: "500",
+            }}
+            className="tw-inline-flex"
+          >
+            {desc}
+            <img className="tw-mx-2" src={icon} alt="" />
+            {desc2}
+          </p>
+        ) : (
+          <p
+            style={{
+              color: "rgba(154, 154, 154, 1)",
+              fontSize: "17px",
+              fontWeight: "500",
+            }}
+          >
+            {desc}
+          </p>
+        )}
       </div>
     </div>
   );

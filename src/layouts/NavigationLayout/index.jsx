@@ -14,6 +14,7 @@ import mySettings from "../../assets/svg/settings/mySettings.svg";
 import myNotifications from "../../assets/svg/settings/myNotification.svg";
 import integrations from "../../assets/svg/settings/integrations.svg";
 import logout from "../../assets/svg/settings/logout.svg";
+import { HiMiniXMark } from "react-icons/hi2";
 
 const settingsPanelTitle = [
   {
@@ -151,7 +152,16 @@ const NavigationLayout = () => {
                   ))}
                 </ul>
               </div>
-              <div className="right-part tw-w-full tw-h-full tw-p-6 tw-bg-white"></div>
+              <div className="right-part tw-w-full tw-relative tw-h-full tw-p-6 tw-bg-white">
+                <button
+                  type="button"
+                  className="btn-close d-flex tw-justify-center tw-right-1 tw-m-4 tw-absolute  tw-top-1 tw-h-6 tw-w-6 tw-items-center"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <HiMiniXMark className="tw-h-6 tw-w-6" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -8,11 +8,14 @@ const StatsCard = ({
   textStyle,
   text,
   cardWidth,
+  padding,
 }) => {
   return (
     <div
-      className="tw-border tw-p-4  tw-rounded-lg tw-mb-1"
-      style={{ paddingLeft: "1rem", width: cardWidth ? cardWidth : "" }}
+      className={`  tw-border ${
+        padding ? padding : "tw-p-4"
+      }   tw-rounded-lg tw-mb-1`}
+      style={{ width: cardWidth ? cardWidth : "" }}
     >
       <div className="d-flex align-items-center gap-3">
         <img

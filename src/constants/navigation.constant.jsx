@@ -16,7 +16,7 @@ const navigationConstants = [
   },
   {
     name: "Students",
-    path: "/students",
+    path: "/students/search",
     icon: students,
     activeIcon: activeStudents,
   },

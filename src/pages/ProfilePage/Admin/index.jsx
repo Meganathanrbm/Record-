@@ -2,24 +2,30 @@ import React from "react";
 import usersData from "./UserData";
 import styles from "./index.module.css";
 import ModalComponent from "../../../components/Modal/ModalComponent";
+import penEditIcon from "../../../assets/svg/editPenIcon.svg";
 
 const AdminInstitution = () => {
   return (
     <div className="d-flex flex-column gap-3">
       <section className="d-flex justify-content-between">
-        <h4>Institution Users</h4>
+        <h5 style={{ fontSize: "19px", fontWeight: "700" }}>Users (12)</h5>
         <button
           type="button"
           class="btn btn-primary"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
+          className="tw-text-white tw-px-4 tw-py-2 tw-rounded-md tw-font-medium"
           style={{
-            backgroundColor: "rgba(235, 124, 73, 1) rgba(240, 79, 82, 1)",
+            backgroundColor:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+
+            background:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
           }}
         >
-          Add Instituion Users +
+          Add Instituion Users<span className="tw-text-xl">+</span>
         </button>
-        <ModalComponent>
+        <ModalComponent title="Add Institution User" btnTitle="Save & Add New">
           <FormComponent />
         </ModalComponent>
       </section>
@@ -29,7 +35,7 @@ const AdminInstitution = () => {
       </section>
       <section
         className="border p-2 rounded-3"
-        style={{ maxHeight: "60vh", overflow: "auto" }}
+        style={{ maxHeight: "65vh", overflow: "auto" }}
       >
         <TableComponent />
       </section>
@@ -87,8 +93,8 @@ function TableComponent() {
       <tbody>
         {usersData.map((user, index) => {
           return (
-            <tr>
-              <td scope="row">
+            <tr key={index} className=" tw-table-row">
+              <td scope="row ">
                 <div className="d-flex align-items-center gap-2">
                   <img
                     // src={user.img}
@@ -100,10 +106,14 @@ function TableComponent() {
                   <p>{user.name}</p>
                 </div>
               </td>
-              <td>{user.email}</td>
+              <td className="">{user.email}</td>
               <td>{user.role}</td>
-              <td>
-                <i class="bi bi-pencil-fill"></i>
+              <td className="">
+                <img
+                  src={penEditIcon}
+                  alt="pen-icon"
+                  className="tw-cursor-pointer tw-h-[15px] tw-w-[15px]"
+                />
               </td>
             </tr>
           );

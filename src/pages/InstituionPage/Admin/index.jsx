@@ -58,10 +58,12 @@ const AdminDepartments = () => {
               "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
           }}
         >
-          Add Instituion Users
+          Add Instituion Users <span className="tw-text-xl">+</span>
         </button>
         {/* Model */}
-        <ModalComponent title="  Add Department" btnTitle="  Save & Update">
+        <ModalComponent 
+        title="  Add Department" 
+        btnTitle="  Save & Update">
             <label
               htmlFor="Department Name"
               className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"

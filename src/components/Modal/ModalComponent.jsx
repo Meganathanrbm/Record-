@@ -1,4 +1,5 @@
 import React, { Children } from "react";
+import { HiMiniXMark } from "react-icons/hi2";
 
 const ModalComponent = ({
   children,
@@ -33,10 +34,12 @@ const ModalComponent = ({
               </h1>
               <button
                 type="button"
-                className="btn-close"
+                className="btn-close d-flex tw-justify-center tw-h-6 tw-w-6 tw-items-center"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-              ></button>
+              >
+                <HiMiniXMark className="tw-h-6 tw-w-6" />
+              </button>
             </div>
             {children}
             <div className="d-flex justify-content-end mt-4 mb-5">
