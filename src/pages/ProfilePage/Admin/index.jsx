@@ -100,7 +100,7 @@ function TableComponent() {
                     // src={user.img}
                     src="/user.png"
                     alt=""
-                    srcSet=""
+                   
                     style={{ width: "50px", borderRadius: "50%" }}
                   />
                   <p>{user.name}</p>

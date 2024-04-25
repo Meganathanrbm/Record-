@@ -1,12 +1,12 @@
 import React from "react";
 import timer from "../../assets/svg/students/timer.svg";
 import batch from "../../assets/svg/students/batch.svg";
-import focusSkills from "../../assets/svg/students/focusSkills.svg";
+
 import tick from "../../assets/svg/dashboard/tick.svg";
 import achivement from "../../assets/svg/students/achivement.svg";
 import skillBatch from "../../assets/svg/students/skillBatch.svg";
 import greenArrow from "../../assets/svg/students/greenArrow.svg";
-import learningActivity from "../../assets/svg/students/learningActivity.svg";
+
 import questionMark from "../../assets/svg/students/questionMark.svg";
 import instituteSvg from "../../assets/svg/students/instituteImg.svg";
 import psgLogo from "../../assets/svg/students/paglogo.svg";
@@ -21,8 +21,9 @@ import x from "../../assets/svg/socialMedia/x.svg";
 import StatsCard from "../PlacementPage/StatsCard";
 import Card from "./Card";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import Chart from "chart.js/auto";
-import { getRelativePosition } from "chart.js/helpers";
+
+import RadarChart from "./RadarChart";
+import HeatmapCalender from "./HeatmapCalender";
 
 const StudentProfile = () => {
   const skills = [
@@ -205,7 +206,6 @@ const StudentProfile = () => {
           <img
             src="https://www.w3schools.com/howto/img_avatar.png"
             alt=""
-            srcSet=""
             className=" mt-2 tw-rounded-full tw-h-[50px] tw-w-[50px]"
           />
           <div className="d-flex  tw-flex-col">
@@ -233,11 +233,10 @@ const StudentProfile = () => {
         {/* Focus skills */}
         <div className="tw-w-full  py-4 ">
           <h3 className="tw-text-xl  tw-font-semibold">Focus Skills</h3>
-          <img
-            src={focusSkills}
-            className="tw-w-full tw-h-full"
-            alt="focusskills "
-          />
+          {/* Rador chart */}
+          <div className="border-2 tw-mt-2 f-flex tw-justify-center tw-rounded-xl">
+            <RadarChart className="tw-m-auto" />
+          </div>
         </div>
         <div className="d-flex tw-w-full tw-border-b-2 tw-pb-4  tw-justify-between">
           <StatsCard
@@ -264,6 +263,7 @@ const StudentProfile = () => {
           <h3 className="tw-text-xl mb-1 tw-font-semibold">
             Learning Activities
           </h3>
+
           {/* MoM Performance */}
           <div className="tw-p-4 tw-border-2 tw-px-5 tw-rounded-lg">
             <p className="tw-text-base tw-font-semibold">MoM Performance</p>
@@ -276,11 +276,8 @@ const StudentProfile = () => {
               23%
             </p>
           </div>
-          <img
-            src={learningActivity}
-            alt="calender"
-            className="tw-w-full mt-4 "
-          />
+
+          <HeatmapCalender />
         </div>
       </section>
       {/* right panel */}
@@ -344,7 +341,10 @@ const StudentProfile = () => {
             </p>
             <div className="d-flex tw-mt-3 tw-flex-wrap tw-gap-3">
               {skills.slice(0, 5).map((skill, i) => (
-                <div className="d-flex tw-items-center tw-gap-2 tw-p-2 tw-border-2 tw-rounded-xl">
+                <div
+                  key={i}
+                  className="d-flex tw-items-center tw-gap-2 tw-p-2 tw-border-2 tw-rounded-xl"
+                >
                   <img
                     src={skillBatch}
                     className="tw-h-6 tw-w-6"
@@ -380,7 +380,10 @@ const StudentProfile = () => {
             </p>
             <div className="d-flex tw-mt-3 tw-items-center tw-flex-wrap tw-gap-3">
               {skills.slice(0, 4).map((skill, i) => (
-                <div className="d-flex tw-items-center tw-gap-2 tw-p-2 tw-border-2 tw-rounded-xl">
+                <div
+                  key={i}
+                  className="d-flex tw-items-center tw-gap-2 tw-p-2 tw-border-2 tw-rounded-xl"
+                >
                   <img
                     src={skillBatch}
                     className="tw-h-6 tw-w-6"

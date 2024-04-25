@@ -18,7 +18,6 @@ const ActiveStudents = ({ name, desc, desc2, icon, image, path }) => {
       <img
         src={tag}
         alt=""
-        srcset=""
         style={{ position: "absolute", right: "20px", top: "0" }}
       />
 

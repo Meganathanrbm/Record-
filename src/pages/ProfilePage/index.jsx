@@ -14,7 +14,7 @@ const Profile = () => {
         <img
           src="/user.png"
           alt=""
-          srcSet=""
+          
           className=" mt-2"
           style={{ width: "10vw" }}
         />

@@ -93,7 +93,7 @@ const NavigationLayout = () => {
             <button
               data-bs-toggle="modal"
               type="button"
-              class="btn btn-primary"
+          
               data-bs-target="#settings"
               className="d-flex gap-3 tw-items-center fw-medium"
             >
@@ -113,7 +113,7 @@ const NavigationLayout = () => {
       <div
         className="modal fade modal-xl"
         id="settings"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="settings"
         aria-hidden="true"
       >

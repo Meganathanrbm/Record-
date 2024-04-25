@@ -24,7 +24,7 @@ const Instituion = () => {
           <img
             src="/colleageLogo.png"
             alt=""
-            srcSet=""
+           
             className=" mt-2"
             style={{ width: "4vw" }}
           />

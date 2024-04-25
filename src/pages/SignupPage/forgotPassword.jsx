@@ -19,7 +19,7 @@ const ForgotPassword = ({ setForgetPassword }) => {
           style={{ backgroundColor: "rgba(237, 242, 246, 1)" }}
           onClick={() => setForgetPassword(false)}
         >
-          <img src={leftArrow} alt="" srcset="" className="p-2" />
+          <img src={leftArrow} alt="" className="p-2" />
           Go Back
         </button>
         <section className="d-flex flex-column justify-content-center align-items-center gap-3 mb-5 w-100 mt-2">

@@ -18,7 +18,7 @@ const ProgressBar = ({ item }) => {
           <div className="progress-bar" style={{ width: item.progress }}></div>
         </div>
         <p>{item.value || item.progress}</p>
-        <img src={tick} alt="tick" srcset="" style={{ height: "3vh" }} />
+        <img src={tick} alt="tick"  style={{ height: "3vh" }} />
       </div>
     </>
   );

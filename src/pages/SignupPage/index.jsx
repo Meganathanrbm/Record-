@@ -35,7 +35,7 @@ const Signup = () => {
           }}
         >
           <div className="container bg-primary w-50 d-flex flex-column justify-content-start align-items-start  p-5 gap-4 rounded">
-            <img src={logo} alt="" srcset="" />
+            <img src={logo} alt="" />
             <div>
               <h1 style={{ fontWeight: "700", fontSize: "31px" }}>
                 Welcome Back
@@ -48,7 +48,6 @@ const Signup = () => {
               <img
                 src={welcome}
                 alt="logo"
-                srcset=""
                 className=" mb-5"
                 style={{ width: "25wv", height: "30vh" }}
               />
@@ -63,7 +62,6 @@ const Signup = () => {
               <img
                 src={logo2}
                 alt="logo"
-                srcset=""
                 style={{ width: "85px", height: "85px" }}
               />
               <h1

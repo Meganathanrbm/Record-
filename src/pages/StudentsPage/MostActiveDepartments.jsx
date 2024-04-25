@@ -187,7 +187,7 @@ function AcquiredSkills({ item }) {
           <div className="progress-bar" style={{ width: item.progress }}></div>
         </div>
         <p>{item.progress}</p>
-        <img src={tick} alt="" srcset="" style={{ height: "2vh" }} />
+        <img src={tick} alt="" style={{ height: "2vh" }} />
       </div>
     </div>
   );

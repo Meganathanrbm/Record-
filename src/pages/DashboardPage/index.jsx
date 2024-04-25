@@ -14,7 +14,58 @@ import ActivePlatforms from "./activePlatforms";
 const DashBoard = () => {
   const array = [1, 2, 3, 4, 5, 6, 7, 8];
   const users = [1, 2, 3, 4, 6, 7];
-
+  const students = [
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+    {
+      name: "Akshay Kumar (18DI02)",
+      desc: "Department of Information Technology | 2018-2021",
+      image: "https://www.w3schools.com/howto/img_avatar.png",
+    },
+  ];
   return (
     <div className="d-flex gap-3">
       <section className="d-flex flex-column gap-2" style={{ flex: "2.5" }}>
@@ -66,8 +117,8 @@ const DashBoard = () => {
               Most Active Students
             </h3>
             <section className="border rounded-4">
-              {users.map((item, index) => {
-                return <ActiveStudents key={index} index={index} item={item} />;
+              {students.map((item, index) => {
+                return <ActiveStudents key={index} index={index} {...item} />;
               })}
             </section>
           </div>
@@ -164,7 +215,7 @@ function AcquiredSkills({ item }) {
           <div className="progress-bar" style={{ width: item.progress }}></div>
         </div>
         <p>{item.progress}</p>
-        <img src={tick} alt="" srcset="" style={{ height: "2vh" }} />
+        <img src={tick} alt="" style={{ height: "2vh" }} />
       </div>
     </div>
   );
