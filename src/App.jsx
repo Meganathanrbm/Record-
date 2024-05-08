@@ -4,6 +4,8 @@ import NavigationLayout from "./layouts/NavigationLayout";
 import navigationRoutes from "./router/auth-route";
 import nonAuthRoute from "./router/non-auth-route";
 import SuspenseLayout from "./layouts/SuspenseLayout";
+import Signup from "./pages/SignupPage";
+import ProtectedRouter from "./middleware/ProtectedRouter";
 
 function App() {
   return (
@@ -11,23 +13,25 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<SuspenseLayout />}>
-            <Route path="/" element={<NavigationLayout />}>
-              {navigationRoutes.map((route, index) => {
-                return (
-                  <Route key={index} path={route.path} element={route.element}>
-                    {/* Children Routes */}
-                    {route.children &&
-                      route.children.map((childRoute, childInd) => (
-                        <Route
-                          key={childInd}
-                          path={childRoute.path}
-                          element={childRoute.element}
-                        />
-                      ))}
-                  </Route>
-                );
-              })}
+            <Route path="/" element={<Signup/>}/>
+
+              <Route element={<ProtectedRouter />}>
+              <Route element={<NavigationLayout />}>
+              {navigationRoutes.map((route, index) => (
+            <Route key={index} path={route.path} element={route.element}>
+              {route.children &&
+                route.children.map((child, childIndex) => (
+                  <Route
+                    key={childIndex}
+                    path={child.path}
+                    element={child.element}
+                  />
+                ))}
             </Route>
+          ))}
+              </Route>
+            </Route>
+           
             
             {nonAuthRoute.map((route, index) => {
               return (

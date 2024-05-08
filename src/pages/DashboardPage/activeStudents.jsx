@@ -2,7 +2,10 @@ import React from "react";
 import tag from "../../assets/svg/dashboard/tag.svg";
 import { useNavigate } from "react-router";
 
-const ActiveStudents = ({ name, desc, desc2, icon, image, path }) => {
+const ActiveStudents = ({ fullName, departmentName, desc2, icon, image, path,
+  activeStudentsCount,learningHoursSum
+
+   }) => {
   const navigate = useNavigate();
 
   function handleonClick() {
@@ -29,13 +32,16 @@ const ActiveStudents = ({ name, desc, desc2, icon, image, path }) => {
       />
 
       <div>
-        <h4
+        {fullName}
+        {icon ? (
+          <div>
+          <h4
           className="tw-cursor-pointer tw-mb-1"
           style={{ fontSize: "18px", fontWeight: "500" }}
         >
-          {name}
+          {departmentName}
+           
         </h4>
-        {icon ? (
           <p
             style={{
               color: "rgba(154, 154, 154, 1)",
@@ -44,10 +50,12 @@ const ActiveStudents = ({ name, desc, desc2, icon, image, path }) => {
             }}
             className="tw-inline-flex"
           >
-            {desc}
+           
+            {`${activeStudentsCount} Active Students |`}
             <img className="tw-mx-2" src={icon} alt="" />
-            {desc2}
+            {`${learningHoursSum} Total monthly hours of Involvement`}
           </p>
+          </div>
         ) : (
           <p
             style={{
@@ -56,7 +64,7 @@ const ActiveStudents = ({ name, desc, desc2, icon, image, path }) => {
               fontWeight: "500",
             }}
           >
-            {desc}
+            {departmentName}
           </p>
         )}
       </div>

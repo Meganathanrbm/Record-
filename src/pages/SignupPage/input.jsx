@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const InputComponent = ({ icon }) => {
+const InputComponent = ({ icon,value,onChange }) => {
   const [isHidden, setIsHidden] = useState(true);
   return (
     <div
@@ -16,6 +16,8 @@ const InputComponent = ({ icon }) => {
           height: "6vh",
           borderStyle: "none",
         }}
+        value={value}
+        onChange={onChange}
       />
       <div onClick={() => setIsHidden(!isHidden)}>
         {icon && <i class={isHidden ? "bi bi-eye-slash" : "bi bi-eye"}></i>}
