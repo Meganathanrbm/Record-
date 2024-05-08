@@ -10,7 +10,7 @@ import institutionLogo from "../assets/svg/institution/institutionLogo.svg";
 const navigationConstants = [
   {
     name: "Dashboard",
-    path: "/",
+    path: "/dashboard",
     icon: dashboard,
     activeIcon: activeDashboard,
   },
