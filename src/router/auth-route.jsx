@@ -41,12 +41,12 @@ const navigationRoutes = [
       },
       {
         name: "Department alone search",
-        path: "/students/department",
+        path: "/students/department/:departmentId",
         element: <StudentsDepartment />,
       },
       {
         name: "Student Profile",
-        path: "/students/profile",
+        path: "/students/profile/:studentId",
         element: <StudentsProfile />,
       },
     ],
@@ -63,7 +63,7 @@ const navigationRoutes = [
       },
       {
         name: "Placement_Organization_View",
-        path: "/placement/organisationView/:organisation",
+        path: "/placement/organisationView/:organisationName",
         element: <PlacementOrganisation />,
       },
       {

@@ -17,7 +17,13 @@ const apiPathConstants = {
     verificationEmail: setBaseUrlPrefix("/auth/send/verification-email"),
   },
   student:{
-    getBestStudents: setBaseUrlPrefix("/students")
+    getBestStudents: setBaseUrlPrefix("/students"),
+    getStudentProfile:setBaseUrlPrefix("/students/profile"),
+    getDepartmentProfile:setBaseUrlPrefix("/students/department"),
+  },
+  placement:{
+    getHomePlacementPage:setBaseUrlPrefix("/placement/home"),
+    getOrganizationView:setBaseUrlPrefix("/placement/organisation"),
   }
 };
 

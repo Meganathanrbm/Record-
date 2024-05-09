@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import suiteCase from "../../assets/svg/dashboard/suitecase.svg";
@@ -7,15 +7,35 @@ import calender from "../../assets/svg/placement/calender.svg";
 import { MostHiringRoles, roles } from "../../constants/placementConstant";
 import StatsCard from "./StatsCard";
 import ProgressBar from "./ProgressBar";
-
+import placementApi from "../../apis/placement.api";
 const PlacementOrganisation = () => {
-  const { organisation } = useParams();
+  const [organizationData, setOrganizationData] = useState([]);
+  const { organisationName } = useParams();
+ const [hiring,setHiring]=useState([]);
+
+ console.log(organisationName);
+
+  useEffect(() => {
+    placementApi.getOrganizationView({
+      organisationName,
+      success: (res) => {
+        console.log(res.data.data);
+        setOrganizationData(res.data.data);
+        setHiring(res.data.data.mostHiringRoles);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }, []);
+
+  
   return (
     <section className="tw-w-auto tw-overflow-hidden tw-flex-col tw-min-h-full tw-flex ">
       {/* Title */}
       <div className="tw-w-full tw-flex tw-justify-between">
         <h4 className="tw-font-bold tw-text-[18px] tw-mt-2 tw-mb-3 tw-capitalize">
-          {organisation}
+          {organisationName}
         </h4>
         <div className="tw-flex tw-mt-2 tw-mb-3 tw-justify-end">
           <select
@@ -45,7 +65,7 @@ const PlacementOrganisation = () => {
                   }}
                   className="tw-text-[40px] gradiant-color   tw-font-extrabold"
                 >
-                  433
+                  {organizationData.totalStudentsHired}
                 </h2>
                 <h3 className="tw-text-[18px] tw-font-semibold  tw-capitalize ">
                   total students hired
@@ -54,7 +74,7 @@ const PlacementOrganisation = () => {
               {/* total students applied for job */}
               <StatsCard
                 icon={threelines}
-                value={2830}
+                value={organizationData.totalStudentsApplied}
                 text={"total students applied for job"}
                 textStyle={"tw-text-lg tw-font-semibold"}
               />
