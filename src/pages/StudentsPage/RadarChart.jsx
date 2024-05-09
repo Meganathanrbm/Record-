@@ -40,6 +40,14 @@ const RadarChart = () => {
 
   const options = {
     plugins: {
+      datalabels: {
+        anchor: "end",
+        align: "top",
+        formatter: Math.round,
+        font: {
+          weight: "bold",
+        },
+      },
       legend: false,
     },
     scales: {
