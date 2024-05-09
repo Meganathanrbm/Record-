@@ -18,9 +18,8 @@ export default function ProtectedRouter() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentLoggedInUser, setCurrentLoggedInUser] =
     useRecoilState(currentUserState);
-console.log('p',currentLoggedInUser);
   const checkUserSession = () => {
-    console.log(currentLoggedInUser)
+   console.log(currentLoggedInUser);
     authApi.verifySession({  
       success: ({ data }) => {
         setCurrentLoggedInUser({
@@ -28,6 +27,7 @@ console.log('p',currentLoggedInUser);
           ...data.data,
           isLoggedIn: true,
         });
+       
 
         console.log(currentLoggedInUser);
       },

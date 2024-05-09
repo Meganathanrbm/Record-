@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import timer from "../../assets/svg/students/timer.svg";
 import batch from "../../assets/svg/students/batch.svg";
-
+import { useParams } from "react-router-dom";
 import tick from "../../assets/svg/dashboard/tick.svg";
 import achivement from "../../assets/svg/students/achivement.svg";
 import skillBatch from "../../assets/svg/students/skillBatch.svg";
@@ -24,167 +24,71 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 import RadarChart from "./RadarChart";
 import HeatmapCalender from "./HeatmapCalender";
+import studentApi from "../../apis/student.api";
 
 const StudentProfile = () => {
-  const skills = [
-    {
-      name: "Product Management",
-      endosement: 3,
-    },
-    {
-      name: "Product Designing",
-      endosement: 3,
-    },
-    {
-      name: "UX Design",
-      endosement: 0,
-    },
-    {
-      name: "UI Designing",
-      endosement: 3,
-    },
-    {
-      name: "Website Development",
-      endosement: 4,
-    },
-    {
-      name: "Google Ads",
-      endosement: 3,
-    },
-    {
-      name: "Facebook Ads",
-      endosement: 2,
-    },
-    {
-      name: "Email Marketing",
-      endosement: 1,
-    },
-    {
-      name: "Growth Hacking",
-      endosement: 3,
-    },
-    {
-      name: "Social Media Management",
-      endosement: 5,
-    },
-  ];
+  const [skills, setSkills] = useState({
+    roleBasedSkills: [],
+    interestBasedSkills: [],
+    skillBadges: [],
+  });
+  const [education, setEducation] = useState([]);
+  const [otherActivity, setOtherActivity] = useState([]);
+  const [workExperience, setWorkExperience] = useState([]);
+  const [projects, setProject] = useState([]);
+  const [licenses, setLicenses] = useState([]);
+  const [data, setData] = useState([]);
+  const { studentId } = useParams();
+  useEffect(() => {
+    studentApi.getStudentProfile({
+      studentId,
+      success: (res) => {
+        setData(res.data.data);
+        setEducation(res.data.data.educations);
+        setWorkExperience(res.data.data.workexperiences);
+        setLicenses(res.data.data.licensecertifications);
+        setSkills(res.data.data.skillRepository);
+        setOtherActivity(res.data.data.activities);
+        setProject(res.data.data.projects);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }, [studentId]);
 
-  const education = [
-    {
-      title: "PSG College of Technology ",
-      tick: tick,
-      logo: psgLogo,
-      desc: "BE in Mechanical Engineering, Automotive Design",
-      year: "Mar 2018 - Apr 2021",
-      about:
-        "Activities and Roles: I’ve been selected as a Placement Representative & Event Manager for my Department. And Received Best Alumni Award of Activities and Roles: I’ve been selected as a Placement Representative & Event Manager for my Department. And Received Best Alumni Award of",
-    },
-    {
-      title: "Kumaraguru College of Technology",
-      tick: tick,
-      logo: kumaraguruLogo,
-      desc: "Diploma in Automobile Engineering",
-      year: "May 2015 - Feb 2018",
-      about:
-        "Activities and Roles: I’ve been selected as a Placement Representative & Event Manager for my Department. And Received Best Alumni Award of Activities and Roles: I’ve been selected as a Placement Representative & Event Manager for my Department. And Received Best Alumni Award of",
-    },
-  ];
-  const otherActivity = [
-    {
-      title: "Placement Representative of the Department ",
-      logo: psgLogo,
-      desc: "At PSG Polytechnic College | Academic",
-      year: "Jan 2022 - Apr 2022",
-      about:
-        "Activities and Roles: I’ve been selected as a Placement Representative & Event Manager for my Department. And Received Best Alumni Award of Activities and Roles: I’ve been selected as a Placement Representative & Event Manager for my Department. And Received Best Alumni Award of",
-    },
-    {
-      title: "PC Assembly for a Trust",
-      logo: emptyLogo,
-      desc: "At Rotary Club | Volunteer",
-      year: "Mar 2022",
-      about:
-        "Activities and Roles: Volunteer of NSS Camp & Player in Volley Ball Team of College.",
-    },
-  ];
-  const workExperiance = [
-    {
-      title: "Technical Research Intern ",
-      tick: tick,
-      logo: instituteSvg,
-      desc: "National Institute of Technology  |  Trichy, Tamil Nadu, India  |  On-site",
-      year: "Apr 2023 - Oct 2023  |  6 mos",
-      tag: [
-        "AutoCAD",
-        "Vehicle Dynamics",
-        "Fluid dynamics",
-        "Mechanical Design",
-      ],
-      tagColor: "primary",
-      about:
-        "I’ve learned so much about organisational process and business operations, where I could able to focus on feasibility testing and got a chance to collaborate with tech team...",
-    },
-    {
-      title: "Content Writing Intern",
 
-      logo: emptyLogo,
-      desc: "ABC Private Limited  |  Coimbatore, Tamil Nadu, India  |  Remote",
-      year: "Aug 2022 - Jan 2023  |  6 mos",
-      tag: [
-        "Copywriting",
-        "Content Marketing",
-        "Fluid dynamics",
-        "Email Marketing",
-      ],
 
-      about:
-        "I get an hands on experience in the overview of digital marketing and content writing and I worked on various copywriting of the client’s website and social media cont...",
-    },
-  ];
-  const projects = [
-    {
-      title: "LendQ - Lending & Borrowing Platform UX Case Study",
-      logo: emptyLogo,
-      desc: "At Freelancing | Individual Project",
-      year: "Jan 2022 - Apr 2022",
-      tag: ["UX Design", "UI Design", "Market Research"],
-      btn: "View Project",
-      btnLogo: openbtn,
+  function formatMonthYear(dateString) {
+    const date = new Date(dateString);
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
 
-      about:
-        "Activities and Roles: I’ve been selected as a Placement Representative & Event Manager for my Department. And Received Best Alumni Award of Activities and Roles: I’ve been selected as a Placement Representative & Event Manager for my Department. And Received Best Alumni Award of",
-    },
-    {
-      title: "Media Production Company Website Development",
-      logo: emptyLogo,
-      desc: "At Seven Dots Media Company | Collaborative Project",
-      year: "Mar 2021 - May 2021",
-      tag: ["UX Design", "Wordpress", "Website Development"],
-      btn: "View Project",
-      btnLogo: openbtn,
-      tagColor: "primary",
-    },
-  ];
-  const licenses = [
-    {
-      title: "Foundation of Project Management",
-      logo: googleLogo,
-      desc: "Google Digital Garage | Online",
-      year: "Issued Apr 2022",
-      tag: ["Project Lifecycle", "Agile Methodology", "Scrum", "Jira"],
-      btn: "Credentials",
-      btnLogo: openbtn,
-    },
-    {
-      title: "Facebook Ads & Facebook Marketing Crash Course",
-      logo: udemyLogo,
-      desc: "Udemy | Online",
-      year: "Issued Feb 2022",
-      tag: ["Campaign Designing", "Ad Strategy", "Meta Ad"],
-      btn: "Credentials",
-      btnLogo: openbtn,
-    },
-  ];
+    const month = months[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+
+    return `${month} ${year}`;
+  }
+  const totalLearned = data.learningActivities? (data.learningActivities.reduce((total, item) => total + item.learned, 0)):0;
+  const pronoun = data.gender
+    ? data.gender === "male"
+      ? "he/him"
+      : gender === "female"
+      ? "she/her"
+      : "they/them"
+    : "";
   return (
     <div className="d-flex justify-content-between">
       {/* left panel */}
@@ -199,7 +103,7 @@ const StudentProfile = () => {
             className="tw-inline-flex tw-mr-1  tw-h-3 tw-w-3"
             alt="timer"
           />
-          23 / <span className="tw-text-[11px]">60 hours</span>
+          {totalLearned} / <span className="tw-text-[11px]">{data.goalHours}{" "}{data.goalType}</span>
         </p>
         {/* profile */}
         <div className="tw-w-full tw-border-b-2 pb-4 d-flex gap-2 tw-justify-between tw-items-center ">
@@ -208,12 +112,15 @@ const StudentProfile = () => {
             alt=""
             className=" mt-2 tw-rounded-full tw-h-[50px] tw-w-[50px]"
           />
+
           <div className="d-flex  tw-flex-col">
             <h3 className="tw-text-2xl tw-leading-4 tw-mt-4 tw-font-semibold">
-              Akshaykumar{" "}
-              <span className="tw-text-xs tw-font-normal tw-text-[#878787]">
-                (he/him)
-              </span>
+              {data.fullName}
+              {pronoun && (
+                <span className="tw-text-xs tw-font-normal tw-text-[#878787]">
+                  ({pronoun})
+                </span>
+              )}
               <img
                 className="tw-inline-flex tw-m-0 tw-h-4 tw-w-4"
                 src={tick}
@@ -241,7 +148,7 @@ const StudentProfile = () => {
         <div className="d-flex tw-w-full tw-border-b-2 tw-pb-4  tw-justify-between">
           <StatsCard
             text="Role Based Skills"
-            value={22}
+            value={skills.skillBadges.roleBasedCount}
             iconWidth="25px"
             fontSize="25px"
             padding="tw-p-[12px]"
@@ -250,7 +157,7 @@ const StudentProfile = () => {
           />
           <StatsCard
             text="Interest Based Skills"
-            value={5}
+            value={skills.skillBadges.interestBasedCount}
             padding="tw-p-[12px]"
             iconWidth="25px"
             fontSize="25px"
@@ -273,7 +180,7 @@ const StudentProfile = () => {
                 className="tw-inline-flex tw-w-6 tw-h-6"
                 alt="green arrow"
               />
-              23%
+              {totalLearned}%
             </p>
           </div>
 
@@ -287,25 +194,21 @@ const StudentProfile = () => {
         <div className="d-flex tw-justify-between">
           {/* paragrapth */}
           <p className="tw-text-justify tw-mt-1 tw-text-lg tw-w-[60%] tw-text-[#8F8F8F]">
-            As a college student, I embrace the dual roles of scholar and
-            seeker, delving into the depths of knowledge while exploring the
-            wonders of the world. With an insatiable curiosity and a thirst for
-            learning, I weave my academic pursuits with personal growth,
-            striving to make each day a chapter in my ongoing adventure.
+            {data.about}
           </p>
           {/* contact */}
           <div className="tw-w-[38%] tw-h-32 tw-max-h-fit tw-p-4 tw-rounded-xl tw-border-2">
             <p className="tw-text-base tw-mb-2 tw-font-normal  tw-text-[#8F8F8F]">
               Contact -{" "}
               <span className="tw-text-black tw-text-base tw-font-semibold">
-                +91 8072711138
+                {data.mobile}
               </span>
             </p>
             <p className="tw-text-base tw-mb-2 tw-font-normal  tw-text-[#8F8F8F]">
               Email -{" "}
               <span className="tw-text-black tw-text-base tw-font-semibold">
                 {" "}
-                akshay.profes@gmail.com
+                {data.email}
               </span>{" "}
               <img
                 className="tw-inline-flex tw-m-0 tw-h-4 tw-w-4"
@@ -316,7 +219,7 @@ const StudentProfile = () => {
             <p className="tw-text-base tw-mb-2 tw-font-normal  tw-text-[#8F8F8F]">
               Birthday -{" "}
               <span className="tw-text-black tw-text-base tw-font-semibold">
-                31/05/2002
+                {data.dateOfBirth}
               </span>
               <img
                 className="tw-inline-flex tw-m-0 tw-h-4 tw-w-4"
@@ -340,9 +243,9 @@ const StudentProfile = () => {
               Skills that you earn for your career.
             </p>
             <div className="d-flex tw-mt-3 tw-flex-wrap tw-gap-3">
-              {skills.slice(0, 5).map((skill, i) => (
+              {skills.roleBasedSkills.slice(0, 5).map((skill) => (
                 <div
-                  key={i}
+                  key={skill.skillId}
                   className="d-flex tw-items-center tw-gap-2 tw-p-2 tw-border-2 tw-rounded-xl"
                 >
                   <img
@@ -352,7 +255,7 @@ const StudentProfile = () => {
                   />
                   <div className="">
                     <p className="tw-font-semibold tw-text-sm">
-                      {skill.name}{" "}
+                      {skill.skill}{" "}
                       <img
                         className="tw-inline-flex tw-m-0 tw-h-4 tw-w-4"
                         src={tick}
@@ -360,13 +263,13 @@ const StudentProfile = () => {
                       />
                     </p>
                     <p className="tw-text-xs tw-text-[#8F8F8F]">
-                      {skill.endosement} Endorsment
+                      {skill.endorsedCount} Endorsment
                     </p>
                   </div>
                 </div>
               ))}
               <p className="tw-text-[#2B66F6] tw-cursor-pointer">
-                See all <span className="tw-font-bold tw-text-lg">></span>{" "}
+                See all <span className="tw-font-bold tw-text-lg"></span>{" "}
               </p>
             </div>
           </div>
@@ -379,7 +282,7 @@ const StudentProfile = () => {
               Skills that you earn for your will.
             </p>
             <div className="d-flex tw-mt-3 tw-items-center tw-flex-wrap tw-gap-3">
-              {skills.slice(0, 4).map((skill, i) => (
+              {skills.interestBasedSkills.slice(0, 4).map((skill, i) => (
                 <div
                   key={i}
                   className="d-flex tw-items-center tw-gap-2 tw-p-2 tw-border-2 tw-rounded-xl"
@@ -391,7 +294,7 @@ const StudentProfile = () => {
                   />
                   <div className="">
                     <p className="tw-font-semibold tw-text-sm">
-                      {skill.name}{" "}
+                      {skill.skillName}{" "}
                       <img
                         className="tw-inline-flex tw-m-0 tw-h-4 tw-w-4"
                         src={tick}
@@ -399,7 +302,7 @@ const StudentProfile = () => {
                       />
                     </p>
                     <p className="tw-text-xs tw-text-[#8F8F8F]">
-                      {skill.endosement} Endorsment
+                      {skill.endorsedCount} Endorsment
                     </p>
                   </div>
                 </div>
@@ -415,12 +318,12 @@ const StudentProfile = () => {
         {education.map((item, i) => (
           <Card
             key={i}
-            logo={item.logo}
-            title={item.title}
-            tick={item.tick}
-            desc={item.desc}
-            year={item.year}
-            about={item.about}
+            logo={item.logo ? item.logo : emptyLogo}
+            title={item.institution}
+            tick={item.verified ? tick : emptyLogo} // Indicate if verified
+            desc={item.degree}
+            year={`${item.startMonthYear} - ${item.endMonthYear}`}
+            about={item.activitiesRoles}
           />
         ))}
 
@@ -428,57 +331,103 @@ const StudentProfile = () => {
         <h3 className="tw-font-semibold tw-mt-6 tw-text-2xl">
           Work Experience{" "}
         </h3>
-        {workExperiance.map((item, i) => (
-          <Card
-            key={i}
-            logo={item.logo}
-            tag={item.tag}
-            tagColor={item.tagColor}
-            title={item.title}
-            tick={item.tick}
-            desc={item.desc}
-            year={item.year}
-            about={item.about}
-          />
-        ))}
+        {workExperience.map((item) => {
+          const sortedSkills = item.skills
+            ?.slice()
+            ?.sort((a, b) => b.endorsedCount - a.endorsedCount);
+          const topSkills = sortedSkills?.slice(0, 4);
+
+          // Concatenate top skill names into a single string
+          const topSkillNames =
+            topSkills?.map((skill) => skill.skillName) || [];
+          const startFormatted = formatMonthYear(item.startDate);
+          const endFormatted = formatMonthYear(item.endDate);
+          return (
+            <Card
+              logo={item.logo ? item.logo : emptyLogo}
+              tag={topSkillNames}
+              tagColor={item.tagColor ? item.tagColor : "primary"}
+              title={item.role}
+              tick={item.verified ? tick : emptyLogo}
+              desc={`${item.companyName} | ${item.location} | ${item.locationType}`}
+              year={`${startFormatted} - ${endFormatted}`}
+              about={item.description}
+            />
+          );
+        })}
 
         {/* Licenses & Certifications */}
         <h3 className="tw-font-semibold tw-mt-6 tw-text-2xl">
           Licenses & Certifications{" "}
         </h3>
-        {licenses.map((item, i) => (
-          <Card
-            key={i}
-            logo={item.logo}
-            tag={item.tag}
-            btn={item.btn}
-            tagColor={item.tagColor}
-            title={item.title}
-            desc={item.desc}
-            year={item.year}
-            btnLogo={item.btnLogo}
-          />
-        ))}
+        {licenses.map((item) => {
+          const sortedSkills = item.skills
+            ?.slice()
+            ?.sort((a, b) => b.endorsedCount - a.endorsedCount);
+          const topSkills = sortedSkills?.slice(0, 4);
+
+          const topSkillNames =
+            topSkills?.map((skill) => skill.skillName) || [];
+
+          const issueFormatted = formatMonthYear(item.issuedDate);
+
+          return (
+            <Card
+              logo={item.logo ? item.logo : emptyLogo}
+              tag={topSkillNames}
+              btn={item.btn}
+              tagColor={item.tagColor ? item.tagColor : "primary"}
+              title={item.certificationName}
+              desc={`${item.organization} | ${item.doneVia}`}
+              year={`Issued on ${issueFormatted}`}
+              btnLogo={item.btnLogo}
+            />
+          );
+        })}
         <button className="tw-text-[#8F8F8F] tw-text-right tw-mt-2  tw-float-right tw-cursor-pointer tw-text-lg">
           Show all 3 Licenses & Certifications{" "}
           <MdOutlineKeyboardArrowRight className="tw-inline-flex tw-h-6 tw-w-auto" />
         </button>
         {/* Projects */}
         <h3 className="tw-font-semibold tw-mt-10 tw-text-2xl">Projects </h3>
-        {projects.map((item, i) => (
-          <Card
-            key={i}
-            logo={item.logo}
-            about={item.about}
-            tag={item.tag}
-            btn={item.btn}
-            tagColor={item.tagColor}
-            title={item.title}
-            desc={item.desc}
-            year={item.year}
-            btnLogo={item.btnLogo}
-          />
-        ))}
+        {projects.map((item) => {
+          const sortedSkills = item.skills
+            ?.slice()
+            ?.sort((a, b) => b.endorsedCount - a.endorsedCount);
+          const topSkills = sortedSkills?.slice(0, 6);
+
+          const topSkillNames =
+            topSkills?.map((skill) => skill.skillName) || [];
+
+          const projectLinkText = item.projectLink ? (
+            <a
+              href={item.projectLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tw-text-blue-500"
+            >
+              Project Link
+            </a>
+          ) : (
+            ""
+          );
+
+          const startFormatted = formatMonthYear(item.startDate);
+          const endFormatted = formatMonthYear(item.endDate);
+
+          return (
+            <Card
+              logo={item.logo ? item.logo : emptyLogo}
+              tag={topSkillNames}
+              tagColor={item.tagColor ? item.tagColor : "primary"}
+              title={item.projectName}
+              tick={item.verified ? tick : emptyLogo}
+              desc={`${item.associatedWith} | ${item.projectType}`}
+              year={`${startFormatted} - ${endFormatted}`}
+              about={item.description}
+            />
+          );
+        })}
         <button className="tw-text-[#8F8F8F] tw-text-right tw-mt-2  tw-float-right tw-cursor-pointer tw-text-lg">
           Show all 3 Projects
           <MdOutlineKeyboardArrowRight className="tw-inline-flex tw-h-6 tw-w-auto" />
@@ -488,20 +437,24 @@ const StudentProfile = () => {
           Other Activities{" "}
         </h3>
         <div className="">
-          {otherActivity.map((item, i) => (
-            <Card
-              key={i}
-              logo={item.logo}
-              about={item.about}
-              tag={item.tag}
-              btn={item.btn}
-              tagColor={item.tagColor}
-              title={item.title}
-              desc={item.desc}
-              year={item.year}
-              btnLogo={item.btnLogo}
-            />
-          ))}
+          {otherActivity.map((item) => {
+            return (
+              <Card
+              key={item.activityId}
+                logo={item.logo ? item.logo : emptyLogo}
+                about={item.description}
+                tag={item.tag}
+                btn={item.btn}
+                tagColor={item.tagColor}
+                title={item.activityName}
+                desc={`${item.organisation} | ${item.activityType}`}
+                year={`${item.startDate.split("T")[0]} - ${
+                  item.endDate.split("T")[0]
+                }`}
+                btnLogo={item.btnLogo}
+              />
+            );
+          })}
         </div>
         <button className="tw-text-[#8F8F8F]  tw-mt-4  tw-cursor-pointer tw-text-xl">
           Social Media Links

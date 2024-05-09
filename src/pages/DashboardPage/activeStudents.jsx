@@ -3,13 +3,19 @@ import tag from "../../assets/svg/dashboard/tag.svg";
 import { useNavigate } from "react-router";
 
 const ActiveStudents = ({ fullName, departmentName, desc2, icon, image, path,
-  activeStudentsCount,learningHoursSum
+  activeStudentsCount,learningHoursSum,userId,departmentId
 
    }) => {
   const navigate = useNavigate();
 
   function handleonClick() {
-    navigate(path);
+    const studentId=userId;
+    icon?(
+      navigate(`${path}/${departmentId}`)
+    ):(
+      navigate(`${path}/${studentId}`)
+    )
+    
   }
 
   return (

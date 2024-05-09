@@ -12,7 +12,6 @@ const staff = atom({
     isActive: false,
     isEmailVerified: false,
     isUsernameUpdated: false,
-    isOnBoardingCompleted: false,
   },
 });
 
