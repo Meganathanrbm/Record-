@@ -26,7 +26,7 @@ const PlacementJobRole = lazy(() =>
 );
 
 const navigationRoutes = [
-  { name: "Dashboard", path: "/", element: <DashBoard /> },
+  { name: "Dashboard", path: "/dashboard", element: <DashBoard /> },
   { name: "Profile", path: "/profile", element: <Profile /> },
   { name: "Instituion", path: "/institution", element: <Instituion /> },
   {
