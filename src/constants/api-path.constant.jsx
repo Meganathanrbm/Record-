@@ -28,6 +28,7 @@ const apiPathConstants = {
   },
   dashboard:{
     getAdminDashboard:setBaseUrlPrefix("/dashboard/admin"),
+    getStaffDashboard:setBaseUrlPrefix("/dashboard/staff"),
   },
   institution:{
     getInstitutionProfile:setBaseUrlPrefix("/institution/profile"),

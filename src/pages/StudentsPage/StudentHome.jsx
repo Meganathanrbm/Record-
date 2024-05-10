@@ -10,7 +10,7 @@ const StudentsHome = () => {
     <div className="d-flex flex-column gap-4">
       {/* Student Header */}
       {/* hide student header if sub path is profile */}
-      {location.pathname !== "/students/profile" && <StudentHeader />}
+      {location.pathname === "/students/search" && <StudentHeader />}
 
       <Outlet />
     </div>

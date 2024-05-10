@@ -1,14 +1,10 @@
-// Importing packages
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate, Outlet, Navigate } from "react-router-dom";
 
-// Importing stores
+
 import currentUserState from "../../store/staff.store";
 
-// Importing components
-
-// Importing apis
 import authApi from "../../apis/auth.api";
 import Loader from "../../components/Loader/Loader";
 
@@ -18,18 +14,21 @@ export default function ProtectedRouter() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentLoggedInUser, setCurrentLoggedInUser] =
     useRecoilState(currentUserState);
-  const checkUserSession = () => {
-   console.log(currentLoggedInUser);
-    authApi.verifySession({  
-      success: ({ data }) => {
-        setCurrentLoggedInUser({
-          ...currentLoggedInUser,
-          ...data.data,
-          isLoggedIn: true,
-        });
-       
 
-        console.log(currentLoggedInUser);
+  const checkUserSession = () => {
+    authApi.verifySession({
+      success: ({ data }) => {
+        const userData = {
+          isLoggedIn: true,
+          staffId: data.data.staffId, 
+          name: data.data.fullName,
+          email: data.data.email,
+          mobile: data.data.mobile,
+          institutionId: data.data.institutionId,
+          role: data.data.role,
+        };
+
+        setCurrentLoggedInUser(userData);
       },
       error: () => {
         navigate("/");
@@ -42,8 +41,9 @@ export default function ProtectedRouter() {
 
   useEffect(() => {
     checkUserSession();
-  }, [navigate]);
+  }, [navigate]); 
 
+  
   return (
     <>
       {isLoaded ? (
@@ -53,7 +53,7 @@ export default function ProtectedRouter() {
           <Navigate to="/" />
         )
       ) : (
-         <Loader />
+        <Loader />
       )}
     </>
   );

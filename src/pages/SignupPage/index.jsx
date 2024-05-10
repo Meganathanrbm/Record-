@@ -43,7 +43,7 @@ function handleLogin() {
     }
 
     const checkIfUserIsLoggedIn = () => {
-      if (currentLoggedInUser.isLoggedIn) {
+      if (!currentLoggedInUser.isLoggedIn) {
         authApi.verifySession({
           success: () => {
             navigate("/dashboard");

@@ -9,6 +9,12 @@ const dashboardApi = {
     } = apiPath;
     axios.getRequest({ path: getAdminDashboard, success, error });
   },
+  getStaffDashboard:({query,success,error})=>{
+    const{
+      dashboard:{getStaffDashboard},
+    }=apiPath;
+    axios.getRequest({ path: getStaffDashboard, success, error });
+  }
 };
 
 export default dashboardApi;

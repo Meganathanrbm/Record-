@@ -2,12 +2,22 @@ import React, { useState,useEffect } from "react";
 import styles from "./institution.module.css";
 import AdminDepartments from "./Admin";
 import penEditIcon from "../../assets/svg/editPenIcon.svg";
+import currentUserState from "../../store/staff.store";
+import { useRecoilState } from "recoil";
 import institutionApi from "../../apis/institution.api";
 const Instituion = () => {
-  const admin = false;
+  const [currentLoggedInUser, setCurrentLoggedInUser] =
+  useRecoilState(currentUserState);
+  const [admin,setAdmin]= useState([false]);
   const [active, setActive] = useState("institutionProfile");
+
 const[profile,setProfile]=useState([]);
+console.log(admin);
+console.log(currentLoggedInUser);
   useEffect(()=>{
+    if (currentLoggedInUser && currentLoggedInUser.role) {
+    setAdmin(currentLoggedInUser.role === "Administrator");
+    }
       institutionApi.getInstitutionProfile({
         success:(res)=>{
           console.log(res.data.data);
@@ -18,6 +28,8 @@ const[profile,setProfile]=useState([]);
         }
       })
   },[])
+
+  console.log(admin);
   return (
     <div className="d-flex justify-content-between">
       <section
@@ -64,7 +76,7 @@ const[profile,setProfile]=useState([]);
             >
               Institution Profile
             </li>
-            {!admin && (
+            {admin && (
               <li
                 className="tw-cursor-pointer"
                 onClick={() => setActive("departments")}
@@ -85,7 +97,7 @@ const[profile,setProfile]=useState([]);
       <section className="tw-pr-5" style={{ width: "70%" }}>
         {active === "institutionProfile" ? (
           profile.email
-          ?(<FormComponent details={profile}/>):""
+          ?(<FormComponent details={profile} admin={admin}/>):""
         ) : (
           <AdminDepartments />
         )}
@@ -96,7 +108,7 @@ const[profile,setProfile]=useState([]);
 
 
 
-function FormComponent({ details }) {
+function FormComponent({ details,admin }) {
   const [institutionName, setInstitutionName] = useState(details.name || '');
   const [institutionType, setInstitutionType] = useState(details.type?details.type : 'Select');
   const [establishedMonth, setEstablishedMonth] = useState('Month');
@@ -106,6 +118,7 @@ function FormComponent({ details }) {
   const [email, setEmail] = useState(details.email? details.email.trim() :'');
   const [about, setAbout] = useState(details.about || '');
 
+  console.log(admin);
   useEffect(() => {
     const date = new Date(details.establishedDate);
     setEstablishedMonth(date.toLocaleString('default', { month: 'short' }));
@@ -124,17 +137,21 @@ console.log(establishedMonth);
             className="form-control"
             id="institutionName"
             value={institutionName}
-            onChange={(e) => setInstitutionName(e.target.value)}
+            onChange={admin?((e) => setInstitutionName(e.target.value)):null}
+            disabled={!admin} 
           />
-          <button
-            className="input-control p-3 tw-bg-transparent tw-absolute tw-right-0"
-          >
-            <img
-              src={penEditIcon}
-              alt=""
-              className=" tw-h-[15px] tw-w-[15px]"
-            />
-          </button>
+          {admin ? (
+            <button
+              className="input-control p-3 tw-bg-transparent tw-absolute tw-right-0"
+            >
+              <img
+                src={penEditIcon}
+                alt="edit icon"
+                className="tw-h-[15px] tw-w-[15px]"
+              />
+            </button>
+          ):""}
+
         </div>
       </div>
       
@@ -146,6 +163,7 @@ console.log(establishedMonth);
           tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3 tw-font-semibold"
           value={institutionType}
           onChange={(e) => setInstitutionType(e.target.value)}
+          disabled={!admin}
         >
           <option value="Select">Select</option>
           <option value="State Government University">State Government University</option>
@@ -164,6 +182,7 @@ console.log(establishedMonth);
  tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3"
           value={establishedMonth}
           onChange={(e) => setEstablishedMonth(e.target.value)}
+          disabled={!admin}
         >
           <option value="Month">Month</option>
           <option value="Jan">January</option>
@@ -191,6 +210,7 @@ console.log(establishedMonth);
           className="form-control tw-font-semibold tw-border tw-mt-2 tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
  tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3"
           style={{ color: '#858585' }}
+          disabled={!admin}
         />
       </div>
       
@@ -202,6 +222,7 @@ console.log(establishedMonth);
           id="institutionAddress"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
+          disabled={!admin}
         />
       </div>
       
@@ -210,11 +231,13 @@ console.log(establishedMonth);
         <div className="form-group d-flex">
           <input
             type="text"
-            className="form-control"
+            className="form-group d-flex tw-relative tw-items-center tw-justify-center"
             id="contact"
             value={contact}
             onChange={(e) => setContact(e.target.value)}
+            disabled={!admin}
           />
+          {admin ? (
           <button
             className="input-control p-3 tw-bg-transparent tw-absolute tw-right-0"
           >
@@ -224,19 +247,22 @@ console.log(establishedMonth);
               className=" tw-h-[15px] tw-w-[15px]"
             />
           </button>
+          ):null}
         </div>
       </div>
       
       <div className="col-md-6">
         <label htmlFor="institutionEmail" className="form-label">Institution Email</label>
-        <div className="form-group d-flex">
-          <input
+        <div className="form-group d-flex d-flex tw-relative tw-items-center tw-justify-center">
+          <input  
             type="text"
-            className="form-control"
+            className="form-group "
             id="institutionEmail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={!admin}
           />
+{admin ? (
           <button
             className="input-control p-3 tw-bg-transparent tw-absolute tw-right-0"
           >
@@ -246,6 +272,7 @@ console.log(establishedMonth);
               className="tw-h-[15px] tw-w-[15px]"
             />
           </button>
+):null}
         </div>
       </div>
       
@@ -257,10 +284,12 @@ console.log(establishedMonth);
           rows="3"
           value={about}
           onChange={(e) => setAbout(e.target.value)}
+          disabled={!admin}
         />
       </div>
       
       <div className="col-12 d-flex justify-content-end">
+      {admin ? (
         <button
           type="button"
           className="btn tw-px-6"
@@ -274,6 +303,7 @@ console.log(establishedMonth);
         >
           Save
         </button>
+        ):null}
       </div>
     </form>
   );

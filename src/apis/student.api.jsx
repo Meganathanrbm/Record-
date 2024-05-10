@@ -24,7 +24,15 @@ const studentApi={
     const pathWithParams = `${getDepartmentProfile}/${departmentId}`;
 
       axios.getRequest({path:pathWithParams,success,error});
-    }
+    },
+    getStaffDepartProfile:({query,success,error})=>{
+      const{
+        student:{getDepartmentProfile},
+      }=apiPath;
+    const pathWithParams = `${getDepartmentProfile}`;
+
+      axios.getRequest({path:pathWithParams,success,error});
+    },
 };
 
 export default studentApi;

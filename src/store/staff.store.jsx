@@ -9,9 +9,7 @@ const staff = atom({
     profilePicture: "",
     username: "",
     email: "",
-    isActive: false,
-    isEmailVerified: false,
-    isUsernameUpdated: false,
+    isActive: false, 
   },
 });
 
