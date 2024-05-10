@@ -16,6 +16,13 @@ const placementApi={
         const pathWithParams = `${getOrganizationView}/${organisationName}`;
         axios.getRequest({ path:pathWithParams,success, error });
     },
+    getJobRole:({jobId,success,error})=>{
+        const{
+            placement:{getJobRole},
+        }=apiPath;
+        const pathWithParams = `${getJobRole}/${jobId}`;
+        axios.getRequest({ path:pathWithParams,success, error });
+    },
 };
 
 export default placementApi;

@@ -25,8 +25,8 @@ const PlacementHomePage = () => {
   const handleClickOrganisation = (tag) => {
     return navigation(`/placement/organisationView/${tag}`);
   };
-  const handleClickJobRole = (tag) => {
-    return navigation(`/placement/jobRoleView/${tag}`);
+  const handleClickJobRole = (jobId,jobRole) => {
+    return navigation(`/placement/jobRoleView/${jobId}/${jobRole}`);
   };
   return (
     <div className="tw-w-auto tw-mt-10 pb-2 tw-h-auto tw-flex ">
@@ -73,7 +73,7 @@ const PlacementHomePage = () => {
             <div
               className="tw-flex tw-flex-col tw--mb-4 tw-cursor-pointer tw-p-4  tw-justify-center tw-items-start"
               key={i}
-              onClick={() => handleClickJobRole(li.role)}
+              onClick={() => handleClickJobRole(li.jobId,li.role)}
             >
               <h5 className="tw-font-bold tw-text-black tw-text-[18px]">
                 {li.role}{" "}

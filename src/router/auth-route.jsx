@@ -68,7 +68,7 @@ const navigationRoutes = [
       },
       {
         name: "Placement_Job_Role_View",
-        path: "/placement/jobRoleView/:jobRole",
+        path: "/placement/jobRoleView/:jobId/:jobRole",
         element: <PlacementJobRole />,
       },
     ],

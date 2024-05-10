@@ -24,6 +24,14 @@ const apiPathConstants = {
   placement:{
     getHomePlacementPage:setBaseUrlPrefix("/placement/home"),
     getOrganizationView:setBaseUrlPrefix("/placement/organisation"),
+    getJobRole:setBaseUrlPrefix("/placement/job"),
+  },
+  dashboard:{
+    getAdminDashboard:setBaseUrlPrefix("/dashboard/admin"),
+  },
+  institution:{
+    getInstitutionProfile:setBaseUrlPrefix("/institution/profile"),
+    getInstitutionDepartment:setBaseUrlPrefix("/institution/departments"),
   }
 };
 

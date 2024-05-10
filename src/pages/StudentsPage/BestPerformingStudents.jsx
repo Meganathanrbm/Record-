@@ -19,6 +19,9 @@ const BestPerformingStudents = () => {
       }
     })
   },[])
+
+  console.log(students);
+  console.log(department);
   return (
     <div className="d-flex tw-justify-between gap-4 tw-mt-4">
       {/* Best Performing Students */}
