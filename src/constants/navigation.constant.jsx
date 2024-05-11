@@ -7,7 +7,10 @@ import activePlacement from "../assets/svg/placement/placementActiveLogo.svg";
 import activeInstitution from "../assets/svg/institution/institutionActiveLogo.svg";
 import institutionLogo from "../assets/svg/institution/institutionLogo.svg";
 
+
 const navigationConstants = [
+
+  
   {
     name: "Dashboard",
     path: "/dashboard",

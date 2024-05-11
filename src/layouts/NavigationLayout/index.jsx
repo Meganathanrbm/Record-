@@ -1,6 +1,6 @@
-import React from "react";
+import React ,{useState,useEffect}from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-
+import { useRecoilState } from "recoil";
 import styles from "./index.module.css";
 import navigationConstants from "../../constants/navigation.constant";
 import settings from "../../assets/svg/settings.svg";
@@ -15,6 +15,7 @@ import myNotifications from "../../assets/svg/settings/myNotification.svg";
 import integrations from "../../assets/svg/settings/integrations.svg";
 import logout from "../../assets/svg/settings/logout.svg";
 import { HiMiniXMark } from "react-icons/hi2";
+import currentUserState from "../../store/staff.store";
 
 const settingsPanelTitle = [
   {
@@ -40,7 +41,37 @@ const settingsPanelTitle = [
 ];
 
 const NavigationLayout = () => {
+  const [currentLoggedInUser, setCurrentLoggedInUser] =
+    useRecoilState(currentUserState);
+    const [NavigationConstants, setNavigationConstants] = useState(navigationConstants);
+   
+    console.log(currentLoggedInUser);
   const path = useLocation();
+
+  useEffect(() => {
+    
+    if (currentLoggedInUser.role === "Staff") {
+      setNavigationConstants((prev) => {
+        // Create a copy of the current navigation constants and update the Students path
+        return prev.map((item) => {
+          if (item.name === "Students") {
+            return { ...item, path: "/students/department" }; // Change path
+          }
+          return item;
+        });
+      });
+    } else {
+      setNavigationConstants((prev) => {
+        return prev.map((item) => {
+          if (item.name === "Students") {
+            return { ...item, path: "/students/search" }; 
+          }
+          return item;
+        });
+      });
+    }
+  }, [currentLoggedInUser.role]);
+
   return (
     <div className="d-flex min-vh-100">
       <nav
@@ -65,7 +96,7 @@ const NavigationLayout = () => {
               className="mb-3 mt-4"
               width={135}
             />
-            {navigationConstants.map((item, index) => (
+            {NavigationConstants.map((item, index) => (
               <li
                 className={`d-flex fw-bold  p-2 gap-3 rounded ${
                   path.pathname === item.path ? styles.activeLink : ""

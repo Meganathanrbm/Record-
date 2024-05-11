@@ -1,69 +1,33 @@
 import React, { useEffect, useState } from "react";
 import tick from "../../assets/svg/dashboard/tick.svg";
 import timer from "../../assets/svg/students/timer.svg";
+import { useRecoilState } from "recoil";
 import achievement from "../../assets/svg/students/achivement.svg";
 import ActiveStudents from "../DashboardPage/activeStudents";
 import StatsCard from "../PlacementPage/StatsCard";
 import studentApi from "../../apis/student.api";
 import { useParams } from "react-router-dom";
-const students = [
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-  {
-    name: "Akshay Kumar (18DI02)",
-    desc: "Department of Information Technology | 2018-2021",
-    image: "https://www.w3schools.com/howto/img_avatar.png",
-  },
-];
+import currentUserState from "../../store/staff.store";
 
 const MostActiveDepartments = () => {
   const { departmentId } = useParams();
   const [departmentData, setDepartmentData] = useState({});
   const [acquiredSkills, setAcquiredSkills] = useState([]);
+  const [currentLoggedInUser, setCurrentLoggedInUser] =
+    useRecoilState(currentUserState);
   useEffect(() => {
+    if(currentLoggedInUser.role==="Staff"){
+      studentApi.getStaffDepartProfile({
+        success: (res) => {
+          const data = res.data.data;
+          setDepartmentData(data);
+          setAcquiredSkills(data.skillWithCount);
+        },
+        error: (err) => {
+          console.error("Error fetching department data:", err);
+        },
+      });
+  }else{
     studentApi.getDepartProfile({
       departmentId,
       success: (res) => {
@@ -75,7 +39,8 @@ const MostActiveDepartments = () => {
         console.error("Error fetching department data:", err);
       },
     });
-  }, [departmentId]);
+  } 
+},[departmentId]);
   return (
     <>
       <div className="d-flex tw-justify-between">

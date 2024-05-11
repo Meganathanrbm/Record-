@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styles from "./institution.module.css";
 import AdminDepartments from "./Admin";
 import penEditIcon from "../../assets/svg/editPenIcon.svg";
-
+import currentUserState from "../../store/staff.store";
+import { useRecoilState } from "recoil";
+import institutionApi from "../../apis/institution.api";
 const Instituion = () => {
-  const admin = false;
+  const [currentLoggedInUser, setCurrentLoggedInUser] =
+  useRecoilState(currentUserState);
+  const [admin,setAdmin]= useState([false]);
   const [active, setActive] = useState("institutionProfile");
+
+const[profile,setProfile]=useState([]);
+console.log(admin);
+console.log(currentLoggedInUser);
+  useEffect(()=>{
+    if (currentLoggedInUser && currentLoggedInUser.role) {
+    setAdmin(currentLoggedInUser.role === "Administrator");
+    }
+      institutionApi.getInstitutionProfile({
+        success:(res)=>{
+          console.log(res.data.data);
+          setProfile(res.data.data);
+        },
+        error:(err)=>{
+          console.error(err);
+        }
+      })
+  },[])
+
+  console.log(admin);
   return (
     <div className="d-flex justify-content-between">
       <section
@@ -52,7 +76,7 @@ const Instituion = () => {
             >
               Institution Profile
             </li>
-            {!admin && (
+            {admin && (
               <li
                 className="tw-cursor-pointer"
                 onClick={() => setActive("departments")}
@@ -72,7 +96,8 @@ const Instituion = () => {
 
       <section className="tw-pr-5" style={{ width: "70%" }}>
         {active === "institutionProfile" ? (
-          <FormComponent />
+          profile.email
+          ?(<FormComponent details={profile} admin={admin}/>):""
         ) : (
           <AdminDepartments />
         )}
@@ -81,165 +106,208 @@ const Instituion = () => {
   );
 };
 
-function FormComponent() {
+
+
+function FormComponent({ details,admin }) {
+  const [institutionName, setInstitutionName] = useState(details.name || '');
+  const [institutionType, setInstitutionType] = useState(details.type?details.type : 'Select');
+  const [establishedMonth, setEstablishedMonth] = useState('Month');
+  const [establishedYear, setEstablishedYear] = useState('');
+  const [address, setAddress] = useState(details.address || '');
+  const [contact, setContact] = useState(details.mobile || '');
+  const [email, setEmail] = useState(details.email? details.email.trim() :'');
+  const [about, setAbout] = useState(details.about || '');
+
+  console.log(admin);
+  useEffect(() => {
+    const date = new Date(details.establishedDate);
+    setEstablishedMonth(date.toLocaleString('default', { month: 'short' }));
+    setEstablishedYear(date.getFullYear().toString());
+  }, [details.establishedDate]);
+console.log(establishedMonth);
   return (
     <form className={`row g-3 ${styles.fromWrapper}`}>
-      <h5 style={{ fontSize: "19px", fontWeight: "700" }}>
-        Institution Profile
-      </h5>
+      <h5 style={{ fontSize: '19px', fontWeight: '700' }}>Institution Profile</h5>
+      
       <div className="col-md-6">
-        <label for="inputEmail4" className="form-label  tw-p-0 tw-m-0">
-          Institution Name
-        </label>
+        <label htmlFor="institutionName" className="form-label tw-p-0 tw-m-0">Institution Name</label>
+        <div className="form-group d-flex tw-relative tw-items-center tw-justify-center">
+          <input
+            type="text"
+            className="form-control"
+            id="institutionName"
+            value={institutionName}
+            onChange={admin?((e) => setInstitutionName(e.target.value)):null}
+            disabled={!admin} 
+          />
+          {admin ? (
+            <button
+              className="input-control p-3 tw-bg-transparent tw-absolute tw-right-0"
+            >
+              <img
+                src={penEditIcon}
+                alt="edit icon"
+                className="tw-h-[15px] tw-w-[15px]"
+              />
+            </button>
+          ):""}
 
-        <div class="form-group d-flex tw-relative tw-items-center tw-justify-center">
-          <input type="text" className="form-control" id="inputEmail4" />
-          <button class="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
-            <img
-              src={penEditIcon}
-              alt=""
-              className=" tw-h-[15px] tw-w-[15px]"
-            />
-          </button>
         </div>
       </div>
+      
       <div className="col-md-6">
-        <label for="inputPassword4" className="form-label  tw-p-0 tw-m-0">
-          Institution Type
-        </label>
+        <label htmlFor="institutionType" className="form-label tw-p-0 tw-m-0">Institution Type</label>
         <select
-          name="Industry"
-          id="Industry"
+          id="institutionType"
           className="tw-bg-[#F3F3F3] tw-border tw-mt-2 tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
           tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3 tw-font-semibold"
+          value={institutionType}
+          onChange={(e) => setInstitutionType(e.target.value)}
+          disabled={!admin}
         >
-          <option className="" selected>
-            Select
-          </option>
-          <option value="  State Government University">
-            State Government University
-          </option>
-          <option value="Deemed/Private University">
-            Deemed/Private University
-          </option>
-          <option value="Central Government University">
-            Central Government University
-          </option>
-          <option value="Institutes of National Importance">
-            Institutes of National Importance
-          </option>
-          <option value="Autonomous Engineering college">
-            Autonomous Engineering college
-          </option>
+          <option value="Select">Select</option>
+          <option value="State Government University">State Government University</option>
+          <option value="Deemed/Private University">Deemed/Private University</option>
+          <option value="Central Government University">Central Government University</option>
+          <option value="Institutes of National Importance">Institutes of National Importance</option>
+          <option value="Autonomous college">Autonomous College</option>
         </select>
       </div>
-
+      
       <div className="col-md-3">
-        <label for="inputPassword4" className="form-label  tw-p-0 tw-m-0">
-          Established Year
-        </label>
+        <label htmlFor="establishedMonth" className="form-label ">Established On</label>
         <select
-          name="Industry"
-          id="Industry"
+          id="establishedMonth"
           className="tw-bg-[#F3F3F3] tw-font-semibold tw-border tw-mt-2 tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
-          tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3 "
+ tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3"
+          value={establishedMonth}
+          onChange={(e) => setEstablishedMonth(e.target.value)}
+          disabled={!admin}
         >
-          <option className="" selected>
-            Month
-          </option>
-          <option value="  jan">jan</option>
-          <option value="feb">feb</option>
-          <option value="mar">mar</option>
-          <option value="apr">apr</option>
-          <option value="may">may</option>
+          <option value="Month">Month</option>
+          <option value="Jan">January</option>
+          <option value="Feb">February</option>
+          <option value="Mar">March</option>
+          <option value="Apr">April</option>
+          <option value="May">May</option>
+          <option value="Jun">June</option>
+          <option value="Jul">July</option>
+          <option value="Aug">August</option>
+          <option value="Sept">September</option>
+          <option value="Oct">October</option>
+          <option value="Nov">November</option>
+          <option value="Dec">December</option>
         </select>
       </div>
+    
       <div className="col-md-3 d-flex align-items-end">
+      
         <input
           type="number"
           placeholder="Year"
-          value="Year"
-          style={{
-            color: "#858585",
-          }}
-          className="form-control tw-font-semibold"
-          id="inputPassword4"
+          value={establishedYear}
+          onChange={(e) => setEstablishedYear(e.target.value)}
+          className="form-control tw-font-semibold tw-border tw-mt-2 tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
+ tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3"
+          style={{ color: '#858585' }}
+          disabled={!admin}
         />
       </div>
-
+      
       <div className="col-md-6">
-        <label for="inputPassword4" className="form-label  tw-p-0 tw-m-0">
-          Institution Address
-        </label>
+        <label htmlFor="institutionAddress" className="form-label">Institution Address</label>
         <input
           type="text"
-          className="form-control tw-font-semibold"
-          id="inputPassword4"
+          className="form-control"
+          id="institutionAddress"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          disabled={!admin}
         />
       </div>
-
+      
       <div className="col-md-6">
-        <label for="inputEmail4" className="form-label  tw-p-0 tw-m-0">
-          Contact
-        </label>
-        <div class="form-group d-flex tw-relative tw-items-center tw-justify-center">
-          <input type="text" className="form-control" id="inputEmail4" />
-          <button class="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
+        <label htmlFor="contact" className="form-label">Contact</label>
+        <div className="form-group d-flex">
+          <input
+            type="text"
+            className="form-group d-flex tw-relative tw-items-center tw-justify-center"
+            id="contact"
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            disabled={!admin}
+          />
+          {admin ? (
+          <button
+            className="input-control p-3 tw-bg-transparent tw-absolute tw-right-0"
+          >
             <img
               src={penEditIcon}
               alt=""
               className=" tw-h-[15px] tw-w-[15px]"
             />
           </button>
+          ):null}
         </div>
       </div>
+      
       <div className="col-md-6">
-        <label for="inputPassword4" className="form-label  tw-p-0 tw-m-0">
-          Institution Email
-        </label>
-        <div class="form-group d-flex tw-relative tw-items-center tw-justify-center">
-          <input type="text" className="form-control" id="inputEmail4" />
-          <button class="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
+        <label htmlFor="institutionEmail" className="form-label">Institution Email</label>
+        <div className="form-group d-flex d-flex tw-relative tw-items-center tw-justify-center">
+          <input  
+            type="text"
+            className="form-group "
+            id="institutionEmail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={!admin}
+          />
+{admin ? (
+          <button
+            className="input-control p-3 tw-bg-transparent tw-absolute tw-right-0"
+          >
             <img
               src={penEditIcon}
               alt=""
-              className=" tw-h-[15px] tw-w-[15px]"
+              className="tw-h-[15px] tw-w-[15px]"
             />
           </button>
+):null}
         </div>
       </div>
-
+      
       <div className="col-12">
-        <label
-          for="exampleFormControlTextarea1"
-          class="form-label tw-p-0 tw-m-0"
-        >
-          About the Institution
-        </label>
+        <label htmlFor="about" className="form-label">About the Institution</label>
         <textarea
-          class="form-control tw-m-0 tw-p-0 "
-          id="exampleFormControlTextarea1"
+          id="about"
+          className="form-control"
           rows="3"
-        ></textarea>
+          value={about}
+          onChange={(e) => setAbout(e.target.value)}
+          disabled={!admin}
+        />
       </div>
-      <div className="">
+      
+      <div className="col-12 d-flex justify-content-end">
+      {admin ? (
         <button
           type="button"
-          className="col btn tw-float-right tw-px-6 "
+          className="btn tw-px-6"
           style={{
-            color: "white",
-            background:
-              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
-            border: "none",
-            padding: "revert-layer",
-            maxWidth: "200px",
+            color: 'white',
+            background: 'linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)',
+            border: 'none',
+            maxWidth: '200px',
           }}
+          onClick={() => console.log('Save button clicked')} // Add your save logic here
         >
           Save
         </button>
+        ):null}
       </div>
     </form>
   );
 }
+
 
 export default Instituion;

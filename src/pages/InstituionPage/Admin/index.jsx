@@ -1,45 +1,22 @@
-import React from "react";
+import React, { useEffect,useState} from "react";
 import ModalComponent from "../../../components/Modal/ModalComponent";
 
-const departments = [
-  {
-    title: "Departments of Mechanical Engineering (Sandwich)",
-    desc: "Degree Program | 4 Year",
-    students: "223",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-];
+import institutionApi from "../../../apis/institution.api";
 
 const AdminDepartments = () => {
+
+  const [departments,setDepartment]=useState([]);
+  useEffect(()=>{
+    institutionApi.getInstitutionDepartment({
+      success:(res)=>{
+        setDepartment(res.data.data);
+      },
+      error:(err)=>{
+        console.error(err);
+      }
+    })
+  },[])
+
   return (
     <div className="d-flex flex-column">
       <section className="d-flex align-items-center justify-content-between">
@@ -58,7 +35,7 @@ const AdminDepartments = () => {
               "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
           }}
         >
-          Add Instituion Users <span className="tw-text-xl">+</span>
+          Add Department Users <span className="tw-text-xl">+</span>
         </button>
         {/* Model */}
         <ModalComponent 
@@ -100,7 +77,7 @@ const AdminDepartments = () => {
                   <option value="option 1"> Integrated Program</option>
                   <option value="option 2"> Certificate Program</option>
                   <option value="option 3"> Diploma Program</option>
-                  <option value="option 4"> Professtinal Program</option>
+                  <option value="option 4"> Professional Program</option>
                 </select>
               </div>
               <div className="">
@@ -134,8 +111,9 @@ const AdminDepartments = () => {
         {departments?.map((li, i) => (
           <li className="d-flex tw-p-4 border tw-my-4 tw-rounded-xl tw-justify-between tw-items-center">
             <div className="left">
-              <h3 className="tw-text-lg tw-font-semibold">{li.title}</h3>
-              <p className="tw-text-[#8F8F8F] tw-text-base">{li.desc}</p>
+              <h3 className="tw-text-lg tw-font-semibold">{li.name}</h3>
+              <p className="tw-text-[#8F8F8F] tw-text-base">{`${li.programType} | ${li.programDuration
+}`}</p>
             </div>
             <div className="right">
               <div className="d-flex tw-gap-1 tw-p-0 tw-leading-6 tw-text-[22px] tw-justify-center tw-items-center tw-font-extrabold gradiant-color">
@@ -164,7 +142,7 @@ const AdminDepartments = () => {
                     </linearGradient>
                   </defs>
                 </svg>
-                {li.students}
+                {li.totalStudents}
               </div>
               <p className="tw-text-[17] tw-font-semibold">Students</p>
             </div>
