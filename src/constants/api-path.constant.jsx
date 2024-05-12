@@ -16,9 +16,12 @@ const apiPathConstants = {
     forgotPassword: setBaseUrlPrefix("/auth/staff/forgot-password"),
     verificationEmail: setBaseUrlPrefix("/auth/send/verification-email"),
   },
-  student:{
-    getBestStudents: setBaseUrlPrefix("/students")
-  }
+  student: {
+    getBestStudents: setBaseUrlPrefix("/students"),
+  },
+  skill: {
+    getSkills: setBaseUrlPrefix("/skill"),
+  },
 };
 
 export default apiPathConstants;

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import ModalComponent from "../../components/Modal/ModalComponent";
+import Addskills from "../../components/Addskills";
 
 const departments = [
   "Department of Information Technology",
@@ -8,6 +9,9 @@ const departments = [
   "Bachelor of Computer Science Application ",
 ];
 const PlacementHeader = () => {
+  const [userInput, setUserInput] = useState({
+    skills: [],
+  });
   return (
     <header className="tw-w-full ">
       <div className="d-flex tw-justify-center tw-items-center">
@@ -207,7 +211,7 @@ const PlacementHeader = () => {
           <p className="tw-font-medium">
             App upto 8 skills that you would look into students.{" "}
           </p>
-          <button
+          {/* <button
             style={{
               backgroundColor: "rgba(243, 243, 243, 1)",
               borderRadius: "7px",
@@ -215,7 +219,9 @@ const PlacementHeader = () => {
             className="tw-font-semibold tw-text-[#EB7C49] tw-border p-2 tw-mt-4 tw-rounded-lg tw-bg-[#F3F3F3]"
           >
             Add skills <span className="tw-text-lg">+</span>
-          </button>
+          </button> */}
+       
+          <Addskills setUserInput={setUserInput} userInput={userInput} />
         </ModalComponent>
         {/* Assign Students modal */}
         <ModalComponent

@@ -13,26 +13,25 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<SuspenseLayout />}>
-            <Route path="/" element={<Signup/>}/>
+            <Route path="/" element={<Signup />} />
 
-              <Route element={<ProtectedRouter />}>
+            <Route element={<ProtectedRouter />}>
               <Route element={<NavigationLayout />}>
-              {navigationRoutes.map((route, index) => (
-            <Route key={index} path={route.path} element={route.element}>
-              {route.children &&
-                route.children.map((child, childIndex) => (
-                  <Route
-                    key={childIndex}
-                    path={child.path}
-                    element={child.element}
-                  />
+                {navigationRoutes.map((route, index) => (
+                  <Route key={index} path={route.path} element={route.element}>
+                    {route.children &&
+                      route.children.map((child, childIndex) => (
+                        <Route
+                          key={childIndex}
+                          path={child.path}
+                          element={child.element}
+                        />
+                      ))}
+                  </Route>
                 ))}
-            </Route>
-          ))}
               </Route>
             </Route>
-           
-            
+
             {nonAuthRoute.map((route, index) => {
               return (
                 <Route key={index} path={route.path} element={route.element} />
