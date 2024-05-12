@@ -1,45 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ModalComponent from "../../../components/Modal/ModalComponent";
 
-const departments = [
-  {
-    title: "Departments of Mechanical Engineering (Sandwich)",
-    desc: "Degree Program | 4 Year",
-    students: "223",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-  {
-    title: "Departments of Information Technology",
-    desc: "Degree Program | 4 Year",
-    students: "172",
-  },
-];
+import institutionApi from "../../../apis/institution.api";
 
 const AdminDepartments = () => {
+  const [departments, setDepartment] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const navigate = useNavigate();
+  const [departmentData, setDepartmentData] = useState({
+    name: "",
+    programType: "",
+    programDuration: "",
+  });
+
+  const handleDepartmentClick = (department) => {
+    setSelectedDepartment(department);
+  };
+  const handleCloseModal = () => {
+    
+    setSelectedDepartment(null);
+  };
+
+  useEffect(() => {
+    institutionApi.getInstitutionDepartment({
+      success: (res) => {
+        setDepartment(res.data.data);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }, []);
+
+  const handleAddDepartment = () => {
+    institutionApi.postInstitutionDepartment({
+      payload: departmentData,
+      success: (res) => {
+        
+ navigate(`/students/department/${res.data.data.departmentId}`);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+
+    setDepartmentData({
+      name: "",
+      programType: "",
+      programDuration: "",
+    });
+  };
+
+  const UpdateDepartment = (departmentId) => {
+    institutionApi.UpdateDepartment({
+      departmentId, 
+      payload: selectedDepartment,
+      success: (res) => {
+        
+        navigate(`/students/department/${res.data.profile.departmentId}`);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  };
   return (
     <div className="d-flex flex-column">
       <section className="d-flex align-items-center justify-content-between">
@@ -58,84 +83,124 @@ const AdminDepartments = () => {
               "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
           }}
         >
-          Add Instituion Users <span className="tw-text-xl">+</span>
+          Add Department Users <span className="tw-text-xl">+</span>
         </button>
         {/* Model */}
-        <ModalComponent 
-        title="  Add Department" 
-        btnTitle="  Save & Update">
-            <label
-              htmlFor="Department Name"
-              className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-            >
-              Department Name
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              id="exampleFormControlInput1"
-              placeholder="Ex: Department of Electronics Engineering"
-              style={{
-                backgroundColor: "rgba(243, 243, 243, 1)",
-                borderRadius: "7px",
-              }}
-            />
-            <div className="d-flex tw-my-4 tw-justify-between tw-items-center">
-              <div className="">
-                <label
-                  htmlFor="Department Name"
-                  className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-                >
-                  Program Type
-                </label>
-                <select
-                  name="Industry"
-                  id="Industry"
-                  className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
+        <ModalComponent
+          title={selectedDepartment ? `Update Department` : `Add Department`}
+          btnTitle={selectedDepartment ? "Save & Update" : `Save & Add`}
+          onSave={
+            selectedDepartment
+              ? () => UpdateDepartment(selectedDepartment.departmentId)
+              : handleAddDepartment
+          }
+          department={selectedDepartment}
+          onClose={handleCloseModal}
+        >
+          <label
+            htmlFor="name"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            Department Name
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="Ex: Department of Electronics Engineering"
+            style={{
+              backgroundColor: "rgba(243, 243, 243, 1)",
+              borderRadius: "7px",
+            }}
+            value={
+              departmentData.name ||
+              (selectedDepartment ? selectedDepartment.name : "")
+            }
+            onChange={(e) =>
+              (selectedDepartment?setSelectedDepartment({...selectedDepartment,name:e.target.value}):
+              setDepartmentData({ ...departmentData, name: e.target.value }))
+            }
+          />
+          <div className="d-flex tw-my-4 tw-justify-between tw-items-center">
+            <div className="">
+              <label
+                htmlFor="ProgramType"
+                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+              >
+                Program Type
+              </label>
+              <select
+                name="ProgramType"
+                id="ProgramType"
+                className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
             tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-[200px] tw-pr-3 tw-font-medium"
-                >
-                  <option className="" selected>
-                    Degree Program
-                  </option>
-                  <option value="option 1"> Integrated Program</option>
-                  <option value="option 2"> Certificate Program</option>
-                  <option value="option 3"> Diploma Program</option>
-                  <option value="option 4"> Professtinal Program</option>
-                </select>
-              </div>
-              <div className="">
-                <label
-                  htmlFor="Department Name"
-                  className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-                >
-                  Program Duration
-                </label>
-                <select
-                  name="Industry"
-                  id="Industry"
-                  className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
-            tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-[200px] tw-pr-3 tw-font-medium"
-                >
-                  <option className="" selected>
-                    Select
-                  </option>
-                  <option value="option 1">6 months</option>
-                  <option value="option 2">1 year</option>
-                  <option value="option 3">2 years</option>
-                  <option value="option 4">3 years</option>
-                  <option value="option 5">4 years</option>
-                </select>
-              </div>
+                value={
+                  departmentData.programType ||
+                  (selectedDepartment ? selectedDepartment.programType : "")
+                }
+                onChange={(e) =>
+                  (selectedDepartment?setSelectedDepartment({...selectedDepartment,programType:e.target.value}):
+                  setDepartmentData({ ...departmentData, programType: e.target.value }))
+                }
+              >
+                <option value="" disabled>
+                  Select Program Type
+                </option>
+                <option value="Degree Program">Degree Program</option>
+                <option value="Integrated Program">Integrated Program</option>
+                <option value="Certificate Program">Certificate Program</option>
+                <option value="Diploma Program">Diploma Program</option>
+                <option value="Professional Program">
+                  Professional Program
+                </option>
+              </select>
             </div>
+            <div className="">
+              <label
+                htmlFor="programDuration"
+                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+              >
+                Program Duration
+              </label>
+              <select
+                name="programDuration"
+                id="programDuration"
+                className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
+            tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-[200px] tw-pr-3 tw-font-medium"
+                value={
+                  departmentData.programDuration ||
+                  (selectedDepartment ? selectedDepartment.programDuration : "")
+                }
+                onChange={(e) =>
+                  (selectedDepartment?setSelectedDepartment({...selectedDepartment,programDuration:e.target.value}):
+              setDepartmentData({ ...departmentData, programDuration: e.target.value }))
+                }
+              >
+                <option value="" disabled>
+                  Select Program Duration
+                </option>
+                <option value="6 Months">6 months</option>
+                <option value="1 Year">1 year</option>
+                <option value="2 Years">2 years</option>
+                <option value="3 Years">3 years</option>
+                <option value="4 Years">4 years</option>
+              </select>
+            </div>
+          </div>
         </ModalComponent>
       </section>
       {/* list departments */}
       <ul className="tw-my-6">
         {departments?.map((li, i) => (
-          <li className="d-flex tw-p-4 border tw-my-4 tw-rounded-xl tw-justify-between tw-items-center">
+          <li
+            className="d-flex tw-p-4 border tw-my-4 tw-rounded-xl tw-justify-between tw-items-center"
+            onClick={() => handleDepartmentClick(li)}
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
             <div className="left">
-              <h3 className="tw-text-lg tw-font-semibold">{li.title}</h3>
-              <p className="tw-text-[#8F8F8F] tw-text-base">{li.desc}</p>
+              <h3 className="tw-text-lg tw-font-semibold">{li.name}</h3>
+              <p className="tw-text-[#8F8F8F] tw-text-base">{`${li.programType} | ${li.programDuration}`}</p>
             </div>
             <div className="right">
               <div className="d-flex tw-gap-1 tw-p-0 tw-leading-6 tw-text-[22px] tw-justify-center tw-items-center tw-font-extrabold gradiant-color">
@@ -164,7 +229,7 @@ const AdminDepartments = () => {
                     </linearGradient>
                   </defs>
                 </svg>
-                {li.students}
+                {li.totalStudents}
               </div>
               <p className="tw-text-[17] tw-font-semibold">Students</p>
             </div>

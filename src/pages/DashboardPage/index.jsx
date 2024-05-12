@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import ChartComponent from "./chart";
 import { activePlatforms, acquiredSkills } from "./dashboard.constant";
-
+import { useRecoilState } from "recoil";
 import suiteCase from "../../assets/svg/dashboard/suitecase.svg";
 import timer from "../../assets/svg/dashboard/timer.svg";
 import tick from "../../assets/svg/dashboard/tick.svg";
@@ -11,61 +11,38 @@ import StatsCard from "./statsCard";
 import ActiveStudents from "./activeStudents";
 import ActivePlatforms from "./activePlatforms";
 
+import currentUserState from "../../store/staff.store";
+import dashboardApi from "../../apis/dashboard.api";
 const DashBoard = () => {
-  const array = [1, 2, 3, 4, 5, 6, 7, 8];
-  const users = [1, 2, 3, 4, 6, 7];
-  const students = [
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-    {
-      name: "Akshay Kumar (18DI02)",
-      desc: "Department of Information Technology | 2018-2021",
-      image: "https://www.w3schools.com/howto/img_avatar.png",
-    },
-  ];
+  const [dashboardData, setDashboardData] = useState([]);
+  const [skills, setSkills] = useState([]);
+
+  const [currentLoggedInUser, setCurrentLoggedInUser] =
+    useRecoilState(currentUserState);
+  useEffect(() => {
+    if(currentLoggedInUser.role==="Staff"){
+    dashboardApi.getStaffDashboard({
+      success: (res) => {
+        setDashboardData(res.data.data);
+        setSkills(res.data.data.mostAcquiredSkills);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }else{
+    dashboardApi.getAdminDashboard({
+      success: (res) => {
+        setDashboardData(res.data.data);
+        setSkills(res.data.data.mostAcquiredSkills);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+  }, []);
+
   return (
     <div className="d-flex gap-3">
       <section className="d-flex flex-column gap-2" style={{ flex: "2.5" }}>
@@ -81,7 +58,7 @@ const DashBoard = () => {
               }}
               className="gradiant-color tw-text-xl"
             >
-              Department of Information Technology
+              {((dashboardData.departmentName || dashboardData.InstitutionName) && currentLoggedInUser.role=="Administrator") ? dashboardData.InstitutionName : dashboardData.departmentName}
             </h3>
             <p style={{ color: "rgba(154, 154, 154, 1)" }}>
               Your students are performing well, look at some of their awesome
@@ -90,14 +67,14 @@ const DashBoard = () => {
             <StatsCard
               fontSize="34px"
               icon={suiteCase}
-              value={87}
+              value={dashboardData ? dashboardData.studentsPlacedThisYear : 0}
               text={"Students Placed this year"}
               paraSize={"16px"}
             />
             <StatsCard
               fontSize="34px"
               icon={suiteCase}
-              value={87}
+              value={dashboardData ? dashboardData.totalJobsPosted : 0}
               text={"Total Posted Jobs"}
               paraSize={"16px"}
             />
@@ -114,12 +91,23 @@ const DashBoard = () => {
               className="mb-4"
               style={{ fontSize: "1.2rem", fontWeight: "650" }}
             >
-              Most Active Students
+              {dashboardData && currentLoggedInUser.role=="Administrator"
+                ? `Most Active Departments`
+                : `Most Active Students`}
             </h3>
             <section className="border rounded-4">
-              {students.map((item, index) => {
-                return <ActiveStudents key={index} index={index} {...item} />;
-              })}
+              {(dashboardData.mostActiveDepartments || dashboardData.mostActiveStudents) && currentLoggedInUser.role=="Administrator"
+                ? dashboardData.mostActiveDepartments.map((item, index) => (
+                    <ActiveStudents
+                      key={index}
+                      {...item}
+                      icon={timer}
+                      path="/students/department"
+                    />
+                  ))
+                : (dashboardData.mostActiveStudents?.map((item, index) => (
+                    <ActiveStudents key={index} index={index} {...item}  path="/students/profile"/>
+                  )))}
             </section>
           </div>
           <div style={{ width: "40%" }}>
@@ -161,14 +149,23 @@ const DashBoard = () => {
           style={{ maxHeight: "50vh", overflow: "auto" }}
         >
           {/*  */}
-          {acquiredSkills.map((item, index) => (
-            <AcquiredSkills key={index} item={item} />
-          ))}
+          {dashboardData.mostAcquiredSkills &&
+            Object.entries(dashboardData.mostAcquiredSkills).map(
+              ([skillName, percentage], index) => (
+                <AcquiredSkills
+                  key={index}
+                  skillName={skillName}
+                  percentage={percentage}
+                />
+              )
+            )}
           {/*  */}
         </div>
         <StatsCard
           icon={timer}
-          value={2452}
+          value={
+            dashboardData.totalMontlyHoursOfInvolvement ? dashboardData.totalMontlyHoursOfInvolvement : 0
+          }
           iconWidth={"1.3vw"}
           fontSize={"x-large"}
           text={"Total monthly hours of Involvement"}
@@ -176,7 +173,7 @@ const DashBoard = () => {
         <div className="d-flex justify-content-between mb-3 gap-2 mt-3">
           <StatsCard
             icon={achivement}
-            value={420}
+            value={dashboardData.skillsBeingLearntActively ? dashboardData.skillsBeingLearntActively : 0}
             iconWidth={"1.3vw"}
             fontSize={"x-large"}
             text={"Skills being learnt actively"}
@@ -185,7 +182,7 @@ const DashBoard = () => {
           />
           <StatsCard
             icon={student}
-            value={5345}
+            value={dashboardData.activeStudents ? dashboardData.activeStudents : 0}
             iconWidth={"1.3vw"}
             fontSize={"x-large"}
             text={"Active Students"}
@@ -198,24 +195,27 @@ const DashBoard = () => {
   );
 };
 
-function AcquiredSkills({ item }) {
+function AcquiredSkills({ skillName, percentage }) {
   return (
     <div>
-      <p>{item.name}</p>
+      <p>{skillName}</p>
       <div className="d-flex align-items-baseline " style={{ gap: "0.2rem" }}>
         <div
           className="progress rounded-1"
           role="progressbar"
           aria-label="Basic example"
-          aria-valuenow="75"
+          aria-valuenow={percentage}
           aria-valuemin="0"
           aria-valuemax="100"
           style={{ width: "100%" }}
         >
-          <div className="progress-bar" style={{ width: item.progress }}></div>
+          <div
+            className="progress-bar"
+            style={{ width: `${percentage}%` }}
+          ></div>
         </div>
-        <p>{item.progress}</p>
-        <img src={tick} alt="" style={{ height: "2vh" }} />
+        <p>{percentage}%</p>
+        <img src={tick} alt="Completed" style={{ height: "2vh" }} />
       </div>
     </div>
   );

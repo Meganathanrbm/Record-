@@ -1,25 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import placementApi from "../../apis/placement.api";
 
 const PlacementJobRole = () => {
-  const skills = ["wordpress", "HTML", "CSS", "Angular", "React", "Vue.js"];
-  const liValues = [
-    "Develop and maintain responsive, user-friendly websites using the latest web technologies and framework",
-    "Collaborate with designers to implement website features and functionalities.",
-    "Troubleshoot and resolve technical issues reported by clients related to websites, hosting, and other digital services.",
-    "Develop and maintain responsive, user-friendly websites using the latest web technologies and framework",
-    "Collaborate with designers to implement website features and functionalities.",
-    "Troubleshoot and resolve technical issues reported by clients related to websites, hosting, and other digital services.",
-  ];
+  const { jobId,jobRole } = useParams();
+
+  const [jobData, setJobData] = useState([]);
+
+  useEffect(() => {
+    placementApi.getJobRole({
+      jobId,
+      success: (res) => {
+        console.log(res.data.data);
+        setJobData(res.data.data);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }, [jobId]);
+
+  const parseJobDescription = (description) => {
+    const [responsibilitiesText, requirementsText] =
+      description.split("Requirements:");
+
+    const responsibilities = responsibilitiesText
+      .split("\n")
+      .filter((line) => line.trim().startsWith("●"))
+      .map((line) => line.trim().slice(1).trim());
+
+    const requirements = requirementsText
+      .split("\n")
+      .filter((line) => line.trim().length > 0)
+      .map((line) => line.trim());
+    return { responsibilities, requirements };
+  };
+
+  const { responsibilities, requirements } = jobData.jobDescription
+    ? parseJobDescription(jobData.jobDescription)
+    : "";
+  console.log(jobData);
   return (
     <div className="tw-w-auto tw-mt-10 tw-h-full tw-flex tw-flex-col tw-overflow-hidden">
       {/* organisation */}
       <div className="tw-flex tw-gap-6">
         <h4 className="tw-font-bold tw-text-[18px] tw-capitalize">
-          Tata Motors
+          {jobData.jobDesignation ? jobData.jobDesignation : ""}
+          
         </h4>
         <div className="tw-flex tw-flex-col">
           <h4 className="tw-font-bold tw-text-xl gradiant-color tw-capitalize">
-            Tata Motors
+            {jobData.companyName ? jobData.companyName : ""}
           </h4>
           <p className="tw-text-sm">
             <span className=" tw-inline-block tw-pr-1">
@@ -50,21 +81,26 @@ const PlacementJobRole = () => {
                 </defs>
               </svg>
             </span>
-            Coimbatore, Tamil Nadu, India (On-Site)
+            {jobData.jobLocation ? jobData.jobLocation : ""} (
+            {jobData.workplaceType ? jobData.workplaceType : ""})
           </p>
-          <p className="tw-text-sm tw-text-[#858585]">Posted on 12.03.2024</p>
+          <p className="tw-text-sm tw-text-[#858585]">
+            Posted on {jobData.postedOn ? jobData.postedOn.split("T")[0] : ""}
+          </p>
         </div>
         <button className="tw-ml-auto tw-mb-auto p-2 px-3 tw-font-semibold tw-text-base tw-border-[rgb(235,124,73)] tw-rounded-lg tw-border-2 gradiant-color ">
           Close Application
         </button>
       </div>
-      <div className=" tw-flex tw-gap-6">
+      <div className="lo tw-flex tw-gap-6">
         <div className="tw-w-[70%]">
           <div className="tw-border-2 tw-p-5 tw-mt-3 tw-h-auto tw-rounded-xl tw-border-[rgba(0, 0, 0, 0.3)]">
             <h3 className="tw-font-bold tw-text-lg tw-mb-2 tw-text-left">
               {" "}
               Job Description
             </h3>
+
+            {/* {jobData.jobDescription?(jobData.jobDescription):""} */}
             <p className=" tw-font-bold  tw-text-[#656565]">
               Responsibilities:
             </p>
@@ -72,7 +108,7 @@ const PlacementJobRole = () => {
               style={{ listStyleType: "disc" }}
               className="tw-list-disc tw-list-inside tw-pl-6 "
             >
-              {liValues?.map((li, i) => (
+              {responsibilities?.map((li, i) => (
                 <li key={i} className="tw-text-[#858585]">
                   &#9679; &nbsp;
                   {li}
@@ -83,16 +119,7 @@ const PlacementJobRole = () => {
               Requirements:
             </p>
             <p className="tw-pl-4  tw-text-justify tw-text-[#858585]">
-              Familiarity with content management systems (e.g., WordPress,
-              Drupal) and e-commerce platforms (e.g., Shopify, WooCommerce).
-              Good knowledge in User Interface & User Experience Designing Good
-              understanding of web development technologies, including HTML,
-              CSS, JavaScript, and popular frameworks (e.g., React, Angular, or
-              Vue.js). Excellent problem-solving skills and attention to detail.
-              Strong communication skills and ability to explain technical
-              concepts to non-technical clients. Ability to work collaboratively
-              in a team and independently as needed. Passion for web development
-              and a desire to stay updated with industry trends
+              {requirements}
             </p>
           </div>
         </div>
@@ -102,24 +129,40 @@ const PlacementJobRole = () => {
               Job Type
             </h3>
             <p className="tw-text-[#858585] tw-text-base tw-font-medium">
-              Full-Time
+              {jobData.jobType ? jobData.jobType : ""}
             </p>
             <h3 className="tw-text-black tw-text-base tw-font-bold mt-2">
               No. of Openings
             </h3>
-            <p className="tw-text-[#858585] tw-text-base tw-font-medium">12</p>
+            <p className="tw-text-[#858585] tw-text-base tw-font-medium">
+              {jobData.openings ? jobData.openings : 0}
+            </p>
+            <h3 className="tw-text-black tw-text-base tw-font-bold mt-2">
+              No. of Hired Students
+            </h3>
+            <p className="tw-text-[#858585] tw-text-base tw-font-medium">
+              {jobData.hiredCount ? jobData.hiredCount : 0}
+            </p>
+            <h3 className="tw-text-black tw-text-base tw-font-bold mt-2">
+              No. of Applied Students
+            </h3>
+            <p className="tw-text-[#858585] tw-text-base tw-font-medium">
+              {jobData.appliedCount ? jobData.appliedCount : 0}
+            </p>
             <h3 className="tw-text-black tw-text-base tw-font-bold tw-mt-2">
               Skills Recommended
             </h3>
             <p className="tw-text-sm tw-gap-2 tw-my-1 tw-flex tw-flex-wrap">
-              {skills.map((skill, i) => (
-                <span
-                  className="tw-p-1 gradiant-color tw-font-medium tw-text-sm tw-rounded-xl tw-border-2 tw-border-[rgb(235,124,73)]"
-                  key={i}
-                >
-                  {skill}
-                </span>
-              ))}
+              {jobData.skills
+                ? jobData.skills.map((skill, i) => (
+                    <span
+                      className="tw-p-1 gradiant-color tw-font-medium tw-text-sm tw-rounded-xl tw-border-2 tw-border-[rgb(235,124,73)]"
+                      key={i}
+                    >
+                      {skill}
+                    </span>
+                  ))
+                : ""}
             </p>
           </div>
         </div>

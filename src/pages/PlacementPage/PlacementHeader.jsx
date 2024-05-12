@@ -16,7 +16,7 @@ const PlacementHeader = () => {
     <header className="tw-w-full ">
       <div className="d-flex tw-justify-center tw-items-center">
         <h3 className="tw-font-bold tw-ml-auto  tw-text-[25px] tw-text-center">
-          Search Organisations
+          Search Organizations
         </h3>
         <button
           type="button"

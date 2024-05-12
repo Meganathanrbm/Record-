@@ -1,5 +1,5 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams,useNavigate } from "react-router-dom";
 
 import suiteCase from "../../assets/svg/dashboard/suitecase.svg";
 import threelines from "../../assets/svg/placement/threelines.svg";
@@ -7,15 +7,38 @@ import calender from "../../assets/svg/placement/calender.svg";
 import { MostHiringRoles, roles } from "../../constants/placementConstant";
 import StatsCard from "./StatsCard";
 import ProgressBar from "./ProgressBar";
-
+import placementApi from "../../apis/placement.api";
 const PlacementOrganisation = () => {
-  const { organisation } = useParams();
+  const [organizationData, setOrganizationData] = useState([]);
+  const { organisationName } = useParams();
+ const [hiring,setHiring]=useState([]);
+ const navigation = useNavigate();
+
+
+  useEffect(() => {
+    placementApi.getOrganizationView({
+      organisationName,
+      success: (res) => {
+        console.log(res.data.data);
+        setOrganizationData(res.data.data);
+        setHiring(res.data.data.mostHiringRoles);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }, [ organisationName]);
+
+  const handleClickJobRole = (jobId,jobRole) => {
+    return navigation(`/placement/jobRoleView/${jobId}/${jobRole}`);
+  };
+  
   return (
     <section className="tw-w-auto tw-overflow-hidden tw-flex-col tw-min-h-full tw-flex ">
       {/* Title */}
       <div className="tw-w-full tw-flex tw-justify-between">
         <h4 className="tw-font-bold tw-text-[18px] tw-mt-2 tw-mb-3 tw-capitalize">
-          {organisation}
+          {organisationName}
         </h4>
         <div className="tw-flex tw-mt-2 tw-mb-3 tw-justify-end">
           <select
@@ -45,7 +68,7 @@ const PlacementOrganisation = () => {
                   }}
                   className="tw-text-[40px] gradiant-color   tw-font-extrabold"
                 >
-                  433
+                  {organizationData.totalStudentsHired}
                 </h2>
                 <h3 className="tw-text-[18px] tw-font-semibold  tw-capitalize ">
                   total students hired
@@ -54,7 +77,7 @@ const PlacementOrganisation = () => {
               {/* total students applied for job */}
               <StatsCard
                 icon={threelines}
-                value={2830}
+                value={organizationData.totalStudentsApplied}
                 text={"total students applied for job"}
                 textStyle={"tw-text-lg tw-font-semibold"}
               />
@@ -66,7 +89,7 @@ const PlacementOrganisation = () => {
             <div className="tw-flex tw-justify-between tw-w-full tw-h-max ">
               {/* bar chart */}
               <div className="tw-w-[64%] tw-max-h-[450px] tw-overflow-y-scroll border_light tw-p-2 tw-px-3 ">
-                {MostHiringRoles.map((role, i) => (
+                {hiring.map((role, i) => (
                   <ProgressBar key={i} item={role} />
                 ))}
               </div>
@@ -74,7 +97,7 @@ const PlacementOrganisation = () => {
                 {/* total posted job */}
                 <StatsCard
                   icon={suiteCase}
-                  value={142}
+                  value={organizationData.totalJobsPosted?(organizationData.totalJobsPosted):0}
                   text={"Total Posted Jobs"}
                   textStyle={"tw-text-gray-500 tw-font-semibold"}
                 />
@@ -82,7 +105,7 @@ const PlacementOrganisation = () => {
                 <StatsCard
                   iconWidth="25px"
                   icon={calender}
-                  value={2014}
+                  value={organizationData.oldestPostedDate?(organizationData.oldestPostedDate.split('T')[0]).split('-')[0] : 0}
                   text={"Total Posted Jobs"}
                   textStyle={"tw-text-gray-500 tw-font-semibold"}
                 />
@@ -94,23 +117,23 @@ const PlacementOrganisation = () => {
         <div className="tw-flex-1 tw-flex tw-h-full  tw-flex-col tw-items-end tw-w-[90%]">
           {/* list */}
           <div className="tw-border-2 tw-w-[90%]  tw-max-h-[605px] tw-overflow-y-scroll tw-overflow-hidden tw-divide-y-2 tw-rounded-md tw-border-[rgba(0, 0, 0, 0.3)]">
-            {roles.map((li, i) => (
+            {organizationData.jobsWithCounts?(organizationData.jobsWithCounts.map((li, i) => (
               <div
                 className="tw-flex tw-flex-col tw-cursor-pointer tw-p-4  tw-justify-center tw-items-start"
                 key={i}
               >
-                <h5 className="tw-font-bold tw-text-black tw-text-lg">
-                  {li.title} |
+                <h5 className="tw-font-bold tw-text-black tw-text-lg" onClick={() => handleClickJobRole(li.jobId,li.jobDesignation)}>
+                  {li.jobDesignation} |
                   <span
-                    //   onClick={() => hanldeClick(li?.tag)}
+                   
                     className="tw-pl-2 tw-capitalize gradiant-color"
                   >
-                    {li.location}
+                    {li.jobLocation}
                   </span>
                 </h5>
-                <p className="tw-text-[#9A9A9A] tw-text-sm">{li.desc}</p>
+                <p className="tw-text-[#9A9A9A] tw-text-sm">{`${li.appliedCount} Students Applied | ${li.hiredCount} Students Placed`}</p>
               </div>
-            ))}
+            ))):" "}
           </div>
         </div>
       </div>

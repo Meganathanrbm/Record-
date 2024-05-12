@@ -3,13 +3,20 @@ import tag from "../../assets/svg/dashboard/tag.svg";
 import { useNavigate } from "react-router";
 
 const ActiveStudents = ({ fullName, departmentName, desc2, icon, image, path,
-  activeStudentsCount,learningHoursSum
+  activeStudentsCount,learningHoursSum,userId,departmentId,department,
+  activeStudents,totalLearningHours
 
    }) => {
   const navigate = useNavigate();
 
   function handleonClick() {
-    navigate(path);
+    const studentId=userId;
+    icon?(
+      navigate(`${path}/${departmentId}`)
+    ):(
+      navigate(`${path}/${studentId}`)
+    )
+    
   }
 
   return (
@@ -39,7 +46,7 @@ const ActiveStudents = ({ fullName, departmentName, desc2, icon, image, path,
           className="tw-cursor-pointer tw-mb-1"
           style={{ fontSize: "18px", fontWeight: "500" }}
         >
-          {departmentName}
+          {departmentName?departmentName:department}
            
         </h4>
           <p
@@ -51,9 +58,9 @@ const ActiveStudents = ({ fullName, departmentName, desc2, icon, image, path,
             className="tw-inline-flex"
           >
            
-            {`${activeStudentsCount} Active Students |`}
+            {`${activeStudentsCount?activeStudentsCount:activeStudents} Active Students |`}
             <img className="tw-mx-2" src={icon} alt="" />
-            {`${learningHoursSum} Total monthly hours of Involvement`}
+            {`${learningHoursSum?learningHoursSum:totalLearningHours} Total monthly hours of Involvement`}
           </p>
           </div>
         ) : (

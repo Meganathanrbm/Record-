@@ -16,12 +16,34 @@ const apiPathConstants = {
     forgotPassword: setBaseUrlPrefix("/auth/staff/forgot-password"),
     verificationEmail: setBaseUrlPrefix("/auth/send/verification-email"),
   },
-  student: {
+  student:{
     getBestStudents: setBaseUrlPrefix("/students"),
+    getStudentProfile:setBaseUrlPrefix("/students/profile"),
+    getDepartmentProfile:setBaseUrlPrefix("/students/department"),
+  },
+  placement:{
+    getHomePlacementPage:setBaseUrlPrefix("/placement/home"),
+    getOrganizationView:setBaseUrlPrefix("/placement/organisation"),
+    getJobRole:setBaseUrlPrefix("/placement/job"),
   },
   skill: {
     getSkills: setBaseUrlPrefix("/skill"),
   },
+  dashboard:{
+    getAdminDashboard:setBaseUrlPrefix("/dashboard/admin"),
+    getStaffDashboard:setBaseUrlPrefix("/dashboard/staff"),
+    updateProfile:setBaseUrlPrefix("/dashboard/profile"),
+    getInstitutionUsers:setBaseUrlPrefix("/dashboard/institution/users"),
+    postAddInstitutionUsers:setBaseUrlPrefix("/auth/staff/register"),
+    UpdateInstitutionUsers:setBaseUrlPrefix("/auth/staff"),
+  },
+  institution:{
+    getInstitutionProfile:setBaseUrlPrefix("/institution/profile"),
+    getInstitutionDepartment:setBaseUrlPrefix("/institution/departments"),
+    postInstitutionDepartment:setBaseUrlPrefix("/institution/department"),
+    putInstitutionDepartment:setBaseUrlPrefix("/institution/department"),
+    UpdateInstitutionProfile:setBaseUrlPrefix("/institution/profile"),
+  }
 };
 
 export default apiPathConstants;
