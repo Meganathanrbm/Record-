@@ -7,6 +7,8 @@ import ActiveStudents from "../DashboardPage/activeStudents";
 import StatsCard from "../PlacementPage/StatsCard";
 import studentApi from "../../apis/student.api";
 import { useParams } from "react-router-dom";
+import ModalComponent from "../../components/Modal/ModalComponent";
+import authApi from "../../apis/auth.api";
 import currentUserState from "../../store/staff.store";
 
 const MostActiveDepartments = () => {
@@ -15,6 +17,35 @@ const MostActiveDepartments = () => {
   const [acquiredSkills, setAcquiredSkills] = useState([]);
   const [currentLoggedInUser, setCurrentLoggedInUser] =
     useRecoilState(currentUserState);
+    const [formData, setFormData] = useState({
+      email:'', fullName:'', rollNumber:'', courseStartYear:'', courseEndYear:''
+    });
+    
+  
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    };
+   
+    
+   const handleJob=()=>{
+    
+    console.log(formData);
+      authApi.postAddStudent({
+        payload:formData,
+        success:(res)=>{
+          console.log(res.data);
+          window.location.reload();
+        },
+        error:(err)=>{
+          console.log(err);
+        }
+      })
+    }
+
   useEffect(() => {
     if(currentLoggedInUser.role==="Staff"){
       studentApi.getStaffDepartProfile({
@@ -47,6 +78,162 @@ const MostActiveDepartments = () => {
         <h4 style={{ fontSize: "18px", fontWeight: "700" }}>
           {departmentData.departmentName || "Department Name"}
         </h4>
+        {"  "}
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#AddStudent"
+          className="tw-text-white tw-text-base tw-ml-auto tw-float-right tw-text-center tw-px-4 tw-py-2 tw-rounded-md tw-font-medium"
+          style={{
+            backgroundColor:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+
+            background:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+          }}
+        >
+          Add Students <span className="tw-text-xl">+</span>
+        </button>
+        {"  "}
+
+        <ModalComponent
+      target="AddStudent"
+      title="Add Student"
+      btn={
+        <button
+        data-bs-dismiss="modal"
+        aria-label="Close"
+          className="tw-text-white tw-text-base tw-ml-auto tw-float-right tw-text-center tw-px-4 tw-py-2 tw-rounded-md tw-font-medium"
+          style={{
+            backgroundColor:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+            background:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+          }}
+          onClick={handleJob}
+        >
+          Assign Students
+        </button>
+      }
+      btnTitle="Assign Students"
+      
+    >
+      {/* company name and job Description */}
+      <div className="d-flex tw-w-full tw-mb-4 tw-justify-between tw-gap-8">
+        <div className="tw-w-full">
+          <label
+            htmlFor="email"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="name@gmail.com"
+            className="form-control"
+            style={{
+              backgroundColor: "rgba(243, 243, 243, 1)",
+              borderRadius: "7px",
+            }}
+          />
+        </div>
+        <div className="tw-w-full">
+          <label
+            htmlFor="fullName"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            Full Name
+          </label>
+          <input
+            type="text"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+            placeholder="Raju"
+            className="form-control"
+            style={{
+              backgroundColor: "rgba(243, 243, 243, 1)",
+              borderRadius: "7px",
+            }}
+          />
+        </div>
+      </div>
+      
+      <div className="d-flex tw-w-full tw-mb-4 tw-justify-between tw-gap-8">
+        <div className="tw-w-full">
+          <label
+            htmlFor="rollNumber"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            Roll Number
+          </label>
+         
+         <input
+         type="text"
+         name="rollNumber"
+         value={formData.rollNumber}
+         onChange={handleChange}
+         placeholder="198D4"
+         className="form-control"
+         style={{
+          backgroundColor: "rgba(243, 243, 243, 1)",
+          borderRadius: "7px",
+        }}
+         />
+        </div>
+        <div className="tw-w-full">
+          <label
+            htmlFor="courseStartYear"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            course Start Year
+          </label>
+          <input
+            type="number"
+            name="courseStartYear"
+            value={formData.courseStartYear}
+            onChange={handleChange}
+            placeholder="2024"
+            className="form-control"
+            style={{
+              backgroundColor: "rgba(243, 243, 243, 1)",
+              borderRadius: "7px",
+            }}
+          />
+        </div>
+      </div>
+     
+      <div className="d-flex tw-w-full tw-mb-4 tw-justify-between tw-gap-8">
+      
+        <div className="tw-w-full">
+          <label
+            htmlFor="courseEndYear"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            course End Year
+          </label>
+          <input
+            type="number"
+            name="courseEndYear"
+            value={formData.courseEndYear}
+            onChange={handleChange}
+            placeholder="2026"
+            className="form-control"
+            style={{
+              backgroundColor: "rgba(243, 243, 243, 1)",
+              borderRadius: "7px",
+            }}
+          />
+        </div>
+      </div>
+      
+    
+     
+    </ModalComponent>
         <select
           className="tw-text-right tw-text-[#858585] tw-border-none tw-outline-none"
           name="sort"
@@ -64,12 +251,14 @@ const MostActiveDepartments = () => {
         <div style={{ flex: "1" }}>
           <StatsSection departmentData={departmentData} />
         </div>
+        
         {/*  */}
         <div className="border tw-rounded-xl" style={{ flex: "1" }}>
           {departmentData.studentDetails?.map((student) => (
             <ActiveStudents key={student.studentId} {...student} path={"/students/profile"} />
           ))}
         </div>
+        
       </section>
     </>
   );

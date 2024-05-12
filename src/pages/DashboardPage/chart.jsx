@@ -2,10 +2,10 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Chart } from "chart.js";
-import ChartDataLabels from "chartjs-plugin-datalabels";
+// import ChartDataLabels from "chartjs-plugin-datalabels";
 // import "chartjs-plugin-datalabels";
 
-Chart.register(ChartDataLabels);
+// Chart.register(ChartDataLabels);
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 

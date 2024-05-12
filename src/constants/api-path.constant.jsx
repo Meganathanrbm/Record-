@@ -15,11 +15,13 @@ const apiPathConstants = {
     changePassword: setBaseUrlPrefix("/auth/staff/reset-password"),
     forgotPassword: setBaseUrlPrefix("/auth/staff/forgot-password"),
     verificationEmail: setBaseUrlPrefix("/auth/send/verification-email"),
+    addStudent:setBaseUrlPrefix("/auth/staff/student"),
   },
   student:{
     getBestStudents: setBaseUrlPrefix("/students"),
     getStudentProfile:setBaseUrlPrefix("/students/profile"),
     getDepartmentProfile:setBaseUrlPrefix("/students/department"),
+    
   },
   placement:{
     getHomePlacementPage:setBaseUrlPrefix("/placement/home"),

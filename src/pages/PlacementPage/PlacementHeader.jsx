@@ -3,34 +3,34 @@ import ModalComponent from "../../components/Modal/ModalComponent";
 import institutionApi from "../../apis/institution.api";
 import placementApi from "../../apis/placement.api";
 
-
+import Addskills from "./Addskills";
+import currentUserState from "../../store/staff.store";
+import { useRecoilState } from "recoil";
 
 const PlacementHeader = () => {
-  
 
+  const [currentLoggedInUser, setCurrentLoggedInUser] =
+  useRecoilState(currentUserState);
+  const [admin,setAdmin]= useState([false]);
   const [selectedDepartments,setSelectedDepartments]=useState([]);
   const [departments,setDepartment]=useState([]);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
+  const [userInput, setUserInput] = useState({
+    skills: {},
+  });
   const [formData, setFormData] = useState({
     companyName: "",
     jobDesignation: "",
     workplaceType: "On-Site",
     jobLocation: "",
     jobType: "Full-Time",
-    numberOfOpenings: "",
+    openings: "",
     jobDescription: "",
     skills: {},
     departments:{},
   });
-
   const [data,setData]=useState([]);
+
+
   const handleSkillsChange = (e) => {
     const skills = e.target.value.split(",");
     setFormData((prevFormData) => ({
@@ -38,15 +38,14 @@ const PlacementHeader = () => {
       skills,
     }));
   };
-
-  useEffect(() => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      departments: selectedDepartments,
+      [name]: value,
     }));
-    setData(formData);
-  }, [selectedDepartments]);
-
+  };
+ 
   const handleDepartmentClick = (department) => {
     setSelectedDepartments((prevSelectedDepartments) => {
       if (prevSelectedDepartments.includes(department)) {
@@ -71,6 +70,8 @@ const PlacementHeader = () => {
       payload:formData,
       success:(res)=>{
         console.log(res.data);
+        alert("Successfully Job Added")
+        window.location.reload();
       },
       error:(err)=>{
         console.log(err);
@@ -78,10 +79,25 @@ const PlacementHeader = () => {
     })
   }
 
+  const handleSubmit = () => {
+     
+  };
+  useEffect(() => {
+    if (currentLoggedInUser && currentLoggedInUser.role) {
+      setAdmin(currentLoggedInUser.role === "Administrator");
+      }
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      departments: selectedDepartments,
+      skills:userInput.skills
+    }));
+    setData(formData);
+  }, [selectedDepartments,userInput]);
+
   useEffect(() => {
     institutionApi.getInstitutionDepartment({
       success: (res) => {
-        const departmentNames = res.data.data.map((department) => department.name);
+        const departmentNames = res.data.data.map((department) => department);
       setDepartment(departmentNames);
       },
       error: (err) => {
@@ -90,18 +106,16 @@ const PlacementHeader = () => {
     });
   }, []);
 
-  console.log(departments);
-  const handleSubmit = () => {
-    // Here you can submit formData to your backend or perform any other actions
-    console.log(formData);
-  };
+
+ 
 
   return (
     <header className="tw-w-full ">
-      <div className="d-flex tw-justify-center tw-items-center">
-        <h3 className="tw-font-bold tw-ml-auto  tw-text-[25px] tw-text-center">
+      <div className=" tw-justify-center tw-items-center">
+        <h3 className="tw-font-bold   tw-text-[25px] tw-text-center">
           Search Organizations
         </h3>
+        {admin?
         <button
           type="button"
           class="btn btn-primary"
@@ -117,7 +131,7 @@ const PlacementHeader = () => {
           }}
         >
           Create Job Post <span className="tw-text-xl">+</span>
-        </button>
+        </button>:null}
         {/* model for create job post */}
         <ModalComponent
       target="CreateJobPost"
@@ -255,8 +269,8 @@ const PlacementHeader = () => {
           </label>
           <input
             type="number"
-            name="numberOfOpenings"
-            value={formData.numberOfOpenings}
+            name="openings"
+            value={formData.openings}
             onChange={handleChange}
             placeholder="Enter number"
             className="form-control"
@@ -293,21 +307,8 @@ const PlacementHeader = () => {
       >
         Skills
       </label>
-      <p className="tw-font-medium">
-        Add up to 8 skills that you would look for in students.
-      </p>
-      <input
-        type="text"
-        name="skills"
-        value={Object.values(formData.skills).join(",")}
-        onChange={handleSkillsChange}
-        className="form-control"
-        style={{
-          backgroundColor: "rgba(243, 243, 243, 1)",
-          borderRadius: "7px",
-        }}
-        placeholder="Enter skills separated by comma"
-      />
+     
+      <Addskills setUserInput={setUserInput} userInput={userInput} />
     </ModalComponent>
         {/* Assign Students modal */}
         <ModalComponent
@@ -354,13 +355,13 @@ const PlacementHeader = () => {
             {departments.map((it, i) => (
               <label key={i} className="tw-p-1  tw-m-1 tw-font-medium tw-rounded-xl tw-border-2 tw-border-[rgb(235,124,73)]"
               
-              onClick={() => handleDepartmentClick(it)}
+              onClick={() => handleDepartmentClick(it.departmentId)}
         style={{
-          backgroundColor: selectedDepartments.includes(it) ? '#EB7C49' : 'transparent',
-          color: selectedDepartments.includes(it) ? '#fff' : '#000',
+          backgroundColor: selectedDepartments.includes(it.departmentId) ? '#EB7C49' : 'transparent',
+          color: selectedDepartments.includes(it.departmentId) ? '#fff' : '#000',
         }}
         >   
-              {it}
+              {it.name}
             </label>
             ))}
             <button

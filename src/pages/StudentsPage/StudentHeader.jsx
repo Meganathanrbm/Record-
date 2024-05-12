@@ -1,23 +1,44 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
+
+import ModalComponent from "../../components/Modal/ModalComponent";
+import authApi from "../../apis/auth.api"
+import currentUserState from "../../store/staff.store";
+import { useRecoilState } from "recoil";
 
 const StudentHeader = () => {
+
+  const [currentLoggedInUser, setCurrentLoggedInUser] =
+  useRecoilState(currentUserState);
+  const [admin,setAdmin]= useState([false]);
+ 
+  
+  useEffect(() => {
+    if (currentLoggedInUser && currentLoggedInUser.role) {
+      setAdmin(currentLoggedInUser.role === "Administrator");
+      }
+    
+  }, []);
   return (
     <>
+    <header className="tw-w-full">
+    <div className="d-flex tw-justify-center tw-items-center">
       <h3
-        className="text-center"
-        style={{ fontSize: "25px", fontWeight: "700" }}
+        className="tw-font-bold   tw-text-[25px] tw-text-center"
       >
         Search Students
       </h3>
+      
+
+        </div>
       <section
         className="d-flex w-75 gap-4"
         style={{ margin: "0 auto", alignItems: "stretch", height: "7vh" }}
       >
         <input
-          type="email"
+          type="text"
           class="form-control"
           id="exampleFormControlInput1"
-          placeholder="Department of Electronics Engineering"
+          placeholder=""
           style={{
             backgroundColor: "rgba(243, 243, 243, 1)",
             borderRadius: "7px",
@@ -25,7 +46,12 @@ const StudentHeader = () => {
         />
         <DropDownComponent value="Batch" />
         <DropDownComponent value="Select Student" />
+       
+      
       </section>
+
+   
+    </header>
     </>
   );
 };
@@ -64,6 +90,7 @@ function DropDownComponent({ value }) {
           </a>
         </li>
       </ul>
+      
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoX } from "react-icons/go";
-import skillApi from "../../apis/skills.api";
+import skillApi from "../apis/skills.api";
 
 const Addskills = ({ setUserInput, userInput }) => {
   const [skills, setskills] = useState([]);
@@ -31,6 +31,7 @@ const Addskills = ({ setUserInput, userInput }) => {
 
     setSearchTerm("");
   };
+  console.log(selectedSkills);
   useEffect(() => {
     skillApi.getSkills({
       //   query: q,
@@ -51,7 +52,7 @@ const Addskills = ({ setUserInput, userInput }) => {
   }, []);
   useEffect(() => {
     const skillsId = selectedSkills.map((skill) => skill.skillId);
-    setUserInput({ ...userInput, skills: skillsId  });
+    setUserInput({ ...userInput, skills: skillsId });
   }, [selectedSkills]);
   return (
     <div>
@@ -88,9 +89,11 @@ const Addskills = ({ setUserInput, userInput }) => {
                 color: "#F3F3F3",
                 borderRadius: "10px",
               }}
+              className="tw-flex tw-flex-nowrap tw-w-full"
             >
               {skill.skillName}
               <GoX
+                className="tw-pt-2"
                 onClick={() => removeSkill(skill._id)}
                 style={{
                   cursor: "pointer",
@@ -150,10 +153,8 @@ const Addskills = ({ setUserInput, userInput }) => {
           .map((item, index) => {
             return (
               <div
-                className="d-flex justify-content-around align-items-center rounded-pill pl-2 border bg-white m-1"
+                className="d-flex tw-p-2 tw-px-3 tw-justify-center tw-items-center justify-content-around align-items-center rounded-pill pl-2 border bg-white m-1"
                 style={{
-                  paddingLeft: " 0.5rem",
-                  paddingRight: "0.5rem",
                   gap: "0.5rem",
                   display: "flex",
                   justifyContent: "center",
@@ -168,7 +169,7 @@ const Addskills = ({ setUserInput, userInput }) => {
                   style={{ width: "20px" }}
                 />
                 <p
-                  className="text-center mt-2 pr-2 fw-medium"
+                  className="text-center  pr-2 fw-medium"
                   style={{
                     fontSize: "16px",
                   }}

@@ -67,6 +67,12 @@ const authApi = {
       error,
     });
   },
+  postAddStudent:({payload,success,error})=>{
+    const{
+      auth:{addStudent},
+    }=apiPath;
+    axios.postRequest({path:addStudent,payload,success,error})
+  },
 };
 
 export default authApi;
