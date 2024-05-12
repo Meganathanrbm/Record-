@@ -41,14 +41,14 @@ const AdminInstitution = () => {
   useEffect(() => {
     dashboardApi.getInstitutionUsers({
       success: (res) => {
-     
+        
         setInstitutionUsers(res.data.data);
       },
       error: (err) => {
         console.error(err);
       },
     });
-  }, [InstitutionUsers]);
+  }, []);
 
   return (
     <div className="d-flex flex-column gap-3">
@@ -154,6 +154,7 @@ function FormComponent({user,onSubmit}) {
       success:(res)=>{
         
         alert("Profile Updated Successfully")
+        window.location.reload();
       },
       error:(err)=>{
         console.error(err);
@@ -161,7 +162,9 @@ function FormComponent({user,onSubmit}) {
     })):( dashboardApi.postAddInstitutionUsers({
       payload:formData,
       success:(res)=>{
+        
         alert("User Added Successfully")
+        window.location.reload();
       },error:(err)=>{
         console.error(err);
       }

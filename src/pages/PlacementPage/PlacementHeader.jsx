@@ -1,13 +1,101 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import ModalComponent from "../../components/Modal/ModalComponent";
+import institutionApi from "../../apis/institution.api";
+import placementApi from "../../apis/placement.api";
 
-const departments = [
-  "Department of Information Technology",
-  "Department of Computer Engineering",
-  "Bachelor of Commerce ",
-  "Bachelor of Computer Science Application ",
-];
+
+
 const PlacementHeader = () => {
+  
+
+  const [selectedDepartments,setSelectedDepartments]=useState([]);
+  const [departments,setDepartment]=useState([]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const [formData, setFormData] = useState({
+    companyName: "",
+    jobDesignation: "",
+    workplaceType: "On-Site",
+    jobLocation: "",
+    jobType: "Full-Time",
+    numberOfOpenings: "",
+    jobDescription: "",
+    skills: {},
+    departments:{},
+  });
+
+  const [data,setData]=useState([]);
+  const handleSkillsChange = (e) => {
+    const skills = e.target.value.split(",");
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      skills,
+    }));
+  };
+
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      departments: selectedDepartments,
+    }));
+    setData(formData);
+  }, [selectedDepartments]);
+
+  const handleDepartmentClick = (department) => {
+    setSelectedDepartments((prevSelectedDepartments) => {
+      if (prevSelectedDepartments.includes(department)) {
+        // If department is already selected, remove it
+        return prevSelectedDepartments.filter((selectedDept) => selectedDept !== department);
+      } else {
+        // If department is not selected, add it
+        return [...prevSelectedDepartments, department];
+      }
+    });
+  
+    // Update the formData state with the selected departments
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      departments: [...selectedDepartments, department],
+    }));
+  };
+ const handleJob=()=>{
+  
+  console.log(formData);
+    placementApi.postJobRole({
+      payload:formData,
+      success:(res)=>{
+        console.log(res.data);
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    })
+  }
+
+  useEffect(() => {
+    institutionApi.getInstitutionDepartment({
+      success: (res) => {
+        const departmentNames = res.data.data.map((department) => department.name);
+      setDepartment(departmentNames);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }, []);
+
+  console.log(departments);
+  const handleSubmit = () => {
+    // Here you can submit formData to your backend or perform any other actions
+    console.log(formData);
+  };
+
   return (
     <header className="tw-w-full ">
       <div className="d-flex tw-justify-center tw-items-center">
@@ -32,191 +120,195 @@ const PlacementHeader = () => {
         </button>
         {/* model for create job post */}
         <ModalComponent
-          target="CreateJobPost"
-          title="Create Job Post"
-          btn={
-            <>
-              <button
-                data-bs-toggle="modal"
-                data-bs-target="#AssignStudents "
-                className="tw-text-white tw-text-base tw-ml-auto tw-float-right tw-text-center tw-px-4 tw-py-2 tw-rounded-md tw-font-medium"
-                style={{
-                  backgroundColor:
-                    "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
-
-                  background:
-                    "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
-                }}
-              >
-                Assign Students
-              </button>
-            </>
-          }
-          btnTitle="Assign Students"
+      target="CreateJobPost"
+      title="Create Job Post"
+      btn={
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#AssignStudents"
+          className="tw-text-white tw-text-base tw-ml-auto tw-float-right tw-text-center tw-px-4 tw-py-2 tw-rounded-md tw-font-medium"
+          style={{
+            backgroundColor:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+            background:
+              "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+          }}
         >
-          {/* company name and job Description */}
-          <div className="d-flex tw-w-full tw-mb-4 tw-justify-between tw-gap-8">
-            <div className="tw-w-full">
-              <label
-                htmlFor="Department Name"
-                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-              >
-                Company Name
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="Ex: Infosys"
-                style={{
-                  backgroundColor: "rgba(243, 243, 243, 1)",
-                  borderRadius: "7px",
-                }}
-              />
-            </div>
-            <div className="tw-w-full">
-              <label
-                htmlFor="Department Name"
-                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-              >
-                Job Designation
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="Ex: Technical Support"
-                style={{
-                  backgroundColor: "rgba(243, 243, 243, 1)",
-                  borderRadius: "7px",
-                }}
-              />
-            </div>
-          </div>
-          {/* Working type and job location */}
-          <div className="d-flex tw-w-full tw-mb-4 tw-justify-between tw-gap-8">
-            <div className="tw-w-full">
-              <label
-                htmlFor="Workplace Type"
-                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-              >
-                Workplace Type
-              </label>
-              <select
-                name="Workplace Type"
-                id="Workplace Type"
-                className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
-          tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3 tw-font-medium"
-              >
-                <option className="" selected>
-                  On-Site
-                </option>
-                <option value="option 1"> Work from Office</option>
-                <option value="option 2"> Work from Home</option>
-                <option value="option 3"> Hybrid</option>
-              </select>
-            </div>
-            <div className="tw-w-full">
-              <label
-                htmlFor="Department Name"
-                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-              >
-                Job Location
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="Ex: Coimbatore, Tamil Nadu, India"
-                style={{
-                  backgroundColor: "rgba(243, 243, 243, 1)",
-                  borderRadius: "7px",
-                }}
-              />
-            </div>
-          </div>
-          {/* Job type and no. of opening */}
-          <div className="d-flex tw-w-full tw-mb-4 tw-justify-between tw-gap-8">
-            <div className="tw-w-full">
-              <label
-                htmlFor="Job Type"
-                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-              >
-                Job Type
-              </label>
-              <select
-                name="Job Type"
-                id="Job Type"
-                className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
-          tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3 tw-font-medium"
-              >
-                <option className="" selected>
-                  Full-Time
-                </option>
-                <option value="option 1"> Work from Office</option>
-                <option value="option 2"> Work from Home</option>
-                <option value="option 3"> Hybrid</option>
-              </select>
-            </div>
-            <div className="tw-w-full">
-              <label
-                htmlFor="No. of Openings"
-                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-              >
-                No. of Openings
-              </label>
-              <select
-                name="No. of Openings"
-                id="No. of Openings"
-                className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
-          tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3 tw-font-medium"
-              >
-                <option className="" selected>
-                  Select
-                </option>
-                <option value="option 1"> Work from Office</option>
-                <option value="option 2"> Work from Home</option>
-                <option value="option 3"> Hybrid</option>
-              </select>
-            </div>
-          </div>
-          {/* job description */}
+          Assign Students
+        </button>
+      }
+      btnTitle="Assign Students"
+      onSubmit={handleSubmit}
+    >
+      {/* company name and job Description */}
+      <div className="d-flex tw-w-full tw-mb-4 tw-justify-between tw-gap-8">
+        <div className="tw-w-full">
           <label
-            htmlFor="Department Name"
+            htmlFor="companyName"
             className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
           >
-            Job Description
+            Company Name
           </label>
-          <textarea
-            rows={8}
+          <input
             type="text"
-            class="form-control"
-            id="exampleFormControlInput1"
+            name="companyName"
+            value={formData.companyName}
+            onChange={handleChange}
             placeholder="Ex: Infosys"
+            className="form-control"
             style={{
               backgroundColor: "rgba(243, 243, 243, 1)",
               borderRadius: "7px",
             }}
-          ></textarea>
+          />
+        </div>
+        <div className="tw-w-full">
           <label
-            htmlFor="Department Name"
-            className="tw-text-[#8F8F8F] tw-mt-4 tw-font-medium tw-mb-1"
+            htmlFor="jobDesignation"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
           >
-            Skills
+            Job Designation
           </label>
-          <p className="tw-font-medium">
-            App upto 8 skills that you would look into students.{" "}
-          </p>
-          <button
+          <input
+            type="text"
+            name="jobDesignation"
+            value={formData.jobDesignation}
+            onChange={handleChange}
+            placeholder="Ex: Technical Support"
+            className="form-control"
             style={{
               backgroundColor: "rgba(243, 243, 243, 1)",
               borderRadius: "7px",
             }}
-            className="tw-font-semibold tw-text-[#EB7C49] tw-border p-2 tw-mt-4 tw-rounded-lg tw-bg-[#F3F3F3]"
+          />
+        </div>
+      </div>
+      {/* Working type and job location */}
+      <div className="d-flex tw-w-full tw-mb-4 tw-justify-between tw-gap-8">
+        <div className="tw-w-full">
+          <label
+            htmlFor="workplaceType"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
           >
-            Add skills <span className="tw-text-lg">+</span>
-          </button>
-        </ModalComponent>
+            Workplace Type
+          </label>
+          <select
+            name="workplaceType"
+            value={formData.workplaceType}
+            onChange={handleChange}
+            className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3 tw-font-medium"
+          >
+            <option value="On-Site">On-Site</option>
+            <option value="Work from Office">Work from Office</option>
+            <option value="Work from Home">Work from Home</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
+        </div>
+        <div className="tw-w-full">
+          <label
+            htmlFor="jobLocation"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            Job Location
+          </label>
+          <input
+            type="text"
+            name="jobLocation"
+            value={formData.jobLocation}
+            onChange={handleChange}
+            placeholder="Ex: Coimbatore, Tamil Nadu, India"
+            className="form-control"
+            style={{
+              backgroundColor: "rgba(243, 243, 243, 1)",
+              borderRadius: "7px",
+            }}
+          />
+        </div>
+      </div>
+      {/* Job type and no. of opening */}
+      <div className="d-flex tw-w-full tw-mb-4 tw-justify-between tw-gap-8">
+        <div className="tw-w-full">
+          <label
+            htmlFor="jobType"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            Job Type
+          </label>
+          <select
+            name="jobType"
+            value={formData.jobType}
+            onChange={handleChange}
+            className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3 tw-font-medium"
+          >
+            <option value="Full-Time">Full-Time</option>
+            <option value="Part-Time">Part-Time</option>
+            <option value="Contract">Contract</option>
+            <option value="Internship">Internship</option>
+          </select>
+        </div>
+        <div className="tw-w-full">
+          <label
+            htmlFor="numberOfOpenings"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            No. of Openings
+          </label>
+          <input
+            type="number"
+            name="numberOfOpenings"
+            value={formData.numberOfOpenings}
+            onChange={handleChange}
+            placeholder="Enter number"
+            className="form-control"
+            style={{
+              backgroundColor: "rgba(243, 243, 243, 1)",
+              borderRadius: "7px",
+            }}
+          />
+        </div>
+      </div>
+      {/* job description */}
+      <label
+        htmlFor="jobDescription"
+        className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+      >
+        Job Description
+      </label>
+      <textarea
+        rows={8}
+        name="jobDescription"
+        value={formData.jobDescription}
+        onChange={handleChange}
+        className="form-control"
+        style={{
+          backgroundColor: "rgba(243, 243, 243, 1)",
+          borderRadius: "7px",
+        }}
+        placeholder="Ex: Infosys"
+      ></textarea>
+      {/* Skills */}
+      <label
+        htmlFor="skills"
+        className="tw-text-[#8F8F8F] tw-font-medium tw-mt-4 tw-mb-1"
+      >
+        Skills
+      </label>
+      <p className="tw-font-medium">
+        Add up to 8 skills that you would look for in students.
+      </p>
+      <input
+        type="text"
+        name="skills"
+        value={Object.values(formData.skills).join(",")}
+        onChange={handleSkillsChange}
+        className="form-control"
+        style={{
+          backgroundColor: "rgba(243, 243, 243, 1)",
+          borderRadius: "7px",
+        }}
+        placeholder="Enter skills separated by comma"
+      />
+    </ModalComponent>
         {/* Assign Students modal */}
         <ModalComponent
           target="AssignStudents"
@@ -260,12 +352,16 @@ const PlacementHeader = () => {
           </p>
           <div className="d-flex tw-flex-wrap">
             {departments.map((it, i) => (
-              <span
-                className="tw-p-1 gradiant-color tw-m-1 tw-font-medium tw-rounded-xl tw-border-2 tw-border-[rgb(235,124,73)]"
-                key={i}
-              >
-                {it}
-              </span>
+              <label key={i} className="tw-p-1  tw-m-1 tw-font-medium tw-rounded-xl tw-border-2 tw-border-[rgb(235,124,73)]"
+              
+              onClick={() => handleDepartmentClick(it)}
+        style={{
+          backgroundColor: selectedDepartments.includes(it) ? '#EB7C49' : 'transparent',
+          color: selectedDepartments.includes(it) ? '#fff' : '#000',
+        }}
+        >   
+              {it}
+            </label>
             ))}
             <button
               style={{
@@ -298,6 +394,7 @@ const PlacementHeader = () => {
                 background:
                   "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
               }}
+              onClick={handleJob}
             >
               Done
             </button>
