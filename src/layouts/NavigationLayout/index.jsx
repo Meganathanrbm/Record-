@@ -16,7 +16,8 @@ import integrations from "../../assets/svg/settings/integrations.svg";
 import logout from "../../assets/svg/settings/logout.svg";
 import { HiMiniXMark } from "react-icons/hi2";
 import currentUserState from "../../store/staff.store";
-
+import ModalComponent from "../../components/Modal/ModalComponent";
+import institutionApi from "../../apis/institution.api";
 const settingsPanelTitle = [
   {
     title: "My Settings",
@@ -45,7 +46,7 @@ const NavigationLayout = () => {
     useRecoilState(currentUserState);
     const [NavigationConstants, setNavigationConstants] = useState(navigationConstants);
    
-    console.log(currentLoggedInUser);
+    
   const path = useLocation();
 
   useEffect(() => {
@@ -199,17 +200,47 @@ const NavigationLayout = () => {
       </div>
       {/* --------------- */}
       <div className=" w-100 p-4">
-        <TopNavbar />
+        <TopNavbar details={currentLoggedInUser} />
         <Outlet />
       </div>
     </div>
   );
 };
 
-function TopNavbar() {
+function TopNavbar({details}) {
   const notification = false;
-  const dropdown = [{ name: "Create Job Post" }, { name: "Add Department" }];
 
+  const [showModal, setShowModal] = useState(false);
+
+  const [departmentData, setDepartmentData] = useState({
+    name: "",
+    programType: "",
+    programDuration: "",
+  });
+
+  const handleAddDepartment = () => {
+    setShowModal(true);
+    institutionApi.postInstitutionDepartment({
+      payload: departmentData,
+      success: (res) => {
+        console.log(res.data.data);
+        setSuccess(true);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+
+    setDepartmentData({
+      name: "",
+      programType: "",
+      programDuration: "",
+    });
+  };
+
+  const dropdown = [{ name: "Create Job Post",path:"#" },  ...(details.role !== "Staff"
+  ? [{ name: "Add Department", path: "/institution", onClick: handleAddDepartment }]
+  : [])];
   return (
     <section className="d-flex justify-content-between align-items-center w-100 mb-4">
       <div className="input-group mb-3 w-25">
@@ -225,34 +256,139 @@ function TopNavbar() {
         />
       </div>
       <div className="d-flex justify-content-center align-items-center tw-gap-4 ">
-        <div className="dropdown">
-          <img
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            src={feedIcon}
-            className="tw-cursor-pointer tw-w-[25px] tw-h-[25px]  "
-            alt="feedIcon"
-          />
+      {details.role && (
+  details.role !== "Staff" && (
+    <div className="dropdown">
+      <img
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        src={feedIcon}
+        className="tw-cursor-pointer tw-w-[25px] tw-h-[25px]"
+        alt="feedIcon"
+      />
+      <ul className="dropdown-menu">
+        {dropdown.map((item, index) => (
+          <li key={index} className="tw-w-[300px]">
+            {item.onClick ? (
+              <button
+                className="dropdown-item tw-flex tw-gap-4 tw-flex-nowrap"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                onClick={item.onClick}
+              >
+                <img src={plusIcon} alt="" style={{ width: "15px" }} />
+                {item.name}
+              </button>
+            ) : (
+              <a
+                className="dropdown-item tw-flex tw-gap-4 tw-flex-nowrap"
+                href={item.path}
+              >
+                <img src={plusIcon} alt="" style={{ width: "15px" }} />
+                {item.name}
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+)}
 
-          <ul className="dropdown-menu ">
-            {dropdown.map((item, index) => (
-              <li key={index} className="tw-w-[300px]">
-                <a
-                  className="dropdown-item tw-flex tw-gap-4 tw-flex-nowrap"
-                  href="#"
-                >
-                  <img
-                    src={plusIcon}
-                    alt=""
-                    className=""
-                    style={{ width: "15px" }}
-                  />
-                  {item.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {showModal && (
+        <ModalComponent
+          title="Add Department"
+          btnTitle="Save & Update"
+          target="exampleModal" // Optional: Specify a custom target for the modal
+          onClose={() => setShowModal(false)} // Optional: Close modal function
+          onSave={handleAddDepartment}
+        >
+            <label
+            htmlFor="name"
+            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+          >
+            Department Name
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="Ex: Department of Electronics Engineering"
+            style={{
+              backgroundColor: "rgba(243, 243, 243, 1)",
+              borderRadius: "7px",
+            }}
+            value={departmentData.name}
+            onChange={(e) =>
+              setDepartmentData({ ...departmentData, name: e.target.value })
+            }
+          />
+          <div className="d-flex tw-my-4 tw-justify-between tw-items-center">
+            <div className="">
+              <label
+                htmlFor="ProgramType"
+                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+              >
+                Program Type
+              </label>
+              <select
+                name="ProgramType"
+                id="ProgramType"
+                className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
+            tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-[200px] tw-pr-3 tw-font-medium"
+                value={departmentData.programType}
+                onChange={(e) =>
+                  setDepartmentData({
+                    ...departmentData,
+                    programType: e.target.value,
+                  })
+                }
+              >
+                <option value="" disabled>
+                  Select Program Type
+                </option>
+                <option value="Degree Program">Degree Program</option>
+                <option value="Integrated Program">Integrated Program</option>
+                <option value="Certificate Program">Certificate Program</option>
+                <option value="Diploma Program">Diploma Program</option>
+                <option value="Professional Program">
+                  Professional Program
+                </option>
+              </select>
+            </div>
+            <div className="">
+              <label
+                htmlFor="programDuration"
+                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
+              >
+                Program Duration
+              </label>
+              <select
+                name="programDuration"
+                id="programDuration"
+                className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
+            tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-[200px] tw-pr-3 tw-font-medium"
+                value={departmentData.programDuration}
+                onChange={(e) =>
+                  setDepartmentData({
+                    ...departmentData,
+                    programDuration: e.target.value,
+                  })
+                }
+              >
+                <option className="" >
+                  Select Program Duration
+                </option>
+                <option value="6 months">6 months</option>
+                <option value="1 year">1 year</option>
+                <option value="2 years">2 years</option>
+                <option value="3 years">3 years</option>
+                <option value="4 years">4 years</option>
+              </select>
+            </div>
+          </div>
+        </ModalComponent>
+      )}
         <div className="dropdown">
           <img
             className="tw-cursor-pointer tw-w-[25px] tw-h-[25px]  "
@@ -288,11 +424,14 @@ function TopNavbar() {
             )}
           </ul>
         </div>
+        <a href="/profile">
         <img
           src="https://randomuser.me/api/portraits/thumb/men/75.jpg"
           alt=""
           className="rounded-circle tw-h-[35px] tw-w-[35px]"
+         
         />
+        </a>
       </div>
     </section>
   );

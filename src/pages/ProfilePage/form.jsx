@@ -1,75 +1,182 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import styles from "./profile.module.css";
 import penEditIcon from "../../assets/svg/editPenIcon.svg";
-
+import currentUserState from "../../store/staff.store";
+import { useRecoilState } from "recoil";
+import dashboardApi from "../../apis/dashboard.api";
+import institutionApi from "../../apis/institution.api";
 const FormComponent = () => {
+  const [admin, setAdmin] = useState([false]);
+  const [currentLoggedInUser, setCurrentLoggedInUser] =
+    useRecoilState(currentUserState);
+
+    console.log(currentLoggedInUser);
+  const [userData, SetUserData] = useState({
+    fullName:currentLoggedInUser.name ? currentLoggedInUser.name : "",
+    mobile: currentLoggedInUser.mobile ? currentLoggedInUser.mobile : "",
+    designation:currentLoggedInUser.designation ? currentLoggedInUser.designation : "" ,
+  });
+  const [email, SetEmail] = useState(
+    currentLoggedInUser.email ? currentLoggedInUser.email : ""
+  );
+  const [FullName, SetFullName] = useState(
+    currentLoggedInUser.name ? currentLoggedInUser.name : ""
+  );
+  const [Mobile, SetMobile] = useState(
+    currentLoggedInUser.mobile ? currentLoggedInUser.mobile : ""
+  );
+  const [Designation, setDesignation] = useState(
+    currentLoggedInUser.designation ? currentLoggedInUser.designation : ""
+  );
+  const [key, setKey] = useState(0);
+  const staffId = currentLoggedInUser.staffId
+    ? currentLoggedInUser.staffId
+    : "";
+    const departmentId=currentLoggedInUser.departmentId?currentLoggedInUser.departmentId:""
+    const [department,setDepartment]=useState();
+  useEffect(() => {
+    if (currentLoggedInUser && currentLoggedInUser.role) {
+      setAdmin(currentLoggedInUser.role === "Administrator");
+    }
+    // institutionApi.getInstitutionDepartment({
+    //   success:(res)=>{
+        
+    //     const departments = res.data.data;
+    //     console.log(departments);
+    //     const matchedDepartment = departments.find(
+    //       (department) => department.departmentId === departmentId
+    //     );
+    //     console.log(matchedDepartment);
+    //     if (matchedDepartment) {
+    //       setDepartment(matchedDepartment.name); // Set the department name
+    //     }
+    //   },error:(err)=>{
+    //     console.log(err);
+    //   }
+    // })
+    SetUserData({
+      fullName: FullName,
+      mobile: Mobile,
+      designation: Designation,
+    });
+  }, [FullName, Mobile, Designation,currentLoggedInUser]);
+
+  const handleSave = () => {
+    const updatedUserData = {
+      fullName: FullName,
+      mobile: Mobile,
+      designation: Designation,
+    };
+   
+    dashboardApi.updateProfile({
+      staffId,
+      payload: updatedUserData,
+      success: (res) => {
+        // alert(res.data.message);
+        setKey((prevKey) => prevKey + 1);
+        window.location.reload();
+      },
+      error: (err) => { 
+        console.error(err);
+      },
+    });
+  };
+
   return (
     <form action="" className={styles.inputBox}>
-      <h3 style={{ fontSize: "19px", fontWeight: "700" }}>Departments</h3>
+      <h3 style={{ fontSize: "19px", fontWeight: "700" }}>Profile</h3>
       <div className={styles.inputSection}>
         <div className={styles.inputWrapper}>
-          <label htmlFor="">Full Name</label>
+          <label htmlFor="Email">Full Name</label>
           <div class="form-group d-flex tw-relative tw-items-center tw-justify-center">
-            <input type="text" className="form-control" id="inputEmail4" />
-            <button class="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
-              <img
-                src={penEditIcon}
-                alt=""
-                className=" tw-h-[15px] tw-w-[15px]"
-              />
-            </button>
+            <input
+              type="text"
+              className="form-control"
+              id="Email"
+              value={FullName}
+              onChange={admin ? (e) => SetFullName(e.target.value) : null}
+              disabled={!admin}
+            />
+            {admin ? (
+              <button className="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
+                <img
+                  src={penEditIcon}
+                  alt="edit icon"
+                  className="tw-h-[15px] tw-w-[15px]"
+                />
+              </button>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className={styles.inputWrapper}>
-          <label htmlFor="">Role</label>
+          <label htmlFor="Role">Role</label>
           <div class="form-group d-flex tw-relative tw-items-center tw-justify-center">
-            <input type="text" className="form-control" id="inputEmail4" />
-            <button class="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
-              <img
-                src={penEditIcon}
-                alt=""
-                className=" tw-h-[15px] tw-w-[15px]"
-              />
-            </button>
+            <input
+              type="text"
+              className="form-control"
+              id="Role"
+              value={currentLoggedInUser.role ? currentLoggedInUser.role : null}
+            />
           </div>
         </div>
       </div>
 
       <div className={styles.inputSection}>
         <div className={styles.inputWrapper}>
-          <label htmlFor="">Department</label>
+          <label htmlFor="Designation">Designation</label>
           <div class="form-group d-flex tw-relative tw-items-center tw-justify-center">
-            <input type="text" className="form-control" id="inputEmail4" />
-            <button class="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
-              <img
-                src={penEditIcon}
-                alt=""
-                className=" tw-h-[15px] tw-w-[15px]"
-              />
-            </button>
+            <input
+              type="text"
+              className="form-control"
+              id="Designation"
+              value={Designation}
+              onChange={admin ? (e) => setDesignation(e.target.value) : null}
+              disabled={!admin}
+            />
+            {admin ? (
+              <button className="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
+                <img
+                  src={penEditIcon}
+                  alt="edit icon"
+                  className="tw-h-[15px] tw-w-[15px]"
+                />
+              </button>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className={styles.inputWrapper}>
-          <label htmlFor="">Desigination</label>
+          <label htmlFor="Department">Department</label>
           <div class="form-group d-flex tw-relative tw-items-center tw-justify-center">
-            <input type="text" className="form-control" id="inputEmail4" />
-            <button class="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
-              <img
-                src={penEditIcon}
-                alt=""
-                className=" tw-h-[15px] tw-w-[15px]"
-              />
-            </button>
+            <input
+              type="text"
+              className="form-control"
+              id="Department"
+              value={
+                currentLoggedInUser.department
+                  ? currentLoggedInUser.department
+                  : null
+              }
+            />
           </div>
         </div>
       </div>
 
       <div className={styles.inputSection}>
         <div className={styles.inputWrapper}>
-          <label htmlFor="">Mobile</label>
+          <label htmlFor="Mobile">Mobile</label>
           <div class="form-group d-flex tw-relative tw-items-center tw-justify-center">
-            <input type="text" className="form-control" id="inputEmail4" />
+            <input
+              type="text"
+              className="form-control"
+              id="Mobile"
+              value={Mobile}
+              onChange={(e) => SetMobile(e.target.value)}
+            />
             <button class="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
               <img
                 src={penEditIcon}
@@ -80,16 +187,14 @@ const FormComponent = () => {
           </div>
         </div>
         <div className={styles.inputWrapper}>
-          <label htmlFor="">Email</label>
+          <label htmlFor="email">Email</label>
           <div class="form-group d-flex tw-relative tw-items-center tw-justify-center">
-            <input type="text" className="form-control" id="inputEmail4" />
-            <button class="input-control p-3 tw-bg-transparent tw-absolute tw-right-0">
-              <img
-                src={penEditIcon}
-                alt=""
-                className=" tw-h-[15px] tw-w-[15px]"
-              />
-            </button>
+            <input
+              type="text"
+              className="form-control"
+              id="email"
+              value={email}
+            />
           </div>
         </div>
       </div>
@@ -105,6 +210,7 @@ const FormComponent = () => {
             padding: "revert-layer",
             maxWidth: "100px",
           }}
+          onClick={handleSave}
         >
           Save
         </button>

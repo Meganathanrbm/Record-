@@ -4,8 +4,10 @@ const staff = atom({
   key: "staff",
   default: {
     isLoggedIn: false,
-    StaffId: "",
+    staffId: "",
     name: "",
+    departmentId:"",
+    designation:"",
     profilePicture: "",
     username: "",
     email: "",

@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React, { Children, Profiler } from "react";
 import { HiMiniXMark } from "react-icons/hi2";
 
 const ModalComponent = ({
@@ -8,8 +8,25 @@ const ModalComponent = ({
   title,
   btnTitle,
   target,
+  onSave,
+  onClose,
+  profile,
 }) => {
-  console.log(title);
+ 
+  const handleSaveAndClose = () => {
+    onSave(); // Trigger onSave function
+    closeModal(); // Close modal
+  };
+
+  const closeModal = () => {
+    const modal = document.getElementById(target);
+  
+    modal && modal.classList.remove("show");
+    const backdrop = document.querySelector(".modal-backdrop");
+  
+    backdrop && backdrop.remove();
+    onClose();
+  };
   return (
     <div
       className="modal fade "
@@ -37,13 +54,15 @@ const ModalComponent = ({
                 className="btn-close d-flex tw-justify-center tw-h-6 tw-w-6 tw-items-center"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={closeModal} 
               >
                 <HiMiniXMark className="tw-h-6 tw-w-6" />
               </button>
             </div>
             {children}
             <div className="d-flex justify-content-end mt-4 mb-5">
-              {btn ? (
+              {!profile?(
+              btn ? (
                 btn
               ) : (
                 <button
@@ -56,10 +75,11 @@ const ModalComponent = ({
                     background:
                       "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
                   }}
+                  onClick={handleSaveAndClose}
                 >
                   {btnTitle} <img src={btnIcon && btnIcon} alt="" />
                 </button>
-              )}
+              )):null}
             </div>
           </div>
         </div>
