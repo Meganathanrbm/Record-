@@ -12,8 +12,6 @@ const Instituion = () => {
   const [active, setActive] = useState("institutionProfile");
 
 const[profile,setProfile]=useState([]);
-console.log(admin);
-console.log(currentLoggedInUser);
   useEffect(()=>{
     if (currentLoggedInUser && currentLoggedInUser.role) {
     setAdmin(currentLoggedInUser.role === "Administrator");
@@ -29,7 +27,7 @@ console.log(currentLoggedInUser);
       })
   },[])
 
-  console.log(admin);
+
   return (
     <div className="d-flex justify-content-between">
       <section
@@ -57,7 +55,7 @@ console.log(currentLoggedInUser);
           className="mt-2 mb-2"
           style={{ fontWeight: "700", fontSize: "19px" }}
         >
-          PSG College of Technology
+          {profile.name}
         </h3>
         <div style={{ width: "-webkit-fill-available" }}>
           <ul
@@ -109,6 +107,12 @@ console.log(currentLoggedInUser);
 
 
 function FormComponent({ details,admin }) {
+
+
+  const [userData,setUserData]=useState({
+    
+    name:'', type:'', mobile:'', email:'', about:''
+  })
   const [institutionName, setInstitutionName] = useState(details.name || '');
   const [institutionType, setInstitutionType] = useState(details.type?details.type : 'Select');
   const [establishedMonth, setEstablishedMonth] = useState('Month');
@@ -118,13 +122,37 @@ function FormComponent({ details,admin }) {
   const [email, setEmail] = useState(details.email? details.email.trim() :'');
   const [about, setAbout] = useState(details.about || '');
 
-  console.log(admin);
+  const [key, setKey] = useState(0);
   useEffect(() => {
     const date = new Date(details.establishedDate);
     setEstablishedMonth(date.toLocaleString('default', { month: 'short' }));
     setEstablishedYear(date.getFullYear().toString());
-  }, [details.establishedDate]);
-console.log(establishedMonth);
+  }, []);
+
+useEffect(()=>{
+  setUserData({
+    name:institutionName,
+    type:institutionType,
+    mobile:contact,
+    email,
+    about
+  });
+ 
+},[])
+
+const updateProfile=()=>{
+  console.log(userData);
+  institutionApi.putInstitutionProfile({
+    payload:userData,
+    success:(res)=>{
+      console.log(res.data);
+      setKey(prevKey => prevKey + 1);
+    },
+    error:(err)=>{
+      console.error(err);
+    }
+  })
+}
   return (
     <form className={`row g-3 ${styles.fromWrapper}`}>
       <h5 style={{ fontSize: '19px', fontWeight: '700' }}>Institution Profile</h5>
@@ -176,28 +204,13 @@ console.log(establishedMonth);
       
       <div className="col-md-3">
         <label htmlFor="establishedMonth" className="form-label ">Established On</label>
-        <select
-          id="establishedMonth"
-          className="tw-bg-[#F3F3F3] tw-font-semibold tw-border tw-mt-2 tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
- tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3"
-          value={establishedMonth}
-          onChange={(e) => setEstablishedMonth(e.target.value)}
-          disabled={!admin}
-        >
-          <option value="Month">Month</option>
-          <option value="Jan">January</option>
-          <option value="Feb">February</option>
-          <option value="Mar">March</option>
-          <option value="Apr">April</option>
-          <option value="May">May</option>
-          <option value="Jun">June</option>
-          <option value="Jul">July</option>
-          <option value="Aug">August</option>
-          <option value="Sept">September</option>
-          <option value="Oct">October</option>
-          <option value="Nov">November</option>
-          <option value="Dec">December</option>
-        </select>
+       <input
+            type="text"
+            className="form-control"
+            id="establishedMonth"
+            value={establishedMonth}
+          />
+     
       </div>
     
       <div className="col-md-3 d-flex align-items-end">
@@ -206,11 +219,11 @@ console.log(establishedMonth);
           type="number"
           placeholder="Year"
           value={establishedYear}
-          onChange={(e) => setEstablishedYear(e.target.value)}
+          
           className="form-control tw-font-semibold tw-border tw-mt-2 tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
  tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-full tw-pr-3"
           style={{ color: '#858585' }}
-          disabled={!admin}
+          
         />
       </div>
       
@@ -221,17 +234,15 @@ console.log(establishedMonth);
           className="form-control"
           id="institutionAddress"
           value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          disabled={!admin}
         />
       </div>
       
       <div className="col-md-6">
         <label htmlFor="contact" className="form-label">Contact</label>
-        <div className="form-group d-flex">
+        <div className="form-group d-flex d-flex tw-relative tw-items-center tw-justify-center">
           <input
             type="text"
-            className="form-group d-flex tw-relative tw-items-center tw-justify-center"
+            className="form-group"
             id="contact"
             value={contact}
             onChange={(e) => setContact(e.target.value)}
@@ -249,8 +260,7 @@ console.log(establishedMonth);
           </button>
           ):null}
         </div>
-      </div>
-      
+        </div>
       <div className="col-md-6">
         <label htmlFor="institutionEmail" className="form-label">Institution Email</label>
         <div className="form-group d-flex d-flex tw-relative tw-items-center tw-justify-center">
@@ -299,7 +309,7 @@ console.log(establishedMonth);
             border: 'none',
             maxWidth: '200px',
           }}
-          onClick={() => console.log('Save button clicked')} // Add your save logic here
+          onClick={updateProfile} // Add your save logic here
         >
           Save
         </button>

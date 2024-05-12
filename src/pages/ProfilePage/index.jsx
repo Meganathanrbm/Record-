@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import FormComponent from "./form";
 import AdminInstitution from "./Admin";
+import currentUserState from "../../store/staff.store";
+import { useRecoilState } from "recoil";
 
 const Profile = () => {
-  const admin = false;
+  
+  const [admin,setAdmin]= useState([false]);
+  const [currentLoggedInUser, setCurrentLoggedInUser] =
+    useRecoilState(currentUserState);
   const [active, setActive] = useState("Profile");
+
+  useEffect(()=>{
+    if (currentLoggedInUser && currentLoggedInUser.role) {
+    setAdmin(currentLoggedInUser.role === "Administrator");
+    }
+  },[])
+
   return (
     <div className="d-flex justify-content-between">
       <section
@@ -23,7 +35,7 @@ const Profile = () => {
           className="mt-2 mb-2"
           style={{ fontWeight: "700", fontSize: "19px" }}
         >
-          Jhone Doe
+          {currentLoggedInUser.name}
         </h3>
         <div style={{ width: "-webkit-fill-available" }}>
           <ul
@@ -42,7 +54,7 @@ const Profile = () => {
             >
               Profile
             </li>
-            {!admin && (
+            {admin && (
               <li
                 className="tw-cursor-pointer"
                 onClick={() => setActive("Users")}

@@ -26,6 +26,8 @@ export default function ProtectedRouter() {
           mobile: data.data.mobile,
           institutionId: data.data.institutionId,
           role: data.data.role,
+          designation:data.data.designation,
+          departmentId:data.data.departmentId,
         };
 
         setCurrentLoggedInUser(userData);
