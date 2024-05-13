@@ -45,7 +45,7 @@ const AdminInstitution = () => {
         setInstitutionUsers(res.data.data);
       },
       error: (err) => {
-        console.error(err);
+        alert("Error Occurred Try After Some Time")
       },
     });
   }, []);
@@ -131,7 +131,7 @@ function FormComponent({user,onSubmit}) {
         setDepartments(res.data.data);
       },
       error: (err) => {
-        console.error(err);
+        alert("Error Occurred Try After Some Time")
       },
     });
   }, []);
@@ -157,7 +157,7 @@ function FormComponent({user,onSubmit}) {
         window.location.reload();
       },
       error:(err)=>{
-        console.error(err);
+        alert("Error Occurred Try After Some Time")
       }
     })):( dashboardApi.postAddInstitutionUsers({
       payload:formData,
@@ -166,7 +166,7 @@ function FormComponent({user,onSubmit}) {
         alert("User Added Successfully")
         window.location.reload();
       },error:(err)=>{
-        console.error(err);
+        alert("Error Occurred Try After Some Time")
       }
     }))
     setFormData({

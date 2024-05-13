@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import placementApi from "../../apis/placement.api";
 
 const PlacementJobRole = () => {
-  const { jobId,jobRole } = useParams();
+  const { jobId, jobRole } = useParams();
 
   const [jobData, setJobData] = useState([]);
 
@@ -11,11 +11,10 @@ const PlacementJobRole = () => {
     placementApi.getJobRole({
       jobId,
       success: (res) => {
-        console.log(res.data.data);
         setJobData(res.data.data);
       },
       error: (err) => {
-        console.error(err);
+        alert("Error Occurred Try After Some Time");
       },
     });
   }, [jobId]);
@@ -24,29 +23,32 @@ const PlacementJobRole = () => {
     const [responsibilitiesText, requirementsText] =
       description.split("Requirements:");
 
-    const responsibilities = responsibilitiesText?(responsibilitiesText
-      .split("\n")
-      .filter((line) => line.trim().startsWith("●"))
-      .map((line) => line.trim().slice(1).trim())):null;
+    const responsibilities = responsibilitiesText
+      ? responsibilitiesText
+          .split("\n")
+          .filter((line) => line.trim().startsWith("●"))
+          .map((line) => line.trim().slice(1).trim())
+      : null;
 
-    const requirements = requirementsText?(requirementsText
-      .split("\n")
-      .filter((line) => line.trim().length > 0)
-      .map((line) => line.trim())):null;
+    const requirements = requirementsText
+      ? requirementsText
+          .split("\n")
+          .filter((line) => line.trim().length > 0)
+          .map((line) => line.trim())
+      : null;
     return { responsibilities, requirements };
   };
 
   const { responsibilities, requirements } = jobData.jobDescription
     ? parseJobDescription(jobData.jobDescription)
     : "";
-  console.log(jobData);
+
   return (
     <div className="tw-w-auto tw-mt-10 tw-h-full tw-flex tw-flex-col tw-overflow-hidden">
       {/* organisation */}
       <div className="tw-flex tw-gap-6">
         <h4 className="tw-font-bold tw-text-[18px] tw-capitalize">
           {jobData.jobDesignation ? jobData.jobDesignation : ""}
-          
         </h4>
         <div className="tw-flex tw-flex-col">
           <h4 className="tw-font-bold tw-text-xl gradiant-color tw-capitalize">

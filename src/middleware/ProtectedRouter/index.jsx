@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate, Outlet, Navigate } from "react-router-dom";
 
-
 import currentUserState from "../../store/staff.store";
 
 import authApi from "../../apis/auth.api";
@@ -20,14 +19,14 @@ export default function ProtectedRouter() {
       success: ({ data }) => {
         const userData = {
           isLoggedIn: true,
-          staffId: data.data.staffId, 
+          staffId: data.data.staffId,
           name: data.data.fullName,
           email: data.data.email,
           mobile: data.data.mobile,
           institutionId: data.data.institutionId,
           role: data.data.role,
-          designation:data.data.designation,
-          departmentId:data.data.departmentId,
+          designation: data.data.designation,
+          departmentId: data.data.departmentId,
         };
 
         setCurrentLoggedInUser(userData);
@@ -43,9 +42,8 @@ export default function ProtectedRouter() {
 
   useEffect(() => {
     checkUserSession();
-  }, [navigate]); 
+  }, [navigate]);
 
-  
   return (
     <>
       {isLoaded ? (

@@ -12,7 +12,6 @@ const ModalComponent = ({
   onClose,
   profile,
 }) => {
- 
   const handleSaveAndClose = () => {
     onSave(); // Trigger onSave function
     closeModal(); // Close modal
@@ -20,12 +19,12 @@ const ModalComponent = ({
 
   const closeModal = () => {
     const modal = document.getElementById(target);
-  
+
     modal && modal.classList.remove("show");
     const backdrop = document.querySelector(".modal-backdrop");
-  
+
     backdrop && backdrop.remove();
-    onClose();
+    onClose ? onClose() : null;
   };
   return (
     <div
@@ -54,32 +53,33 @@ const ModalComponent = ({
                 className="btn-close d-flex tw-justify-center tw-h-6 tw-w-6 tw-items-center"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={closeModal} 
+                onClick={closeModal}
               >
                 <HiMiniXMark className="tw-h-6 tw-w-6" />
               </button>
             </div>
             {children}
             <div className="d-flex justify-content-end mt-4 mb-5">
-              {!profile?(
-              btn ? (
-                btn
-              ) : (
-                <button
-                  type="button"
-                  className="tw-text-white tw-text-base tw-ml-auto tw-float-right tw-text-center tw-px-4 tw-py-2 tw-rounded-md tw-font-medium"
-                  style={{
-                    backgroundColor:
-                      "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+              {!profile ? (
+                btn ? (
+                  btn
+                ) : (
+                  <button
+                    type="button"
+                    className="tw-text-white tw-text-base tw-ml-auto tw-float-right tw-text-center tw-px-4 tw-py-2 tw-rounded-md tw-font-medium"
+                    style={{
+                      backgroundColor:
+                        "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
 
-                    background:
-                      "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
-                  }}
-                  onClick={handleSaveAndClose}
-                >
-                  {btnTitle} <img src={btnIcon && btnIcon} alt="" />
-                </button>
-              )):null}
+                      background:
+                        "linear-gradient(180deg, #EB7C49 -0.55%, #F04F52 121.03%)",
+                    }}
+                    onClick={handleSaveAndClose}
+                  >
+                    {btnTitle} <img src={btnIcon && btnIcon} alt="" />
+                  </button>
+                )
+              ) : null}
             </div>
           </div>
         </div>

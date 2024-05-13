@@ -20,8 +20,8 @@
             y2="13.3168"
             gradientUnits="userSpaceOnUse"
         >
-            <stop stop-color="#CBCBCB" />
-            <stop offset="1" stop-color="#CBCBCB" />
+            <stop stop-color="#EB7C49" />
+            <stop offset="1" stop-color="#F04F52" />
         </linearGradient>
     </defs>
 </svg>

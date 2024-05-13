@@ -1,4 +1,4 @@
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import welcome from "../../assets/svg/registerPage/welcome.svg";
 import logo2 from "../../assets/svg/registerPage/schoolLogo.svg";
@@ -11,55 +11,53 @@ import currentUserState from "../../store/staff.store";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({ email: '', password: '' });
+  const [userData, setUserData] = useState({ email: "", password: "" });
   const [forgetPassword, setForgetPassword] = useState(false);
   const [isUserNotAuthenticated, setIsUserNotAuthenticated] = useState(false);
   const [currentLoggedInUser, setCurrentLoggedInUser] =
     useRecoilState(currentUserState);
-console.log(currentLoggedInUser);
-function handleLogin() {
-      authApi.handleLogin({
-        payload: userData,
-        success: (res) => {
-          console.log("Login Success", res);
-          setCurrentLoggedInUser({
-            ...currentLoggedInUser,
-            email: userData.email,
-            isLoggedIn: true,
-          });
-          
-         navigate("/dashboard"); 
+
+  function handleLogin() {
+    authApi.handleLogin({
+      payload: userData,
+      success: (res) => {
+        setCurrentLoggedInUser({
+          ...currentLoggedInUser,
+          email: userData.email,
+          isLoggedIn: true,
+        });
+
+        navigate("/dashboard");
+      },
+      error: (err) => {
+        alert("Email or Password may incorrect!");
+        message.error(
+          err?.response?.data?.message || "Email or Password may incorrect!"
+        );
+      },
+    });
+
+    setUserData({ email: "", password: "" });
+  }
+
+  const checkIfUserIsLoggedIn = () => {
+    if (!currentLoggedInUser.isLoggedIn) {
+      authApi.verifySession({
+        success: () => {
+          navigate("/dashboard");
         },
-        error: (err) => {
-          alert("Email or Password may incorrect!");
-          message.error(
-            err?.response?.data?.message || "Email or Password may incorrect!"
-          );
-          console.log("Login Error", err);
+        error: () => {
+          setIsUserNotAuthenticated(true);
         },
       });
-      
-      setUserData({ email: "", password: "" });
+    } else {
+      navigate("/");
     }
+  };
 
-    const checkIfUserIsLoggedIn = () => {
-      if (!currentLoggedInUser.isLoggedIn) {
-        authApi.verifySession({
-          success: () => {
-            navigate("/dashboard");
-          },
-          error: () => {
-            setIsUserNotAuthenticated(true);
-          },
-        });
-      } else {
-        navigate("/");
-      }
-    };
-  
-    useEffect(() => {
-      checkIfUserIsLoggedIn();
-    }, []);
+  useEffect(() => {
+    checkIfUserIsLoggedIn();
+  }, []);
 
   return (
     <div
@@ -135,16 +133,20 @@ function handleLogin() {
               style={{ width: "23vw" }}
             >
               <div className="mb-3">
-                <InputComponent 
-                 value={userData.email} 
-                 onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                 />
+                <InputComponent
+                  value={userData.email}
+                  onChange={(e) =>
+                    setUserData({ ...userData, email: e.target.value })
+                  }
+                />
               </div>
               <div className="mb-3">
-                <InputComponent 
-                value={userData.password} // Pass current value
-                onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-                icon={true}
+                <InputComponent
+                  value={userData.password} // Pass current value
+                  onChange={(e) =>
+                    setUserData({ ...userData, password: e.target.value })
+                  }
+                  icon={true}
                 />
               </div>
               <button

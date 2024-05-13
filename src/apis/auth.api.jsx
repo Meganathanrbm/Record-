@@ -61,17 +61,17 @@ const authApi = {
     const pathWithParams = `${changePassword}/${password_reset_token}`;
     console.log(pathWithParams);
     axios.postRequest({
-      path:pathWithParams,
+      path: pathWithParams,
       payload,
       success,
       error,
     });
   },
-  postAddStudent:({payload,success,error})=>{
-    const{
-      auth:{addStudent},
-    }=apiPath;
-    axios.postRequest({path:addStudent,payload,success,error})
+  postAddStudent: ({ payload, success, error }) => {
+    const {
+      auth: { addStudent },
+    } = apiPath;
+    axios.postRequest({ path: addStudent, payload, success, error });
   },
 };
 

@@ -11,25 +11,22 @@ const ChangePassword = () => {
     confirm: "",
   });
   const navigate = useNavigate();
-  const {password_reset_token} = useParams();
+  const { password_reset_token } = useParams();
   const handleChangePassword = () => {
     if (password.new !== password.confirm) {
       setPassword({ new: "", confirm: "" });
       return alert("Incorrect password");
     }
-    console.log(password_reset_token);
+
     authApi.changePassword({
       password_reset_token,
       payload: { password: password.confirm },
       success: (res) => {
-        console.log("Change Password Success", res);
+        alert("Password Changed SuccessFully");
         navigate("/");
       },
       error: (err) => {
-        console.error(
-          err?.response?.data?.message || "Failed to  Change Password"
-        );
-        console.log("Change Password Request Error", err);
+        alert("Error Occurred Failed to  Change Password");
       },
     });
     setPassword({ new: "", confirm: "" });
@@ -53,14 +50,14 @@ const ChangePassword = () => {
         style={{ width: " -webkit-fill-available" }}
       >
         <div className="d-flex flex-column justify-content-between align-items-start p-4 gap-3 w-100">
-        <button
-          className="d-flex btn fw-semibold p-2"
-          style={{ backgroundColor: "rgba(237, 242, 246, 1)" }}
-          onClick={() => navigate("/")}
-        >
-          <img src={leftArrow} alt="" className="p-2" />
-          Go Back
-        </button>
+          <button
+            className="d-flex btn fw-semibold p-2"
+            style={{ backgroundColor: "rgba(237, 242, 246, 1)" }}
+            onClick={() => navigate("/")}
+          >
+            <img src={leftArrow} alt="" className="p-2" />
+            Go Back
+          </button>
           <section className="d-flex flex-column justify-content-center align-items-center gap-3 mb-5 w-100 ">
             <img src={logo2} alt="" />
             <h1>Change Password ?</h1>

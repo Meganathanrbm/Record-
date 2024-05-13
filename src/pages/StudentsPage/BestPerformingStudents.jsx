@@ -1,24 +1,24 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import ActiveStudents from "../DashboardPage/activeStudents";
 import timer from "../../assets/svg/students/timer.svg";
 import studentApi from "../../apis/student.api";
 
 const BestPerformingStudents = () => {
-  const [students,setStudents]=useState([]);
-  const [department,setDepartment]=useState([]);
-  useEffect(()=>{
+  const [students, setStudents] = useState([]);
+  const [department, setDepartment] = useState([]);
+  useEffect(() => {
     studentApi.getBestStudents({
-      success:(res) => {
+      success: (res) => {
         const bestStudents = res.data.data.bestPerformingStudents || [];
         setStudents(bestStudents);
-        const mostActiveDepart=res.data.data.mostActiveDepartments ||[];
-        setDepartment(mostActiveDepart)
+        const mostActiveDepart = res.data.data.mostActiveDepartments || [];
+        setDepartment(mostActiveDepart);
       },
-      error:(err) =>{
-        console.log("error",err);
-      }
-    })
-  },[])
+      error: (err) => {
+        alert("Error Occurred Try After Some Time");
+      },
+    });
+  }, []);
   return (
     <div className="d-flex tw-justify-between gap-4 tw-mt-4">
       {/* Best Performing Students */}
@@ -55,7 +55,6 @@ const BestPerformingStudents = () => {
               <ActiveStudents
                 key={index}
                 {...item}
-                
                 icon={timer}
                 path={"/students/department"}
               />
