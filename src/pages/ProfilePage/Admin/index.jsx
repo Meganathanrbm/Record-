@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import usersData from "./UserData";
 import styles from "./index.module.css";
 import ModalComponent from "../../../components/Modal/ModalComponent";
 import penEditIcon from "../../../assets/svg/editPenIcon.svg";
