@@ -24,15 +24,15 @@ const PlacementJobRole = () => {
     const [responsibilitiesText, requirementsText] =
       description.split("Requirements:");
 
-    const responsibilities = responsibilitiesText
+    const responsibilities = responsibilitiesText?(responsibilitiesText
       .split("\n")
       .filter((line) => line.trim().startsWith("●"))
-      .map((line) => line.trim().slice(1).trim());
+      .map((line) => line.trim().slice(1).trim())):null;
 
-    const requirements = requirementsText
+    const requirements = requirementsText?(requirementsText
       .split("\n")
       .filter((line) => line.trim().length > 0)
-      .map((line) => line.trim());
+      .map((line) => line.trim())):null;
     return { responsibilities, requirements };
   };
 

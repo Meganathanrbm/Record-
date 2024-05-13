@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoX } from "react-icons/go";
-import skillApi from "../../apis/skill.api";
+import skillApi from "../../apis/skills.api";
 
 const Addskills = ({ setUserInput, userInput }) => {
   const [skills, setskills] = useState([]);

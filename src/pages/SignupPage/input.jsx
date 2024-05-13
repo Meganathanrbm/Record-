@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 
-const InputComponent = ({ icon,value,onChange }) => {
+const InputComponent = ({ icon,value,onChange, onEmailChange }) => {
   const [isHidden, setIsHidden] = useState(true);
+
+  const handleInputChange = (e) => {
+    onChange(e);
+    if (onEmailChange && e.target.name === "email") {
+      onEmailChange(e.target.value); // Pass the email value to the parent component
+    }
+  };
   return (
     <div
       className="d-flex align-items-center border rounded-3 "
@@ -17,7 +24,8 @@ const InputComponent = ({ icon,value,onChange }) => {
           borderStyle: "none",
         }}
         value={value}
-        onChange={onChange}
+        onChange={handleInputChange}
+        name="email"
       />
       <div onClick={() => setIsHidden(!isHidden)}>
         {icon && <i class={isHidden ? "bi bi-eye-slash" : "bi bi-eye"}></i>}

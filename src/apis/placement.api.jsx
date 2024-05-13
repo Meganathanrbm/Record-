@@ -23,6 +23,12 @@ const placementApi={
         const pathWithParams = `${getJobRole}/${jobId}`;
         axios.getRequest({ path:pathWithParams,success, error });
     },
+    postJobRole:({payload,success,error})=>{
+        const{
+            placement:{postJobRole},
+        }=apiPath;
+        axios.postRequest({path:postJobRole,payload,success,error})
+    }
 };
 
 export default placementApi;

@@ -3,10 +3,27 @@ import { useNavigate } from "react-router-dom";
 import InputComponent from "./input";
 import leftArrow from "../../assets/svg/leftarrow.svg";
 import record from "../../assets/svg/record.svg";
-
+import authApi from "../../apis/auth.api";
 const ForgotPassword = ({ setForgetPassword }) => {
   const [email, setEmail] = useState(true);
-  //   const navigate = useNavigate();
+  const [rprEmail, setRprEmail] = useState("");
+
+  const handleResetPassword = () => {
+    console.log(rprEmail);
+    authApi.resetPassword({
+      payload: { email: rprEmail },
+      success: (res) => {
+        console.log("Reset Password Request Success", res);
+        setEmail(false);
+      },
+      error: (err) => {
+        console.error(
+          err?.response?.data?.message || "Failed to Rest Password Request"
+        );
+        console.log("Rest Password Request Error", err);
+      },
+    });
+  };
 
   return (
     <div
@@ -43,7 +60,11 @@ const ForgotPassword = ({ setForgetPassword }) => {
               </p>
               <section className="d-flex flex-column justify-content-center align-items-strech w-50">
                 <div className="mb-3">
-                  <InputComponent />
+                  <InputComponent 
+                   value={rprEmail}
+                   onChange={(e) => setRprEmail(e.target.value)}
+                   onEmailChange={(value) => setRprEmail(value)}
+                   />
                 </div>
                 <button
                   type="button"
@@ -52,7 +73,7 @@ const ForgotPassword = ({ setForgetPassword }) => {
                     backgroundColor: "rgba(43, 102, 246, 1)",
                     color: "white",
                   }}
-                  onClick={(e) => setEmail(false)}
+                   onClick={handleResetPassword}
                 >
                   Send
                 </button>
@@ -80,7 +101,7 @@ const ForgotPassword = ({ setForgetPassword }) => {
                     backgroundColor: "rgba(43, 102, 246, 1)",
                     color: "white",
                   }}
-                  //   onClick={() => navigate("/register")}
+                  onClick={() => setForgetPassword(false)}
                 >
                   Sign In Now
                 </button>

@@ -12,19 +12,22 @@ const apiPathConstants = {
     register: setBaseUrlPrefix("/auth/staff/register"),
     googleSSO: setBaseUrlPrefix("/auth/google-sso"),
     verifySession: setBaseUrlPrefix("/auth/staff/verify-session"),
-    changePassword: setBaseUrlPrefix("/auth/staff/change-password"),
+    changePassword: setBaseUrlPrefix("/auth/staff/reset-password"),
     forgotPassword: setBaseUrlPrefix("/auth/staff/forgot-password"),
     verificationEmail: setBaseUrlPrefix("/auth/send/verification-email"),
+    addStudent:setBaseUrlPrefix("/auth/staff/student"),
   },
   student:{
     getBestStudents: setBaseUrlPrefix("/students"),
     getStudentProfile:setBaseUrlPrefix("/students/profile"),
     getDepartmentProfile:setBaseUrlPrefix("/students/department"),
+    
   },
   placement:{
     getHomePlacementPage:setBaseUrlPrefix("/placement/home"),
     getOrganizationView:setBaseUrlPrefix("/placement/organisation"),
     getJobRole:setBaseUrlPrefix("/placement/job"),
+    postJobRole:setBaseUrlPrefix("/placement/job")
   },
   skill: {
     getSkills: setBaseUrlPrefix("/skill"),
