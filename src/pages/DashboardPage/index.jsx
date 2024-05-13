@@ -20,27 +20,27 @@ const DashBoard = () => {
   const [currentLoggedInUser, setCurrentLoggedInUser] =
     useRecoilState(currentUserState);
   useEffect(() => {
-    if(currentLoggedInUser.role==="Staff"){
-    dashboardApi.getStaffDashboard({
-      success: (res) => {
-        setDashboardData(res.data.data);
-        setSkills(res.data.data.mostAcquiredSkills);
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
-  }else{
-    dashboardApi.getAdminDashboard({
-      success: (res) => {
-        setDashboardData(res.data.data);
-        setSkills(res.data.data.mostAcquiredSkills);
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
-  }
+    if (currentLoggedInUser.role === "Staff") {
+      dashboardApi.getStaffDashboard({
+        success: (res) => {
+          setDashboardData(res.data.data);
+          setSkills(res.data.data.mostAcquiredSkills);
+        },
+        error: (err) => {
+          alert("Error Occurred in Staff DashBoard");
+        },
+      });
+    } else {
+      dashboardApi.getAdminDashboard({
+        success: (res) => {
+          setDashboardData(res.data.data);
+          setSkills(res.data.data.mostAcquiredSkills);
+        },
+        error: (err) => {
+          alert("Error Occurred in Admin DashBoard");
+        },
+      });
+    }
   }, []);
 
   return (
@@ -58,7 +58,11 @@ const DashBoard = () => {
               }}
               className="gradiant-color tw-text-xl"
             >
-              {((dashboardData.departmentName || dashboardData.InstitutionName) && currentLoggedInUser.role=="Administrator") ? dashboardData.InstitutionName : dashboardData.departmentName}
+              {(dashboardData.departmentName ||
+                dashboardData.InstitutionName) &&
+              currentLoggedInUser.role == "Administrator"
+                ? dashboardData.InstitutionName
+                : dashboardData.departmentName}
             </h3>
             <p style={{ color: "rgba(154, 154, 154, 1)" }}>
               Your students are performing well, look at some of their awesome
@@ -91,12 +95,14 @@ const DashBoard = () => {
               className="mb-4"
               style={{ fontSize: "1.2rem", fontWeight: "650" }}
             >
-              {dashboardData && currentLoggedInUser.role=="Administrator"
+              {dashboardData && currentLoggedInUser.role == "Administrator"
                 ? `Most Active Departments`
                 : `Most Active Students`}
             </h3>
             <section className="border rounded-4">
-              {(dashboardData.mostActiveDepartments || dashboardData.mostActiveStudents) && currentLoggedInUser.role=="Administrator"
+              {(dashboardData.mostActiveDepartments ||
+                dashboardData.mostActiveStudents) &&
+              currentLoggedInUser.role == "Administrator"
                 ? dashboardData.mostActiveDepartments.map((item, index) => (
                     <ActiveStudents
                       key={index}
@@ -105,9 +111,14 @@ const DashBoard = () => {
                       path="/students/department"
                     />
                   ))
-                : (dashboardData.mostActiveStudents?.map((item, index) => (
-                    <ActiveStudents key={index} index={index} {...item}  path="/students/profile"/>
-                  )))}
+                : dashboardData.mostActiveStudents?.map((item, index) => (
+                    <ActiveStudents
+                      key={index}
+                      index={index}
+                      {...item}
+                      path="/students/profile"
+                    />
+                  ))}
             </section>
           </div>
           <div style={{ width: "40%" }}>
@@ -164,7 +175,9 @@ const DashBoard = () => {
         <StatsCard
           icon={timer}
           value={
-            dashboardData.totalMontlyHoursOfInvolvement ? dashboardData.totalMontlyHoursOfInvolvement : 0
+            dashboardData.totalMontlyHoursOfInvolvement
+              ? dashboardData.totalMontlyHoursOfInvolvement
+              : 0
           }
           iconWidth={"1.3vw"}
           fontSize={"x-large"}
@@ -173,7 +186,11 @@ const DashBoard = () => {
         <div className="d-flex justify-content-between mb-3 gap-2 mt-3">
           <StatsCard
             icon={achivement}
-            value={dashboardData.skillsBeingLearntActively ? dashboardData.skillsBeingLearntActively : 0}
+            value={
+              dashboardData.skillsBeingLearntActively
+                ? dashboardData.skillsBeingLearntActively
+                : 0
+            }
             iconWidth={"1.3vw"}
             fontSize={"x-large"}
             text={"Skills being learnt actively"}
@@ -182,7 +199,9 @@ const DashBoard = () => {
           />
           <StatsCard
             icon={student}
-            value={dashboardData.activeStudents ? dashboardData.activeStudents : 0}
+            value={
+              dashboardData.activeStudents ? dashboardData.activeStudents : 0
+            }
             iconWidth={"1.3vw"}
             fontSize={"x-large"}
             text={"Active Students"}

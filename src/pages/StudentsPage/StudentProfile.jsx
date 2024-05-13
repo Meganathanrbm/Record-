@@ -52,12 +52,10 @@ const StudentProfile = () => {
         setProject(res.data.data.projects);
       },
       error: (err) => {
-        console.log(err);
+        alert("Error Occurred Try After Some Time");
       },
     });
   }, [studentId]);
-
-
 
   function formatMonthYear(dateString) {
     const date = new Date(dateString);
@@ -81,7 +79,9 @@ const StudentProfile = () => {
 
     return `${month} ${year}`;
   }
-  const totalLearned = data.learningActivities? (data.learningActivities.reduce((total, item) => total + item.learned, 0)):0;
+  const totalLearned = data.learningActivities
+    ? data.learningActivities.reduce((total, item) => total + item.learned, 0)
+    : 0;
   const pronoun = data.gender
     ? data.gender === "male"
       ? "he/him"
@@ -103,7 +103,10 @@ const StudentProfile = () => {
             className="tw-inline-flex tw-mr-1  tw-h-3 tw-w-3"
             alt="timer"
           />
-          {totalLearned} / <span className="tw-text-[11px]">{data.goalHours}{" "}{data.goalType}</span>
+          {totalLearned} /{" "}
+          <span className="tw-text-[11px]">
+            {data.goalHours} {data.goalType}
+          </span>
         </p>
         {/* profile */}
         <div className="tw-w-full tw-border-b-2 pb-4 d-flex gap-2 tw-justify-between tw-items-center ">
@@ -440,7 +443,7 @@ const StudentProfile = () => {
           {otherActivity.map((item) => {
             return (
               <Card
-              key={item.activityId}
+                key={item.activityId}
                 logo={item.logo ? item.logo : emptyLogo}
                 about={item.description}
                 tag={item.tag}

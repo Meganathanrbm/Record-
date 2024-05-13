@@ -9,18 +9,16 @@ const ForgotPassword = ({ setForgetPassword }) => {
   const [rprEmail, setRprEmail] = useState("");
 
   const handleResetPassword = () => {
-    console.log(rprEmail);
     authApi.resetPassword({
       payload: { email: rprEmail },
       success: (res) => {
-        console.log("Reset Password Request Success", res);
+        alert("Reset Password Request Success");
         setEmail(false);
       },
       error: (err) => {
-        console.error(
+        alert(
           err?.response?.data?.message || "Failed to Rest Password Request"
         );
-        console.log("Rest Password Request Error", err);
       },
     });
   };
@@ -60,11 +58,11 @@ const ForgotPassword = ({ setForgetPassword }) => {
               </p>
               <section className="d-flex flex-column justify-content-center align-items-strech w-50">
                 <div className="mb-3">
-                  <InputComponent 
-                   value={rprEmail}
-                   onChange={(e) => setRprEmail(e.target.value)}
-                   onEmailChange={(value) => setRprEmail(value)}
-                   />
+                  <InputComponent
+                    value={rprEmail}
+                    onChange={(e) => setRprEmail(e.target.value)}
+                    onEmailChange={(value) => setRprEmail(value)}
+                  />
                 </div>
                 <button
                   type="button"
@@ -73,7 +71,7 @@ const ForgotPassword = ({ setForgetPassword }) => {
                     backgroundColor: "rgba(43, 102, 246, 1)",
                     color: "white",
                   }}
-                   onClick={handleResetPassword}
+                  onClick={handleResetPassword}
                 >
                   Send
                 </button>

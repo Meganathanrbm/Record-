@@ -9,30 +9,40 @@ const institutionApi = {
     } = apiPath;
     axios.getRequest({ path: getInstitutionProfile, success, error });
   },
-  getInstitutionDepartment:({query,success,error})=>{
+  getInstitutionDepartment: ({ query, success, error }) => {
     const {
       institution: { getInstitutionDepartment },
     } = apiPath;
-    axios.getRequest({ path: getInstitutionDepartment, success, error })
+    axios.getRequest({ path: getInstitutionDepartment, success, error });
   },
-  postInstitutionDepartment:({payload, success, error})=>{
-    const{
-      institution:{postInstitutionDepartment},
-    }=apiPath;
-    axios.postRequest({path:postInstitutionDepartment,payload,success,error})
+  postInstitutionDepartment: ({ payload, success, error }) => {
+    const {
+      institution: { postInstitutionDepartment },
+    } = apiPath;
+    axios.postRequest({
+      path: postInstitutionDepartment,
+      payload,
+      success,
+      error,
+    });
   },
-  putInstitutionProfile:({payload,success,error})=>{
-    const{
-      institution:{UpdateInstitutionProfile},
-    }=apiPath;
-    axios.putRequest({path:UpdateInstitutionProfile,payload,success,error})
+  putInstitutionProfile: ({ payload, success, error }) => {
+    const {
+      institution: { UpdateInstitutionProfile },
+    } = apiPath;
+    axios.putRequest({
+      path: UpdateInstitutionProfile,
+      payload,
+      success,
+      error,
+    });
   },
-  UpdateDepartment:({departmentId,payload,success,error})=>{
-    const{
-      institution:{putInstitutionDepartment},
-    }=apiPath;
+  UpdateDepartment: ({ departmentId, payload, success, error }) => {
+    const {
+      institution: { putInstitutionDepartment },
+    } = apiPath;
     const pathWithParams = `${putInstitutionDepartment}/${departmentId}`;
-    axios.putRequest({path:pathWithParams,payload,success,error})
+    axios.putRequest({ path: pathWithParams, payload, success, error });
   },
 };
 

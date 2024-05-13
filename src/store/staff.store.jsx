@@ -6,12 +6,12 @@ const staff = atom({
     isLoggedIn: false,
     staffId: "",
     name: "",
-    departmentId:"",
-    designation:"",
+    departmentId: "",
+    designation: "",
     profilePicture: "",
     username: "",
     email: "",
-    isActive: false, 
+    isActive: false,
   },
 });
 

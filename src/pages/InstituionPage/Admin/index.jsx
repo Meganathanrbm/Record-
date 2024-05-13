@@ -8,6 +8,7 @@ const AdminDepartments = () => {
   const [departments, setDepartment] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const navigate = useNavigate();
+
   const [departmentData, setDepartmentData] = useState({
     name: "",
     programType: "",
@@ -18,7 +19,6 @@ const AdminDepartments = () => {
     setSelectedDepartment(department);
   };
   const handleCloseModal = () => {
-    
     setSelectedDepartment(null);
   };
 
@@ -28,40 +28,20 @@ const AdminDepartments = () => {
         setDepartment(res.data.data);
       },
       error: (err) => {
-        console.error(err);
+        alert("Error Occurred Try After Some Time");
       },
     });
   }, []);
 
-  const handleAddDepartment = () => {
-    institutionApi.postInstitutionDepartment({
-      payload: departmentData,
-      success: (res) => {
-        
- navigate(`/students/department/${res.data.data.departmentId}`);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-
-    setDepartmentData({
-      name: "",
-      programType: "",
-      programDuration: "",
-    });
-  };
-
   const UpdateDepartment = (departmentId) => {
     institutionApi.UpdateDepartment({
-      departmentId, 
+      departmentId,
       payload: selectedDepartment,
       success: (res) => {
-        
         navigate(`/students/department/${res.data.profile.departmentId}`);
       },
       error: (err) => {
-        console.log(err);
+        alert("Error Occurred Try After Some Time");
       },
     });
   };
@@ -73,7 +53,7 @@ const AdminDepartments = () => {
           type="button"
           class="btn btn-primary"
           data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
+          data-bs-target="#dropdown2"
           className="tw-text-white tw-px-4 tw-py-2 tw-rounded-md tw-font-medium"
           style={{
             backgroundColor:
@@ -92,7 +72,7 @@ const AdminDepartments = () => {
           onSave={
             selectedDepartment
               ? () => UpdateDepartment(selectedDepartment.departmentId)
-              : handleAddDepartment
+              : null
           }
           department={selectedDepartment}
           onClose={handleCloseModal}
@@ -117,8 +97,12 @@ const AdminDepartments = () => {
               (selectedDepartment ? selectedDepartment.name : "")
             }
             onChange={(e) =>
-              (selectedDepartment?setSelectedDepartment({...selectedDepartment,name:e.target.value}):
-              setDepartmentData({ ...departmentData, name: e.target.value }))
+              selectedDepartment
+                ? setSelectedDepartment({
+                    ...selectedDepartment,
+                    name: e.target.value,
+                  })
+                : setDepartmentData({ ...departmentData, name: e.target.value })
             }
           />
           <div className="d-flex tw-my-4 tw-justify-between tw-items-center">
@@ -139,8 +123,15 @@ const AdminDepartments = () => {
                   (selectedDepartment ? selectedDepartment.programType : "")
                 }
                 onChange={(e) =>
-                  (selectedDepartment?setSelectedDepartment({...selectedDepartment,programType:e.target.value}):
-                  setDepartmentData({ ...departmentData, programType: e.target.value }))
+                  selectedDepartment
+                    ? setSelectedDepartment({
+                        ...selectedDepartment,
+                        programType: e.target.value,
+                      })
+                    : setDepartmentData({
+                        ...departmentData,
+                        programType: e.target.value,
+                      })
                 }
               >
                 <option value="" disabled>
@@ -172,8 +163,15 @@ const AdminDepartments = () => {
                   (selectedDepartment ? selectedDepartment.programDuration : "")
                 }
                 onChange={(e) =>
-                  (selectedDepartment?setSelectedDepartment({...selectedDepartment,programDuration:e.target.value}):
-              setDepartmentData({ ...departmentData, programDuration: e.target.value }))
+                  selectedDepartment
+                    ? setSelectedDepartment({
+                        ...selectedDepartment,
+                        programDuration: e.target.value,
+                      })
+                    : setDepartmentData({
+                        ...departmentData,
+                        programDuration: e.target.value,
+                      })
                 }
               >
                 <option value="" disabled>

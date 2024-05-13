@@ -37,7 +37,7 @@ const navigationRoutes = [
       {
         name: "Student_Search",
         path: "/students/search",
-        element: <StudentsSearch/>,
+        element: <StudentsSearch />,
       },
       {
         name: "Admin Department alone search",

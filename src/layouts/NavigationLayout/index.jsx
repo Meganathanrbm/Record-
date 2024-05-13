@@ -1,9 +1,9 @@
-import React ,{useState,useEffect}from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styles from "./index.module.css";
 import navigationConstants from "../../constants/navigation.constant";
-import settings from "../../assets/svg/settings.svg";
+import settingsicon from "../../assets/svg/settings.svg";
 import help from "../../assets/svg/help.svg";
 import navbarLogo from "../../assets/svg/navbarLogo.svg";
 import notificationImage from "../../assets/svg/notifications.svg";
@@ -12,48 +12,80 @@ import plusIcon from "../../assets/svg/plusIcon.svg";
 import feedIcon from "../../assets/svg/feedBtn.svg";
 import mySettings from "../../assets/svg/settings/mySettings.svg";
 import myNotifications from "../../assets/svg/settings/myNotification.svg";
+import activeMyNotification from "../../assets/svg/settings/activeMyNotification.svg";
+import activeMySettings from "../../assets/svg/settings/activeMySetting.svg";
 import integrations from "../../assets/svg/settings/integrations.svg";
+import activeIntegrations from "../../assets/svg/settings/activeIntegrations.svg";
 import logout from "../../assets/svg/settings/logout.svg";
+import activeLogout from "../../assets/svg/settings/activelogout.svg";
 import { HiMiniXMark } from "react-icons/hi2";
 import currentUserState from "../../store/staff.store";
-import ModalComponent from "../../components/Modal/ModalComponent";
 import institutionApi from "../../apis/institution.api";
+import authApi from "../../apis/auth.api";
+import AddDepartment from "../../pages/PlacementPage/AddDepartment";
+import JobRole from "../../pages/PlacementPage/JobRole";
 const settingsPanelTitle = [
   {
     title: "My Settings",
     status: true,
     icon: mySettings,
+    activeIcon: activeMySettings,
   },
   {
     title: "My Notifications",
     status: false,
     icon: myNotifications,
+    activeIcon: activeMyNotification,
   },
   {
     title: "Integrations",
     status: false,
     icon: integrations,
+    activeIcon: activeIntegrations,
   },
   {
     title: "Logout",
     status: false,
     icon: logout,
+    activeIcon: activeLogout,
   },
 ];
+const settingsContent = {
+  "My Settings": MySettingsComponent,
+  "My Notifications": MyNotificationsComponent,
+  Integrations: IntegrationsComponent,
+  Logout: LogoutComponent,
+};
 
 const NavigationLayout = () => {
   const [currentLoggedInUser, setCurrentLoggedInUser] =
     useRecoilState(currentUserState);
-    const [NavigationConstants, setNavigationConstants] = useState(navigationConstants);
-   
-    
+  const [NavigationConstants, setNavigationConstants] =
+    useState(navigationConstants);
+
+  const [selectedSetting, setSelectedSetting] = useState(
+    settingsPanelTitle[0].title
+  );
+  const [settings, setSettings] = useState(settingsPanelTitle);
+
+  const handleSettingClick = (title, index) => {
+    const updatedSettings = settings.map((setting, i) => {
+      if (i === index) {
+        return { ...setting, status: true };
+      } else {
+        return { ...setting, status: false };
+      }
+    });
+    setSettings(updatedSettings);
+    setSelectedSetting(title);
+  };
+
+  const SelectedSettingComponent = settingsContent[selectedSetting];
   const path = useLocation();
 
   useEffect(() => {
-    
     if (currentLoggedInUser.role === "Staff") {
       setNavigationConstants((prev) => {
-        // Create a copy of the current navigation constants and update the Students path
         return prev.map((item) => {
           if (item.name === "Students") {
             return { ...item, path: "/students/department" }; // Change path
@@ -65,7 +97,7 @@ const NavigationLayout = () => {
       setNavigationConstants((prev) => {
         return prev.map((item) => {
           if (item.name === "Students") {
-            return { ...item, path: "/students/search" }; 
+            return { ...item, path: "/students/search" };
           }
           return item;
         });
@@ -125,11 +157,10 @@ const NavigationLayout = () => {
             <button
               data-bs-toggle="modal"
               type="button"
-          
               data-bs-target="#settings"
               className="d-flex gap-3 tw-items-center fw-medium"
             >
-              <img src={settings} alt="settings" style={{ width: "1vw" }} />
+              <img src={settingsicon} alt="settings" style={{ width: "1vw" }} />
               <span>Settings</span>
             </button>
             {/* Modal */}
@@ -171,15 +202,20 @@ const NavigationLayout = () => {
                   Settings
                 </h2>
                 <ul>
-                  {settingsPanelTitle.map((title, i) => (
+                  {settings.map((setting, i) => (
                     <li
                       key={i}
+                      onClick={() => handleSettingClick(setting.title, i)}
                       className={` ${
-                        title.status ? "tw-text-black" : "tw-text-[#8F8F8F]"
+                        setting.status ? "tw-text-black" : "tw-text-[#8F8F8F]"
                       }   tw-flex tw-gap-2 tw-my-4 tw-items-center tw-font-semibold`}
                     >
-                      <img src={title.icon} className="tw-h-[17px]" alt="" />
-                      {title.title}
+                      <img
+                        src={setting.status ? setting.activeIcon : setting.icon}
+                        className="tw-h-[17px]"
+                        alt=""
+                      />
+                      {setting.title}
                     </li>
                   ))}
                 </ul>
@@ -193,6 +229,10 @@ const NavigationLayout = () => {
                 >
                   <HiMiniXMark className="tw-h-6 tw-w-6" />
                 </button>
+
+                <div className="content">
+                  <SelectedSettingComponent />
+                </div>
               </div>
             </div>
           </div>
@@ -206,10 +246,9 @@ const NavigationLayout = () => {
     </div>
   );
 };
-
-function TopNavbar({details}) {
+function TopNavbar({ details }) {
   const notification = false;
-
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
   const [departmentData, setDepartmentData] = useState({
@@ -223,11 +262,10 @@ function TopNavbar({details}) {
     institutionApi.postInstitutionDepartment({
       payload: departmentData,
       success: (res) => {
-        console.log(res.data.data);
-        setSuccess(true);
+        navigate(`/students/department/${res.data.data.departmentId}`);
       },
       error: (err) => {
-        console.log(err);
+        alert("Error Occurred Try After Some Time");
       },
     });
 
@@ -238,9 +276,26 @@ function TopNavbar({details}) {
     });
   };
 
-  const dropdown = [{ name: "Create Job Post",path:"#" },  ...(details.role !== "Staff"
-  ? [{ name: "Add Department", path: "/institution", onClick: handleAddDepartment }]
-  : [])];
+  const dropdown = [
+    ...(details.role !== "Staff"
+      ? [
+          {
+            name: "Create Job post",
+            path: "/institution",
+            onClick: handleAddDepartment,
+          },
+        ]
+      : []),
+    ...(details.role !== "Staff"
+      ? [
+          {
+            name: "Add Department",
+            path: "/institution",
+            onClick: handleAddDepartment,
+          },
+        ]
+      : []),
+  ];
   return (
     <section className="d-flex justify-content-between align-items-center w-100 mb-4">
       <div className="input-group mb-3 w-25">
@@ -256,139 +311,44 @@ function TopNavbar({details}) {
         />
       </div>
       <div className="d-flex justify-content-center align-items-center tw-gap-4 ">
-      {details.role && (
-  details.role !== "Staff" && (
-    <div className="dropdown">
-      <img
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        src={feedIcon}
-        className="tw-cursor-pointer tw-w-[25px] tw-h-[25px]"
-        alt="feedIcon"
-      />
-      <ul className="dropdown-menu">
-        {dropdown.map((item, index) => (
-          <li key={index} className="tw-w-[300px]">
-            {item.onClick ? (
-              <button
-                className="dropdown-item tw-flex tw-gap-4 tw-flex-nowrap"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-                onClick={item.onClick}
-              >
-                <img src={plusIcon} alt="" style={{ width: "15px" }} />
-                {item.name}
-              </button>
-            ) : (
-              <a
-                className="dropdown-item tw-flex tw-gap-4 tw-flex-nowrap"
-                href={item.path}
-              >
-                <img src={plusIcon} alt="" style={{ width: "15px" }} />
-                {item.name}
-              </a>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-)}
-
-        {showModal && (
-        <ModalComponent
-          title="Add Department"
-          btnTitle="Save & Update"
-          target="exampleModal" // Optional: Specify a custom target for the modal
-          onClose={() => setShowModal(false)} // Optional: Close modal function
-          onSave={handleAddDepartment}
-        >
-            <label
-            htmlFor="name"
-            className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-          >
-            Department Name
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="name"
-            placeholder="Ex: Department of Electronics Engineering"
-            style={{
-              backgroundColor: "rgba(243, 243, 243, 1)",
-              borderRadius: "7px",
-            }}
-            value={departmentData.name}
-            onChange={(e) =>
-              setDepartmentData({ ...departmentData, name: e.target.value })
-            }
-          />
-          <div className="d-flex tw-my-4 tw-justify-between tw-items-center">
-            <div className="">
-              <label
-                htmlFor="ProgramType"
-                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-              >
-                Program Type
-              </label>
-              <select
-                name="ProgramType"
-                id="ProgramType"
-                className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
-            tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-[200px] tw-pr-3 tw-font-medium"
-                value={departmentData.programType}
-                onChange={(e) =>
-                  setDepartmentData({
-                    ...departmentData,
-                    programType: e.target.value,
-                  })
-                }
-              >
-                <option value="" disabled>
-                  Select Program Type
-                </option>
-                <option value="Degree Program">Degree Program</option>
-                <option value="Integrated Program">Integrated Program</option>
-                <option value="Certificate Program">Certificate Program</option>
-                <option value="Diploma Program">Diploma Program</option>
-                <option value="Professional Program">
-                  Professional Program
-                </option>
-              </select>
-            </div>
-            <div className="">
-              <label
-                htmlFor="programDuration"
-                className="tw-text-[#8F8F8F] tw-font-medium tw-mb-1"
-              >
-                Program Duration
-              </label>
-              <select
-                name="programDuration"
-                id="programDuration"
-                className="tw-bg-[#F3F3F3] tw-border tw-border-gray-300 tw-text-black tw-text-md tw-rounded-lg tw-focus:ring-blue-500 
-            tw-focus:border-blue-500 tw-block tw-p-2.5 tw-w-[200px] tw-pr-3 tw-font-medium"
-                value={departmentData.programDuration}
-                onChange={(e) =>
-                  setDepartmentData({
-                    ...departmentData,
-                    programDuration: e.target.value,
-                  })
-                }
-              >
-                <option className="" >
-                  Select Program Duration
-                </option>
-                <option value="6 months">6 months</option>
-                <option value="1 year">1 year</option>
-                <option value="2 years">2 years</option>
-                <option value="3 years">3 years</option>
-                <option value="4 years">4 years</option>
-              </select>
-            </div>
+        {details.role && details.role !== "Staff" && (
+          <div className="dropdown">
+            <img
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              src={feedIcon}
+              className="tw-cursor-pointer tw-w-[25px] tw-h-[25px]"
+              alt="feedIcon"
+            />
+            <ul className="dropdown-menu">
+              {dropdown.map((item, index) => (
+                <li key={index} className="tw-w-[300px]">
+                  {item.onClick ? (
+                    <button
+                      className="dropdown-item tw-flex tw-gap-4 tw-flex-nowrap"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#dropdown${index + 1}`}
+                    >
+                      <img src={plusIcon} alt="" style={{ width: "15px" }} />
+                      {item.name}
+                    </button>
+                  ) : (
+                    <a
+                      className="dropdown-item tw-flex tw-gap-4 tw-flex-nowrap"
+                      href={item.path}
+                    >
+                      <img src={plusIcon} alt="" style={{ width: "15px" }} />
+                      {item.name}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <AddDepartment />
+            <JobRole />
           </div>
-        </ModalComponent>
-      )}
+        )}
+
         <div className="dropdown">
           <img
             className="tw-cursor-pointer tw-w-[25px] tw-h-[25px]  "
@@ -425,16 +385,63 @@ function TopNavbar({details}) {
           </ul>
         </div>
         <a href="/profile">
-        <img
-          src="https://randomuser.me/api/portraits/thumb/men/75.jpg"
-          alt=""
-          className="rounded-circle tw-h-[35px] tw-w-[35px]"
-         
-        />
+          <img
+            src="https://randomuser.me/api/portraits/thumb/men/75.jpg"
+            alt=""
+            className="rounded-circle tw-h-[35px] tw-w-[35px]"
+          />
         </a>
       </div>
     </section>
   );
 }
 
+function MySettingsComponent() {
+  return <div>Content for My Settings</div>;
+}
+
+function MyNotificationsComponent() {
+  const notification = false;
+  return (
+    <div>
+      <ul>
+        <div className="p-2">
+          <h6>Notifications</h6>
+        </div>
+        {notification ? (
+          <li>
+            <a className="dropdown-item" href="#">
+              Action
+            </a>
+          </li>
+        ) : (
+          <div className="d-flex flex-column justify-content-center align-items-center p-2">
+            <img src={notificationImage} alt="" />
+            <p className="text-center">
+              Oh! There is no notifications at the moment.
+            </p>
+          </div>
+        )}
+      </ul>
+    </div>
+  );
+}
+
+function IntegrationsComponent() {
+  return <div>Content for Integrations</div>;
+}
+
+function LogoutComponent() {
+  authApi.handleLogout({
+    success: (res) => {
+      alert("SuccessFully logged Out ");
+      window.location.reload();
+    },
+    error: (err) => {
+      alert("Error Occurred in Logout");
+    },
+  });
+
+  return <>Content for Logout</>;
+}
 export default NavigationLayout;

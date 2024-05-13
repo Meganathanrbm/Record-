@@ -15,38 +15,37 @@ const apiPathConstants = {
     changePassword: setBaseUrlPrefix("/auth/staff/reset-password"),
     forgotPassword: setBaseUrlPrefix("/auth/staff/forgot-password"),
     verificationEmail: setBaseUrlPrefix("/auth/send/verification-email"),
-    addStudent:setBaseUrlPrefix("/auth/staff/student"),
+    addStudent: setBaseUrlPrefix("/auth/staff/student"),
   },
-  student:{
+  student: {
     getBestStudents: setBaseUrlPrefix("/students"),
-    getStudentProfile:setBaseUrlPrefix("/students/profile"),
-    getDepartmentProfile:setBaseUrlPrefix("/students/department"),
-    
+    getStudentProfile: setBaseUrlPrefix("/students/profile"),
+    getDepartmentProfile: setBaseUrlPrefix("/students/department"),
   },
-  placement:{
-    getHomePlacementPage:setBaseUrlPrefix("/placement/home"),
-    getOrganizationView:setBaseUrlPrefix("/placement/organisation"),
-    getJobRole:setBaseUrlPrefix("/placement/job"),
-    postJobRole:setBaseUrlPrefix("/placement/job")
+  placement: {
+    getHomePlacementPage: setBaseUrlPrefix("/placement/home"),
+    getOrganizationView: setBaseUrlPrefix("/placement/organisation"),
+    getJobRole: setBaseUrlPrefix("/placement/job"),
+    postJobRole: setBaseUrlPrefix("/placement/job"),
   },
   skill: {
     getSkills: setBaseUrlPrefix("/skill"),
   },
-  dashboard:{
-    getAdminDashboard:setBaseUrlPrefix("/dashboard/admin"),
-    getStaffDashboard:setBaseUrlPrefix("/dashboard/staff"),
-    updateProfile:setBaseUrlPrefix("/dashboard/profile"),
-    getInstitutionUsers:setBaseUrlPrefix("/dashboard/institution/users"),
-    postAddInstitutionUsers:setBaseUrlPrefix("/auth/staff/register"),
-    UpdateInstitutionUsers:setBaseUrlPrefix("/auth/staff"),
+  dashboard: {
+    getAdminDashboard: setBaseUrlPrefix("/dashboard/admin"),
+    getStaffDashboard: setBaseUrlPrefix("/dashboard/staff"),
+    updateProfile: setBaseUrlPrefix("/dashboard/profile"),
+    getInstitutionUsers: setBaseUrlPrefix("/dashboard/institution/users"),
+    postAddInstitutionUsers: setBaseUrlPrefix("/auth/staff/register"),
+    UpdateInstitutionUsers: setBaseUrlPrefix("/auth/staff"),
   },
-  institution:{
-    getInstitutionProfile:setBaseUrlPrefix("/institution/profile"),
-    getInstitutionDepartment:setBaseUrlPrefix("/institution/departments"),
-    postInstitutionDepartment:setBaseUrlPrefix("/institution/department"),
-    putInstitutionDepartment:setBaseUrlPrefix("/institution/department"),
-    UpdateInstitutionProfile:setBaseUrlPrefix("/institution/profile"),
-  }
+  institution: {
+    getInstitutionProfile: setBaseUrlPrefix("/institution/profile"),
+    getInstitutionDepartment: setBaseUrlPrefix("/institution/departments"),
+    postInstitutionDepartment: setBaseUrlPrefix("/institution/department"),
+    putInstitutionDepartment: setBaseUrlPrefix("/institution/department"),
+    UpdateInstitutionProfile: setBaseUrlPrefix("/institution/profile"),
+  },
 };
 
 export default apiPathConstants;

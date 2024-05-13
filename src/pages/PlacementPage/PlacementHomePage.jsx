@@ -1,31 +1,29 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import placementApi from "../../apis/placement.api";
 const PlacementHomePage = () => {
+  const [organization, setOrganization] = useState([]);
+  const [roles, setRoles] = useState([]);
 
-  const [organization,setOrganization]=useState([]);
-  const [roles,setRoles]=useState([]);
-
-  useEffect(()=>{
+  useEffect(() => {
     placementApi.getHomePlacementPage({
-      success:(res)=>{
-        const data=res.data.data;
+      success: (res) => {
+        const data = res.data.data;
         setOrganization(data.mostHiringOrganisations);
         setRoles(data.mostHiringRoles);
       },
-      error:(err)=>{
-        console.error(err);
-      }
-  })
-  },[])
-
+      error: (err) => {
+        alert("Error Occurred Try After Some Time");
+      },
+    });
+  }, []);
 
   const navigation = useNavigate();
 
   const handleClickOrganisation = (tag) => {
     return navigation(`/placement/organisationView/${tag}`);
   };
-  const handleClickJobRole = (jobId,jobRole) => {
+  const handleClickJobRole = (jobId, jobRole) => {
     return navigation(`/placement/jobRoleView/${jobId}/${jobRole}`);
   };
   return (
@@ -55,7 +53,9 @@ const PlacementHomePage = () => {
                   {li.companyName}
                 </h5>
                 <p className="tw-text-[#9A9A9A] tw-mb-3  tw-text-sm">
-                  {`${li.totalHired} Students placed | Since ${(li.oldestPostedOn.split('T')[0]).split('-')[0]}`}
+                  {`${li.totalHired} Students placed | Since ${
+                    li.oldestPostedOn.split("T")[0].split("-")[0]
+                  }`}
                 </p>
               </div>
             </div>
@@ -73,7 +73,7 @@ const PlacementHomePage = () => {
             <div
               className="tw-flex tw-flex-col tw--mb-4 tw-cursor-pointer tw-p-4  tw-justify-center tw-items-start"
               key={i}
-              onClick={() => handleClickJobRole(li.jobId,li.role)}
+              onClick={() => handleClickJobRole(li.jobId, li.role)}
             >
               <h5 className="tw-font-bold tw-text-black tw-text-[18px]">
                 {li.role}{" "}
@@ -81,11 +81,10 @@ const PlacementHomePage = () => {
                   // onClick={() => handleClickOrganisation(li.title)}
                   className="gradiant-color"
                 >
-                {`@ ${li.companyName}`}
+                  {`@ ${li.companyName}`}
                 </span>
               </h5>
-              <p className="tw-text-[#9A9A9A] tw-mb-3 tw-text-sm">{`${li.appliedCount} Students applied | ${li.
-hiredCount} Placed`}</p>
+              <p className="tw-text-[#9A9A9A] tw-mb-3 tw-text-sm">{`${li.appliedCount} Students applied | ${li.hiredCount} Placed`}</p>
             </div>
           ))}
         </div>

@@ -2,8 +2,7 @@ import React from "react";
 import tick from "../../assets/svg/dashboard/tick.svg";
 
 const ProgressBar = ({ item }) => {
-  let progressbar=(item.hiredCount/item.appliedCount)*100;
-  console.log(progressbar);
+  let progressbar = (item.hiredCount / item.appliedCount) * 100;
   return (
     <>
       <p>{item.designation}</p>
@@ -17,10 +16,10 @@ const ProgressBar = ({ item }) => {
           aria-valuemax="100"
           style={{ width: "100%" }}
         >
-          <div className="progress-bar" style={{ width: progressbar}}></div>
+          <div className="progress-bar" style={{ width: progressbar }}></div>
         </div>
         <p>{item.value || `${progressbar}%`}</p>
-        <img src={tick} alt="tick"  style={{ height: "3vh" }} />
+        <img src={tick} alt="tick" style={{ height: "3vh" }} />
       </div>
     </>
   );

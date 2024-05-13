@@ -10,7 +10,13 @@ const ActivePlatforms = ({ image, platform }) => {
       </div>
       <div className="d-flex align-items-baseline gap-1">
         <img src={timer} alt="" style={{ width: "1vw" }} className="mt-1" />
-        <p style={{ fontWeight: "400",width:"auto ", color: "rgba(154, 154, 154, 1)" }}>
+        <p
+          style={{
+            fontWeight: "400",
+            width: "auto ",
+            color: "rgba(154, 154, 154, 1)",
+          }}
+        >
           338 Total monthly hours spent
         </p>
       </div>

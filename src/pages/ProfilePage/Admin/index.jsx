@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import usersData from "./UserData";
 import styles from "./index.module.css";
 import ModalComponent from "../../../components/Modal/ModalComponent";
 import penEditIcon from "../../../assets/svg/editPenIcon.svg";
@@ -45,7 +44,7 @@ const AdminInstitution = () => {
         setInstitutionUsers(res.data.data);
       },
       error: (err) => {
-        console.error(err);
+        alert("Error Occurred Try After Some Time")
       },
     });
   }, []);
@@ -131,7 +130,7 @@ function FormComponent({user,onSubmit}) {
         setDepartments(res.data.data);
       },
       error: (err) => {
-        console.error(err);
+        alert("Error Occurred Try After Some Time")
       },
     });
   }, []);
@@ -157,7 +156,7 @@ function FormComponent({user,onSubmit}) {
         window.location.reload();
       },
       error:(err)=>{
-        console.error(err);
+        alert("Error Occurred Try After Some Time")
       }
     })):( dashboardApi.postAddInstitutionUsers({
       payload:formData,
@@ -166,7 +165,7 @@ function FormComponent({user,onSubmit}) {
         alert("User Added Successfully")
         window.location.reload();
       },error:(err)=>{
-        console.error(err);
+        alert("Error Occurred Try After Some Time")
       }
     }))
     setFormData({

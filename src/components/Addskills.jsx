@@ -31,7 +31,7 @@ const Addskills = ({ setUserInput, userInput }) => {
 
     setSearchTerm("");
   };
-  console.log(selectedSkills);
+
   useEffect(() => {
     skillApi.getSkills({
       //   query: q,
@@ -40,14 +40,14 @@ const Addskills = ({ setUserInput, userInput }) => {
         setskills(skillset);
       },
       error: (err) => {
-        console.log("Skills Error", err);
+        alert("Error Occurred in Skills");
       },
     });
     searchSkills(" ");
     const selectedskills = searchResults.filter((skill) =>
       userInput.skills.map((skill2) => skill2 == skill.skillId)
     );
-    console.log(searchResults);
+
     setSelectedSkills(selectedskills);
   }, []);
   useEffect(() => {

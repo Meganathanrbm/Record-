@@ -39,19 +39,19 @@ const Addskills = ({ setUserInput, userInput }) => {
         setskills(skillset);
       },
       error: (err) => {
-        console.log("Skills Error", err);
+        alert("Error Occurred Try After Some Time");
       },
     });
     searchSkills(" ");
     const selectedskills = searchResults.filter((skill) =>
       userInput.skills.map((skill2) => skill2 == skill.skillId)
     );
-    console.log(searchResults);
+
     setSelectedSkills(selectedskills);
   }, []);
   useEffect(() => {
     const skillsId = selectedSkills.map((skill) => skill.skillId);
-    setUserInput({ ...userInput, skills: skillsId  });
+    setUserInput({ ...userInput, skills: skillsId });
   }, [selectedSkills]);
   return (
     <div>

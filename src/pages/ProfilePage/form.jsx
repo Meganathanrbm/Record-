@@ -11,11 +11,12 @@ const FormComponent = () => {
   const [currentLoggedInUser, setCurrentLoggedInUser] =
     useRecoilState(currentUserState);
 
-    console.log(currentLoggedInUser);
   const [userData, SetUserData] = useState({
-    fullName:currentLoggedInUser.name ? currentLoggedInUser.name : "",
+    fullName: currentLoggedInUser.name ? currentLoggedInUser.name : "",
     mobile: currentLoggedInUser.mobile ? currentLoggedInUser.mobile : "",
-    designation:currentLoggedInUser.designation ? currentLoggedInUser.designation : "" ,
+    designation: currentLoggedInUser.designation
+      ? currentLoggedInUser.designation
+      : "",
   });
   const [email, SetEmail] = useState(
     currentLoggedInUser.email ? currentLoggedInUser.email : ""
@@ -33,34 +34,21 @@ const FormComponent = () => {
   const staffId = currentLoggedInUser.staffId
     ? currentLoggedInUser.staffId
     : "";
-    const departmentId=currentLoggedInUser.departmentId?currentLoggedInUser.departmentId:""
-    const [department,setDepartment]=useState();
+  const departmentId = currentLoggedInUser.departmentId
+    ? currentLoggedInUser.departmentId
+    : "";
+  const [department, setDepartment] = useState();
   useEffect(() => {
     if (currentLoggedInUser && currentLoggedInUser.role) {
       setAdmin(currentLoggedInUser.role === "Administrator");
     }
-    // institutionApi.getInstitutionDepartment({
-    //   success:(res)=>{
-        
-    //     const departments = res.data.data;
-    //     console.log(departments);
-    //     const matchedDepartment = departments.find(
-    //       (department) => department.departmentId === departmentId
-    //     );
-    //     console.log(matchedDepartment);
-    //     if (matchedDepartment) {
-    //       setDepartment(matchedDepartment.name); // Set the department name
-    //     }
-    //   },error:(err)=>{
-    //     console.log(err);
-    //   }
-    // })
+
     SetUserData({
       fullName: FullName,
       mobile: Mobile,
       designation: Designation,
     });
-  }, [FullName, Mobile, Designation,currentLoggedInUser]);
+  }, [FullName, Mobile, Designation, currentLoggedInUser]);
 
   const handleSave = () => {
     const updatedUserData = {
@@ -68,17 +56,16 @@ const FormComponent = () => {
       mobile: Mobile,
       designation: Designation,
     };
-   
+
     dashboardApi.updateProfile({
       staffId,
       payload: updatedUserData,
       success: (res) => {
-        // alert(res.data.message);
         setKey((prevKey) => prevKey + 1);
         window.location.reload();
       },
-      error: (err) => { 
-        console.error(err);
+      error: (err) => {
+        alert("Error Occurred Try After Some Time");
       },
     });
   };
